@@ -58,7 +58,7 @@ For certain simulations, users will also need to specify basic rules for the sim
         * public Grid(Int height, Int width) -- empty grid constructor
         * private int getMyWidth -- returns integer value of width
         * private int getMyHeight -- returns integer value of height
-        * 
+        * private group getGridGui -- returns a group of squares for the GUI
 * Cell Class -- extends interface<br />
     * <B>Variables</B><br />
         * myState -- keeps the state of a given cell
