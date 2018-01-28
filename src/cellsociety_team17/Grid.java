@@ -2,27 +2,33 @@ package cellsociety_team17;
 
 import java.util.ArrayList;
 
+import javafx.scene.Group;
+
 public class Grid {
 
-	int mySimulationType;
-	int myWidth;
-	int myHeight;
-	Cell[][] myCells; 
+	private int mySimulationType;
+	private int myWidth;
+	private int myHeight;
+	private Cell[][] myCells; 
+	private Group myGroup;
 
 	public Grid(int width, int height) {
 		this(1, 400, 400, new ArrayList<Cell>()); 
 	}
 
-	public Grid(int simType, int width, int height, ArrayList<Cell> activePts) {
+	public Grid(int simType, int width, int height, ArrayList<Cell> activeCells) {
 		mySimulationType = simType;
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myWidth][myHeight]; 
-		// TODO use active points arraylist
+		// TODO propagate myCells with active cells 
+		for (Cell cell : myCells) {
+			myGroup.getChildren().add(cell.myRectangle);
+		}
 	}
 	
 	private Group getGroup() {
-
+		return myGroup; 
 	}
 	
 	private int getWidth() {
