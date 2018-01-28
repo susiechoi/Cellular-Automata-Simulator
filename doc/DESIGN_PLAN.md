@@ -15,7 +15,6 @@ Cell objects will represent the cell units within each simulation. As such, the 
 The Cell class will also include a method to update Cell state. The update method will evaluate the state of a Cell and accordingly update the state of its neighbors. For example, if a Cell in the Fire simulation reaches the "burning" state in a time step, then some of the Cells in its ArrayList of relevant neighbors will also necessarily enter a "burning" state.
 
 *TODO: Add picture of how components relate, likely via CRC cards*
-![CRC Cards](crc-example2.png "An alternate design")
 
 ### User Interface
 Upon launch, the program will provide a menu of names of available simulations, which users may click to begin watching. In each simulation, each Cell state will be represented by a different color (e.g. in the WaTor predator-prey simulation, red for predator and green for prey), specified by a color legend to the side of the simulation display. While viewing the simulation, users will be able to pause, slow, and reset simulations (like [this Segregation simulation](http://nifty.stanford.edu/2014/mccown-schelling-model-segregation/)) by clicking buttons to the side of the display. 
@@ -29,7 +28,50 @@ For certain simulations, users will also need to specify basic rules for the sim
 *TODO: Add a picture of the interface*
 
 ### Design Details 
-*TODO* 
+* Main Class
+    * The Main class handles the simulations. This class will contain all the imports for JavaFX, the creation of the timeline and GUI, and manage the reading of .XML files for the creation of different simulations.<br />
+        * <B>Instance Variables</B>
+            * private stage myPrimaryStage -- the stage which JavaFX will use for the GUI
+            * private scene myScene -- the Scene JavaFX will use for the GUI
+            * private grid myGrid -- an instance of the Grid class that holds all of the cells in a simulation
+            * private int mySimulationType -- the integer corresponding to the type of simulation
+            * private ArrayList<cell> activeCells -- cells that need to be checked in each step
+        
+        * <B>Methods</B><br />
+            * public static void main(String[] args) -- calls the launch method of javaFX;
+            * Public void Start(Stage PrimaryStage) throws Exception -- sets up the primary stage of JavaFX
+            * private scene Step() -- handles everything that happens between two keyframes in the animation
+            * private void handleMouseinput(mouseEvent e) -- takes the input of a mouse event
+            * private voidStartSimulation(grid G) -- starts the simulation after recieving a starting grid
+            * private grid readInput(file f) -- scans the file and returns the corresponding simulation grid
+            
+* Grid Class<br />
+    *The Grid class handles the interaction between the front-end and the backend.<br />
+    * <B>Instance Variables</B><br />
+        * mySimulationType -- Stores the integer value of the simulation type 
+        * MyWidth -- integer value of the number of columns
+        * MyHeight -- integer value of the number of rows
+        * Cell[][] myCellArray -- array of cells
+        
+    * <B>Methods</B><br />
+        * public Grid(Int height, Int width, int simulationType, ArrayList activePoints) -- constructor given componenents from file
+        * public Grid(Int height, Int width) -- empty grid constructor
+        * private int getMyWidth -- returns integer value of width
+        * private int getMyHeight -- returns integer value of height
+        * 
+* Cell Class -- extends interface<br />
+    * <B>Variables</B><br />
+        * myState -- keeps the state of a given cell
+        * myType -- keeps the type of simulation
+    * <B>Methods</B><br />
+        * public int getMyState -- returns the state of an object
+        * public void setMyState -- sets the state of an object
+        * public void update -- updates this cell and neighboring cells
+        * public cell[] getNeighbors -- returns a cell array of all the neighboring cells
+    * Fire Cell
+    * Wator Cell
+    * Predator Cell
+    * Game of Life Cell
 
 ### Design Considerations
 Our team discussed whether the Cell class should be an interface or an abstract class. We decided that an interface would be best because the Cell class in and of itself would have no purpose; it only becomes relevant through implementation through a simulation. 
