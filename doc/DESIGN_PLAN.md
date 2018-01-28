@@ -14,9 +14,9 @@ Cell objects will represent the cell units within each simulation. As such, the 
 
 The Cell class will also include a method to update Cell state. The update method will evaluate the state of a Cell and accordingly update the state of its neighbors. For example, if a Cell in the Fire simulation reaches the "burning" state in a time step, then some of the Cells in its ArrayList of relevant neighbors will also necessarily enter a "burning" state.
 
-![Main.java](main.png "CRC Card for Main class)
-![Cell.java](cell.png "CRC Card for Cell class)
-![Grid.java](grid.png "CRC Card for Grid class)
+![](main.png "CRC Card for Main class)
+![](cell.png "CRC Card for Cell class)
+![](grid.png "CRC Card for Grid class)
 
 *TODO: Add picture of how components relate, likely via CRC cards*
 
