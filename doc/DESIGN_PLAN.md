@@ -46,7 +46,7 @@ For certain simulations, users will also need to specify basic rules for the sim
             * private grid readInput(file f) -- scans the file and returns the corresponding simulation grid
             
 * Grid Class<br />
-    *The Grid class handles the interaction between the front-end and the backend.<br />
+    * The Grid class handles the interaction between the front-end and the backend.<br />
     * <B>Instance Variables</B><br />
         * mySimulationType -- Stores the integer value of the simulation type 
         * MyWidth -- integer value of the number of columns
@@ -84,13 +84,10 @@ The team will develop the Cell interface together so that we have a common under
 ## Use Cases
 * Apply the rules to a middle OR edge cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors) OR edge (i.e., with some of its neighbors missing)
     * updateState() will be called on the Cell of interest. Within this method, the ArrayList of the Cell's neighbors will be for-looped through, and if the number of live neighbors is <=1 or >=4, then the Cell's state will be set to dead (likely the int "1" as opposed to the int "0" for alive). The end of the updateState() method will contain an updateColor() method so that state updates can manifest through changes in the Color of each Cell's associated Rectangle Shape. The next step() through the simulation will display these changes.
-
 * Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
     * The Main class will call upon the Grid class within Main's step() method. The Grid class will loop through each Cell, repeating updateState() on each of these Cells as elaborated upon the first use case. The next step (i.e. next run through the step() method) will convey these changes graphically. 
-
 * Set a simulation parameter: set the value of a parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
     * Upon startup, the simulation display will assume a default value for probCatch specified in the XML file. This XML file will be parsed with a parsing method in Main. The value will be passed to the constructor of the appropriate Fire implementation of the Cell interface. 
-
 * Switch simulations: use the GUI to change the current simulation from Game of Life to Wator
     * A user may click the Return to Home button on Game of Life simulation screen s/he is on, which will be detected by a handleMouseInput() method in the Main class. The user may then select the WaTor option, upon which the XML file associated with WaTor will be parsed so that the new simulation launch may begin.  
 
