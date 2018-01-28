@@ -14,7 +14,12 @@ Cell objects will represent the cell units within each simulation. As such, the 
 
 The Cell class will also include a method to update Cell state. The update method will evaluate the state of a Cell and accordingly update the state of its neighbors. For example, if a Cell in the Fire simulation reaches the "burning" state in a time step, then some of the Cells in its ArrayList of relevant neighbors will also necessarily enter a "burning" state.
 
+![Main.java](main.png "CRC Card for Main class)
+![Cell.java](cell.png "CRC Card for Cell class)
+![Grid.java](grid.png "CRC Card for Grid class)
+
 *TODO: Add picture of how components relate, likely via CRC cards*
+
 
 ### User Interface
 Upon launch, the program will provide a menu of names of available simulations, which users may click to begin watching. In each simulation, each Cell state will be represented by a different color (e.g. in the WaTor predator-prey simulation, red for predator and green for prey), specified by a color legend to the side of the simulation display. While viewing the simulation, users will be able to pause, slow, and reset simulations (like [this Segregation simulation](http://nifty.stanford.edu/2014/mccown-schelling-model-segregation/)) by clicking buttons to the side of the display. 
