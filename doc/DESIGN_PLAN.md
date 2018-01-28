@@ -79,9 +79,17 @@ Our team discussed whether the Cell class should be an interface or an abstract 
 Our team also discussed whether a Neighborhood class would be beneficial to associate neighboring Cell objects with one another, as opposed to having an ArrayList of Cell neighbors associated with each Cell object. We ultimately decided against the Neighborhood class, preferring the ArrayList of Cell neighbor approach. The Neighborhood class would have embodied an object-oriented spirit by compartmentalizing the state of a single Cell from the behavior/interactions it manifests in relation to other Cells. However, the Neighborhood class would have made designating Neighborhood shapes tedious (i.e. edge vs. middle neighborhoods). Moreover, the Neighborhood class would be so heavily dependent upon state attributes in the Cell class that it would make more sense to keep neighbor-updating responsibilities within each Cell object. 
 
 ### Team Responsibilities
-*TO DETERMINE* 
+The team will develop the Cell interface together so that we have a common understanding of the simulation classes that we will divide amongst ourselves. Collin will write the Main class and the game of life simulation class. Susie will handle the Grid class and the segregation simulation. Judith will take the fire and predator-prey classes. We will reassign as necessary if we see issues with an uneven distribution of work (i.e. one class takes considerably more or less work than anticipated). 
 
 ## Use Cases
+* Apply the rules to a middle OR edge cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors) OR edge (i.e., with some of its neighbors missing)
+** updateState() will be called on the Cell of interest. Within this method, the ArrayList of the Cell's neighbors will be for-looped through, and if the number of live neighbors is <=1 or >=4, then the Cell's state will be set to dead (likely the int "1" as opposed to the int "0" for alive). The end of the updateState() method will contain an updateColor() method so that state updates can manifest through changes in the Color of each Cell's associated Rectangle Shape. The next step() through the simulation will display these changes.
+* Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
+** The Main class will call upon the Grid class within Main's step() method. The Grid class will loop through each Cell, repeating updateState() on each of these Cells as elaborated upon the first use case. The next step (i.e. next run through the step() method) will convey these changes graphically. 
+* Set a simulation parameter: set the value of a parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
+** Upon startup, the simulation display will assume a default value for probCatch specified in the XML file. This XML file will be parsed with a parsing method in Main. The value will be passed to the constructor of the appropriate Fire implementation of the Cell interface. 
+* Switch simulations: use the GUI to change the current simulation from Game of Life to Wator
+** A user may click the Return to Home button on Game of Life simulation screen s/he is on, which will be detected by a handleMouseInput() method in the Main class. The user may then select the WaTor option, upon which the XML file associated with WaTor will be parsed so that the new simulation launch may begin.  
 
 
 
