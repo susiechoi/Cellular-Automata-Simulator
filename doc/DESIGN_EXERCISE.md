@@ -1,4 +1,5 @@
 # Cell Society Design Exercise (Lab 1/25)
+## Project Members: Collin Brown, Susie Choi, Judith Sanchez
 ## Cell Society High Level Design 
 1. Name of the simulation specified in the XML. 
 2. Each cell should have a link to its neighbors. The neighbors which were just affected by a cell will be monitored 
