@@ -8,14 +8,16 @@ Our team seeks to create a platform for Cellular Automata (CA), simulations of u
 ### Overview
 The program will include a Main class, a Grid class, and a Cell class. 
 
-The Grid class allows the adding of Cells as (JavaFX) Square Shapes to a (JavaFX) Group object. In Main, a display of the simulation will be produced by adding this Group object to a (JavaFX) Stage object, and then "show()"ing that Stage object.
+The Grid class allows the adding of Cells as (JavaFX) Rectangle Shapes to a (JavaFX) Group object. In Main, a display of the simulation will be produced by adding this Group object to a (JavaFX) Stage object, and then "show()"ing that Stage object.
 
 Cell objects will represent the cell units within each simulation. As such, the Cell class will operate as an interface whose implementations will be the various possible CA simulations. The Cell class will require methods to set the (int) state of each Cell (e.g. in the [Fire simulation](http://nifty.stanford.edu/2007/shiflet-fire/), "no tree," "non-burning tree," or "burning tree") and set the Cell's relevant neighbors as an ArrayList of other Cells. Relevant neighbors are those whose states are dependent upon/connected to the Cell, whether those be to the left/right/above/below that Cell, or on that Cell's diagonals, depending on the behavior that the CA simulation manifests. 
 
 The Cell class will also include a method to update Cell state. The update method will evaluate the state of a Cell and accordingly update the state of its neighbors. For example, if a Cell in the Fire simulation reaches the "burning" state in a time step, then some of the Cells in its ArrayList of relevant neighbors will also necessarily enter a "burning" state.
 
 !["Visual representation of Main class"](doc/main.png)
+
 !["Visual representation of Cell class](doc/cell.png)
+
 !["Visual representation of Grid class"](doc/grid.png)
 
 ### User Interface
@@ -60,7 +62,7 @@ For certain simulations, users will also need to specify basic rules for the sim
         * public Grid(Int height, Int width) -- empty grid constructor
         * private int getMyWidth -- returns integer value of width
         * private int getMyHeight -- returns integer value of height
-        * 
+        * private Group getMyGroup -- returns a group with the Cell Squares as children -- Main can add to its stage to display
 * Cell Class -- extends interface<br />
     * <B>Variables</B><br />
         * myState -- keeps the state of a given cell
