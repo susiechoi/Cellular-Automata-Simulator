@@ -28,7 +28,50 @@ For certain simulations, users will also need to specify basic rules for the sim
 *TODO: Add a picture of the interface*
 
 ### Design Details 
-*TODO* 
+* Main Class
+    * The Main class handles the simulations. This class will contain all the imports for JavaFX, the creation of the timeline and GUI, and manage the reading of .XML files for the creation of different simulations.<br />
+        * <B>Instance Variables</B>
+            * private stage myPrimaryStage -- the stage which JavaFX will use for the GUI
+            * private scene myScene -- the Scene JavaFX will use for the GUI
+            * private grid myGrid -- an instance of the Grid class that holds all of the cells in a simulation
+            * private int mySimulationType -- the integer corresponding to the type of simulation
+            * private ArrayList<cell> activeCells -- cells that need to be checked in each step
+        
+        * <B>Methods</B><br />
+            * public static void main(String[] args) -- calls the launch method of javaFX;
+            * Public void Start(Stage PrimaryStage) throws Exception -- sets up the primary stage of JavaFX
+            * private scene Step() -- handles everything that happens between two keyframes in the animation
+            * private void handleMouseinput(mouseEvent e) -- takes the input of a mouse event
+            * private voidStartSimulation(grid G) -- starts the simulation after recieving a starting grid
+            * private grid readInput(file f) -- scans the file and returns the corresponding simulation grid
+            
+* Grid Class<br />
+    * The Grid class handles the interaction between the front-end and the backend.<br />
+    * <B>Instance Variables</B><br />
+        * mySimulationType -- Stores the integer value of the simulation type 
+        * MyWidth -- integer value of the number of columns
+        * MyHeight -- integer value of the number of rows
+        * Cell[][] myCellArray -- array of cells
+        
+    * <B>Methods</B><br />
+        * public Grid(Int height, Int width, int simulationType, ArrayList activePoints) -- constructor given componenents from file
+        * public Grid(Int height, Int width) -- empty grid constructor
+        * private int getMyWidth -- returns integer value of width
+        * private int getMyHeight -- returns integer value of height
+        * 
+* Cell Class -- extends interface<br />
+    * <B>Variables</B><br />
+        * myState -- keeps the state of a given cell
+        * myType -- keeps the type of simulation
+    * <B>Methods</B><br />
+        * public int getMyState -- returns the state of an object
+        * public void setMyState -- sets the state of an object
+        * public void update -- updates this cell and neighboring cells
+        * public cell[] getNeighbors -- returns a cell array of all the neighboring cells
+    * Fire Cell
+    * Wator Cell
+    * Predator Cell
+    * Game of Life Cell
 
 ### Design Considerations
 Our team discussed whether the Cell class should be an interface or an abstract class. We decided that an interface would be best because the Cell class in and of itself would have no purpose; it only becomes relevant through implementation through a simulation. 
@@ -40,10 +83,15 @@ The team will develop the Cell interface together so that we have a common under
 
 ## Use Cases
 * Apply the rules to a middle OR edge cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors) OR edge (i.e., with some of its neighbors missing)
-** updateState() will be called on the Cell of interest. Within this method, the ArrayList of the Cell's neighbors will be for-looped through, and if the number of live neighbors is <=1 or >=4, then the Cell's state will be set to dead (likely the int "1" as opposed to the int "0" for alive). The end of the updateState() method will contain an updateColor() method so that state updates can manifest through changes in the Color of each Cell's associated Rectangle Shape. The next step() through the simulation will display these changes.
+    * updateState() will be called on the Cell of interest. Within this method, the ArrayList of the Cell's neighbors will be for-looped through, and if the number of live neighbors is <=1 or >=4, then the Cell's state will be set to dead (likely the int "1" as opposed to the int "0" for alive). The end of the updateState() method will contain an updateColor() method so that state updates can manifest through changes in the Color of each Cell's associated Rectangle Shape. The next step() through the simulation will display these changes.
 * Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
-** The Main class will call upon the Grid class within Main's step() method. The Grid class will loop through each Cell, repeating updateState() on each of these Cells as elaborated upon the first use case. The next step (i.e. next run through the step() method) will convey these changes graphically. 
+    * The Main class will call upon the Grid class within Main's step() method. The Grid class will loop through each Cell, repeating updateState() on each of these Cells as elaborated upon the first use case. The next step (i.e. next run through the step() method) will convey these changes graphically. 
 * Set a simulation parameter: set the value of a parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
-** Upon startup, the simulation display will assume a default value for probCatch specified in the XML file. This XML file will be parsed with a parsing method in Main. The value will be passed to the constructor of the appropriate Fire implementation of the Cell interface. 
+    * Upon startup, the simulation display will assume a default value for probCatch specified in the XML file. This XML file will be parsed with a parsing method in Main. The value will be passed to the constructor of the appropriate Fire implementation of the Cell interface. 
 * Switch simulations: use the GUI to change the current simulation from Game of Life to Wator
-** A user may click the Return to Home button on Game of Life simulation screen s/he is on, which will be detected by a handleMouseInput() method in the Main class. The user may then select the WaTor option, upon which the XML file associated with WaTor will be parsed so that the new simulation launch may begin.  
+    * A user may click the Return to Home button on Game of Life simulation screen s/he is on, which will be detected by a handleMouseInput() method in the Main class. The user may then select the WaTor option, upon which the XML file associated with WaTor will be parsed so that the new simulation launch may begin.  
+
+
+
+
+>>>>>>> f40614e1f9ad861ab1c49e1b25df3287254a2d88
