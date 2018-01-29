@@ -29,6 +29,9 @@ For certain simulations, users will also need to specify basic rules for the sim
 * For the WaTor predator-prey simulation, users will input input the starting proportion of the predator group, similar to the segregation simulation. 
 * For the fire simulation, users will input the probability of catching fire. 
 
+!["Visual representation of Home Screen"](doc/home.png)
+
+!["Visual representation of Simulation Screen"](doc/simulation.png)
 *TODO: Add a picture of the interface*
 
 ### Design Details 
