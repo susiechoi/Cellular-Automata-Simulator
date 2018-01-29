@@ -32,7 +32,6 @@ For certain simulations, users will also need to specify basic rules for the sim
 !["Visual representation of Home Screen"](doc/home.png)
 
 !["Visual representation of Simulation Screen"](doc/simulation.png)
-*TODO: Add a picture of the interface*
 
 ### Design Details 
 * Main Class
