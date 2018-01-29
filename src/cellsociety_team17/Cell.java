@@ -6,7 +6,11 @@ public abstract class Cell {
 
 	private int myState; 
 	private int myType;
-
+	
+	public Cell() {
+	
+	}
+	
 	public int getMyState() {
 		return myState;
 	}
