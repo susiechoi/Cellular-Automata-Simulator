@@ -17,29 +17,36 @@ public class Grid {
 		this(1, 400, 400, new ArrayList<Cell>()); 
 	}
 
-	public Grid(int width, int height, int simulationType, ArrayList<Cell> cells) {
+	public Grid(int width, int height, int simulationType, ArrayList<Cell> activeCells) {
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myHeight][myWidth]; 
 		mySimulationType = simulationType; 
-		for (Cell cell : cells) {
+		for (int row=0; row<myHeight; row++) {
+			for (int col=0; col<myWidth; col++) {
+				myCells[row][col] = new Cell(row, col, 0);
+			}
+		}
+		for (Cell cell : activeCells) {
 			myCells[cell.myRow][cell.myCol] = cell; 
-			myGroup.getChildren().add(cell.myRectangle);
 		}
 		for (Cell cell : cells) {
 			setCellNeighbors(cell);
+			myGroup.getChildren().add(cell.myRectangle);
 		}
 	}
-	
-	// TO DISCUSS NEED SETNEIGHBORS METHOD IN CELL CLASS
-	// neighbors need to be set here because row and col need to be known in relation to width & height 
+
 	public void setCellNeighbors(Cell cell) {
+		ArrayList<Cell> inBoundsNeighbors = findInBoundsNeighbors(cell);
+		cell.setNeighbors(inBoundsNeighbors);
+	}
+	
+	public ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1]);
-		if (cell.myRow < myHeight) neighbors.add(myCells[cell.myRow+1]);
+		if (cell.myRow < myHeight-1) neighbors.add(myCells[cell.myRow+1]);
 		if (cell.myCol > 0) neighbors.add(myCells[cell.myCol-1]);
-		if (cell.myCol < myWidth) neighbors.add(myCells[cell.myCol+1]);
-		cell.setNeighbors(neighbors);
+		if (cell.myCol < myWidth-1) neighbors.add(myCells[cell.myCol+1]);
 	}
 
 	public void updateCells(ArrayList<Cell> activeCells) {
