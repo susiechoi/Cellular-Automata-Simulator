@@ -7,9 +7,9 @@ import javafx.scene.control.Cell;
 
 public class Grid {
 
-	private int mySimulationType;
 	private int myWidth;
 	private int myHeight;
+	private int mySimulationType;
 	private Cell[][] myCells; 
 	private Group myGroup;
 
@@ -17,18 +17,28 @@ public class Grid {
 		this(1, 400, 400, new ArrayList<Cell>()); 
 	}
 
-	// is it even necessary to have simulationType? Main can select appropriate subclass after receiving user mouse input
-	public Grid(int simulationType, int width, int height, ArrayList<Cell> cells) {
-		mySimulationType = simulationType;
+	public Grid(int width, int height, int simulationType, ArrayList<Cell> cells) {
 		myWidth = width;
 		myHeight = height;
-		myCells = new Cell[myWidth][myHeight]; 
-		// constructor could be Cell(int xPos, int yPos, int startState) (since file format would prob hold x, y coords & start state) 
-		// or prefer row, col to xPos, yPos? 
+		myCells = new Cell[myHeight][myWidth]; 
+		mySimulationType = simulationType; 
 		for (Cell cell : cells) {
-			myCells[cell.myXPos][cell.myYPos] = cell; 
+			myCells[cell.myRow][cell.myCol] = cell; 
 			myGroup.getChildren().add(cell.myRectangle);
 		}
+		for (Cell cell : cells) {
+			setCellNeighbors(cell);
+		}
+	}
+	
+	// NEED SETNEIGHBORS METHOD IN CELL CLASS
+	public void setCellNeighbors(Cell cell) {
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1]);
+		if (cell.myRow < myHeight) neighbors.add(myCells[cell.myRow+1]);
+		if (cell.myCol > 0) neighbors.add(myCells[cell.myCol-1]);
+		if (cell.myCol < myWidth) neighbors.add(myCells[cell.myCol+1]);
+		cell.setNeighbors(neighbors);
 	}
 
 	public void updateCells(ArrayList<Cell> activeCells) {
