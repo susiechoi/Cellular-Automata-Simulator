@@ -41,6 +41,7 @@ public class Grid {
 		cell.setNeighbors(inBoundsNeighbors);
 	}
 	
+	// TODO account for each different Simulation type in cell 
 	private ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1]);
