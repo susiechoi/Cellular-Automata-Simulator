@@ -62,7 +62,22 @@ public class Main extends Application {
 	private grid readInput(File f) {
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
-		Document document = myDocumentBuilder.parse(f);
+		Document myDocument = myDocumentBuilder.parse(f);
 		
+		mySimulationType = getSimulationType(myDocument);
+		
+	}
+
+	private int getSimulationType(Document d) {
+		String typeString = d.getElementsByTagName("SimulationType").item(0).getNodeValue();
+		switch(typeString){
+			case "fire":
+				return 0;
+			case "Game Of Life":
+				return 1;
+			case "Wator":
+				return 2;
+		}
+		return -1;
 	}
 }
