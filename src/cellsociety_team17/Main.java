@@ -2,6 +2,9 @@ package cellsociety_team17;
 
 import java.io.File;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -13,6 +16,7 @@ public class Main extends Application {
 	//private Grid myGrid;
 	private int mySimulationType;
 	//private ArrayList<cell> activeCells;
+	private File myXmlFile;
 	
 	/**
 	 * 
@@ -24,7 +28,9 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-			//TODO: Complete Start
+			myPrimaryStage = primaryStage;
+			primaryStage.setTitle("Team 17 -- Cell Society");
+			primaryStage.show();
 	}
 	
 	/**
@@ -49,8 +55,14 @@ public class Main extends Application {
 		//TODO: completeStartSimulation
 	}
 	
+	private void setFile(String s) {
+		myXmlFile = new File(s);
+	}
+	
 	private grid readInput(File f) {
-		//TODO: completeReadInput
+		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
+		Document document = myDocumentBuilder.parse(f);
 		
 	}
 }
