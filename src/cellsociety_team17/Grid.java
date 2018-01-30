@@ -24,6 +24,7 @@ public class Grid {
 		myHeight = height;
 		myCells = new Cell[myWidth][myHeight]; 
 		// constructor could be Cell(int xPos, int yPos, int startState) (since file format would prob hold x, y coords & start state) 
+		// or prefer row, col to xPos, yPos? 
 		for (Cell cell : cells) {
 			myCells[cell.myXPos][cell.myYPos] = cell; 
 			myGroup.getChildren().add(cell.myRectangle);
