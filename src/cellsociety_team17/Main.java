@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
-	//private Grid myGrid;
+	private Grid myGrid;
 	private int mySimulationType;
 	//private ArrayList<cell> activeCells;
 	private File myXmlFile;
@@ -66,10 +66,11 @@ public class Main extends Application {
 		
 		mySimulationType = getSimulationType(myDocument);
 		
+		
 	}
 
-	private int getSimulationType(Document d) {
-		String typeString = d.getElementsByTagName("SimulationType").item(0).getNodeValue();
+	private int getSimulationType(Document d) throws Exception {
+		String typeString = d.getElementsByTagName("simulationType").item(0).getNodeValue();
 		switch(typeString){
 			case "fire":
 				return 0;
@@ -78,6 +79,7 @@ public class Main extends Application {
 			case "Wator":
 				return 2;
 		}
-		return -1;
+		throw new Exception("No Simulation Type Defined");
 	}
+	
 }
