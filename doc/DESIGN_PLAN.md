@@ -76,7 +76,7 @@ For certain simulations, users will also need to specify basic rules for the sim
         * public cell[] getNeighbors -- returns a cell array of all the neighboring cells
     * Fire Cell
     * Wator Cell
-    * Predator Cell
+    * Segregation Cell
     * Game of Life Cell
 
 ### Design Considerations
