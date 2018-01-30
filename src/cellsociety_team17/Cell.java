@@ -4,28 +4,24 @@ import java.util.ArrayList;
 
 public abstract class Cell {
 
-	private int myState; 
-	private int myType;
-	
-	public Cell() {
-	
+	private int myState;
+	private ArrayList<Cell> myNeighbors;
+
+	public Cell(ArrayList<Cell> neighbors) {
+		myNeighbors = neighbors;
 	}
-	
+
 	public int getMyState() {
 		return myState;
 	}
-	
+
 	public void setMyState(int state) {
-		myState= state;
+		myState = state;
 	}
 	
-	public ArrayList<Cell> getNeighbors() {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		// This ArrayList needs to be a different size for corner, edge, and inner cells. 
-		// So each cell needs to have an indicator for what type it is
-		return neighbors;
-		
+	public ArrayList<Cell> getNeighbors(){
+		return myNeighbors;
 	}
-	
+
 	abstract void update();
 }
