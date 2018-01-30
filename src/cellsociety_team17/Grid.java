@@ -31,7 +31,8 @@ public class Grid {
 		}
 	}
 	
-	// NEED SETNEIGHBORS METHOD IN CELL CLASS
+	// TO DISCUSS NEED SETNEIGHBORS METHOD IN CELL CLASS
+	// neighbors need to be set here because row and col need to be known in relation to width & height 
 	public void setCellNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1]);
