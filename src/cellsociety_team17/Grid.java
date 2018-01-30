@@ -36,12 +36,12 @@ public class Grid {
 		}
 	}
 
-	public void setCellNeighbors(Cell cell) {
+	private void setCellNeighbors(Cell cell) {
 		ArrayList<Cell> inBoundsNeighbors = findInBoundsNeighbors(cell);
 		cell.setNeighbors(inBoundsNeighbors);
 	}
 	
-	public ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
+	private ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1]);
 		if (cell.myRow < myHeight-1) neighbors.add(myCells[cell.myRow+1]);
@@ -55,15 +55,15 @@ public class Grid {
 		}
 	}
 
-	private Group getGroup() {
+	public Group getGroup() {
 		return myGroup; 
 	}
 
-	private int getWidth() {
+	public int getWidth() {
 		return myWidth;
 	}
 
-	private int getHeight() {
+	public int getHeight() {
 		return myHeight; 
 	}
 
