@@ -1,12 +1,16 @@
 package cellsociety_team17;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -14,8 +18,8 @@ public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
 	private Grid myGrid;
-	private int mySimulationType;
-	private ArrayList<cell> activeCells;
+	private int mySimulatCell<T>ype;
+	private ArrayList<cell> activeCells = new ArrayList<cell>;
 	private File myXmlFile;
 	
 	/**
@@ -68,10 +72,14 @@ public class Main extends Application {
 		int myWidth = getIntFromXML(myDocument, "width");
 		int myHeight = getIntFromXML(myDocument, "height");
 		
-		//TODO: Get active cells
+		for(int i = 0; i < myDocument.getElementsByTagName("cell").getLength(); i++) {
+			Node currentNode = myDocument.getElementsByTagName("cell").item(i);
+			//TODO: Parse out the row, column, and state of a cell
+			activeCells.add(new cell(cRow, cColumn, cState));
+		}
 		
 		myGrid = new Grid(myHeight, myWidth, mySimulationType, activeCells);
-		
+		return myGrid;
 		
 	}
 
