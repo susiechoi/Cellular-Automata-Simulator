@@ -18,8 +18,8 @@ public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
 	private Grid myGrid;
-	private int mySimulatCell<T>ype;
-	private ArrayList<cell> activeCells = new ArrayList<cell>;
+	private int mySimulationType;
+	private ArrayList<cell> activeCells = new ArrayList<cell>();
 	private File myXmlFile;
 	
 	/**
@@ -74,7 +74,9 @@ public class Main extends Application {
 		
 		for(int i = 0; i < myDocument.getElementsByTagName("cell").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("cell").item(i);
-			//TODO: Parse out the row, column, and state of a cell
+			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").toString());
+			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").toString());
+			int cState = Integer.parseInt(currentNode.getNodeValue());
 			activeCells.add(new cell(cRow, cColumn, cState));
 		}
 		
