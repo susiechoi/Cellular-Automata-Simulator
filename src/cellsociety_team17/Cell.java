@@ -7,8 +7,8 @@ public abstract class Cell {
 	private int myState;
 	private ArrayList<Cell> myNeighbors;
 
-	public Cell(ArrayList<Cell> neighbors) {
-		myNeighbors = neighbors;
+	public Cell(int row, int column, int state) {
+		myState=state;
 	}
 
 	public int getMyState() {
@@ -22,6 +22,12 @@ public abstract class Cell {
 	public ArrayList<Cell> getNeighbors(){
 		return myNeighbors;
 	}
+	
+	public void setNeighbors(ArrayList<Cell> neighbors) {
+		myNeighbors= neighbors;
+	}
+	
+	
 
 	abstract void update();
 }
