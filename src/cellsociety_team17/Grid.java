@@ -3,6 +3,7 @@ package cellsociety_team17;
 import java.util.ArrayList;
 
 import javafx.scene.Group;
+import javafx.scene.control.Cell;
 
 public class Grid {
 
@@ -16,25 +17,33 @@ public class Grid {
 		this(1, 400, 400, new ArrayList<Cell>()); 
 	}
 
-	public Grid(int simType, int width, int height, ArrayList<Cell> activeCells) {
-		mySimulationType = simType;
+	// is it even necessary to have simulationType? Main can select appropriate subclass after receiving user mouse input
+	public Grid(int simulationType, int width, int height, ArrayList<Cell> cells) {
+		mySimulationType = simulationType;
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myWidth][myHeight]; 
-		// TODO propagate myCells with active cells 
-		for (Cell cell : myCells) {
+		// constructor could be Cell(int xPos, int yPos, int startState) (since file format would prob hold x, y coords & start state) 
+		for (Cell cell : cells) {
+			myCells[cell.myXPos][cell.myYPos] = cell; 
 			myGroup.getChildren().add(cell.myRectangle);
 		}
 	}
-	
+
+	public void updateCells(ArrayList<Cell> activeCells) {
+		for (Cell cell : activeCells) {
+			cell.update(); 
+		}
+	}
+
 	private Group getGroup() {
 		return myGroup; 
 	}
-	
+
 	private int getWidth() {
 		return myWidth;
 	}
-	
+
 	private int getHeight() {
 		return myHeight; 
 	}
