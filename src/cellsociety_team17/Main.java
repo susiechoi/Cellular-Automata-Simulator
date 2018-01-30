@@ -15,7 +15,7 @@ public class Main extends Application {
 	private Scene myScene;
 	private Grid myGrid;
 	private int mySimulationType;
-	//private ArrayList<cell> activeCells;
+	private ArrayList<cell> activeCells;
 	private File myXmlFile;
 	
 	/**
@@ -65,6 +65,12 @@ public class Main extends Application {
 		Document myDocument = myDocumentBuilder.parse(f);
 		
 		mySimulationType = getSimulationType(myDocument);
+		int myWidth = getIntFromXML(myDocument, "width");
+		int myHeight = getIntFromXML(myDocument, "height");
+		
+		//TODO: Get active cells
+		
+		myGrid = new Grid(myHeight, myWidth, mySimulationType, activeCells);
 		
 		
 	}
@@ -82,4 +88,8 @@ public class Main extends Application {
 		throw new Exception("No Simulation Type Defined");
 	}
 	
+	private int getIntFromXML(Document d, String s) {
+		String nodeString = d.getElementsByTagName(s).item(0).getNodeValue();
+		return Integer.parseInt(nodeString);
+	}
 }
