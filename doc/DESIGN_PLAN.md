@@ -14,7 +14,11 @@ Cell objects will represent the cell units within each simulation. As such, the 
 
 The Cell class will also include a method to update Cell state. The update method will evaluate the state of a Cell and accordingly update the state of its neighbors. For example, if a Cell in the Fire simulation reaches the "burning" state in a time step, then some of the Cells in its ArrayList of relevant neighbors will also necessarily enter a "burning" state.
 
-*TODO: Add picture of how components relate, likely via CRC cards*
+!["Visual representation of Main class"](doc/main.png)
+
+!["Visual representation of Cell class](doc/cell.png)
+
+!["Visual representation of Grid class"](doc/grid.png)
 
 ### User Interface
 Upon launch, the program will provide a menu of names of available simulations, which users may click to begin watching. In each simulation, each Cell state will be represented by a different color (e.g. in the WaTor predator-prey simulation, red for predator and green for prey), specified by a color legend to the side of the simulation display. While viewing the simulation, users will be able to pause, slow, and reset simulations (like [this Segregation simulation](http://nifty.stanford.edu/2014/mccown-schelling-model-segregation/)) by clicking buttons to the side of the display. A home button will be available for users to return to the home screen and switch which simulation they are viewing.
@@ -25,7 +29,9 @@ For certain simulations, users will also need to specify basic rules for the sim
 * For the WaTor predator-prey simulation, users will input input the starting proportion of the predator group, similar to the segregation simulation. 
 * For the fire simulation, users will input the probability of catching fire. 
 
-*TODO: Add a picture of the interface*
+!["Visual representation of Home Screen"](doc/home.png)
+
+!["Visual representation of Simulation Screen"](doc/simulation.png)
 
 ### Design Details 
 * Main Class
@@ -58,7 +64,7 @@ For certain simulations, users will also need to specify basic rules for the sim
         * public Grid(Int height, Int width) -- empty grid constructor
         * private int getMyWidth -- returns integer value of width
         * private int getMyHeight -- returns integer value of height
-        * 
+        * private Group getMyGroup -- returns a group with the Cell Squares as children -- Main can add to its stage to display
 * Cell Class -- extends interface<br />
     * <B>Variables</B><br />
         * myState -- keeps the state of a given cell
@@ -70,7 +76,7 @@ For certain simulations, users will also need to specify basic rules for the sim
         * public cell[] getNeighbors -- returns a cell array of all the neighboring cells
     * Fire Cell
     * Wator Cell
-    * Predator Cell
+    * Segregation Cell
     * Game of Life Cell
 
 ### Design Considerations
