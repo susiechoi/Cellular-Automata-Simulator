@@ -21,7 +21,7 @@ The Cell class will also include a method to update Cell state. The update metho
 !["Visual representation of Grid class"](doc/grid.png)
 
 ### User Interface
-Upon launch, the program will provide a menu of names of available simulations, which users may click to begin watching. In each simulation, each Cell state will be represented by a different color (e.g. in the WaTor predator-prey simulation, red for predator and green for prey), specified by a color legend to the side of the simulation display. While viewing the simulation, users will be able to pause, slow, and reset simulations (like [this Segregation simulation](http://nifty.stanford.edu/2014/mccown-schelling-model-segregation/)) by clicking buttons to the side of the display. 
+Upon launch, the program will provide a menu of names of available simulations, which users may click to begin watching. In each simulation, each Cell state will be represented by a different color (e.g. in the WaTor predator-prey simulation, red for predator and green for prey), specified by a color legend to the side of the simulation display. While viewing the simulation, users will be able to pause, slow, and reset simulations (like [this Segregation simulation](http://nifty.stanford.edu/2014/mccown-schelling-model-segregation/)) by clicking buttons to the side of the display. A home button will be available for users to return to the home screen and switch which simulation they are viewing.
 
 For certain simulations, users will also need to specify basic rules for the simulation via text input of a decimal between 0 and 1, with users be alerted if they enter an out-of-range number. Empty text input will lead to a randomized simulation being displayed. 
 
@@ -100,3 +100,4 @@ The team will develop the Cell interface together so that we have a common under
 
 
 
+>>>>>>> f40614e1f9ad861ab1c49e1b25df3287254a2d88
