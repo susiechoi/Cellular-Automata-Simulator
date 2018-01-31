@@ -96,8 +96,3 @@ The team will develop the Cell interface together so that we have a common under
     * Upon startup, the simulation display will assume a default value for probCatch specified in the XML file. This XML file will be parsed with a parsing method in Main. The value will be passed to the constructor of the appropriate Fire implementation of the Cell interface. 
 * Switch simulations: use the GUI to change the current simulation from Game of Life to Wator
     * A user may click the Return to Home button on Game of Life simulation screen s/he is on, which will be detected by a handleMouseInput() method in the Main class. The user may then select the WaTor option, upon which the XML file associated with WaTor will be parsed so that the new simulation launch may begin.  
-
-
-
-
->>>>>>> f40614e1f9ad861ab1c49e1b25df3287254a2d88
