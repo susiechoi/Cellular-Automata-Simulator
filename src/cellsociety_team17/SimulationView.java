@@ -31,6 +31,7 @@ public class SimulationView {
 		} else {
 			myWidth = MIN_WIDTH;
 		}
+		myRoot = new Group();
 		setUpHeader();
 		setUpGridContainer();
 		setUpControls();
@@ -63,10 +64,10 @@ public class SimulationView {
 		myHeader.getChildren().add(myBanner);
 	}
 	private void setUpControls() {
-		
+		myControlsContainer = new Group();
 	}
 	private void setUpGridContainer() {
-		
+		myGridContainer = new Group();
 	}
 	
 }

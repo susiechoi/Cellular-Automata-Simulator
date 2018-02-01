@@ -82,7 +82,9 @@ public class Main extends Application {
 	
 	
 	private void startSimulation(Grid G) {
-		//TODO: completeStartSimulation
+		SimulationView mySimulationView = new SimulationView(myGrid);
+		myScene = mySimulationView.getScene();
+		myPrimaryStage.setScene(myScene);
 	}
 	
 	private void setFile(String s) {
