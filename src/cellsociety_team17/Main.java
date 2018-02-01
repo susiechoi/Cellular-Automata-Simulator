@@ -59,7 +59,8 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		//Scene
-		myScene = setUpScene();
+		SimulationView mySimulationView = new SimulationView(myGrid);
+		myScene = mySimulationView.getScene();
 		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
@@ -79,13 +80,6 @@ public class Main extends Application {
 		//TODO: Complete handleMouseInput
 	}
 	
-	private Scene setUpScene() {
-		myRoot = new Group();
-		Scene tempScene = new Scene(myRoot, 600,600);
-		//TODO: Add input buttons surrounding grid graphic
-		myRoot.getChildren().add(myGrid.getGroup());
-		return tempScene;
-	}
 	
 	private void startSimulation(Grid G) {
 		//TODO: completeStartSimulation

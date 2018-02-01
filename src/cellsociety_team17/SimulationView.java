@@ -3,6 +3,7 @@ package cellsociety_team17;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class SimulationView {
@@ -40,6 +41,14 @@ public class SimulationView {
 		return myScene;
 	}
 	
+	public Group getRoot() {
+		return myRoot;
+	}
+	
+	public Group getMyGridContainer() {
+		return myGridContainer;
+	}
+	
 	public void establishScene() {
 		myScene = new Scene(myRoot, myWidth, myHeight);
 		myRoot.getChildren().addAll(myHeader);
@@ -49,7 +58,9 @@ public class SimulationView {
 	
 	private void setUpHeader() {
 		myHeader = new Group();
-		myHeader.getChildren().add(new Rectangle(myHeaderWidth, myHeaderHeight));
+		Rectangle myBanner = new Rectangle(myHeaderWidth, myHeaderHeight);
+		myBanner.setFill(Color.RED);
+		myHeader.getChildren().add(myBanner);
 	}
 	private void setUpControls() {
 		
