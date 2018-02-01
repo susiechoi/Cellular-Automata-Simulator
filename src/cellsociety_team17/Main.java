@@ -106,9 +106,9 @@ public class Main extends Application {
 		
 		for(int i = 0; i < myDocument.getElementsByTagName("cell").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("cell").item(i);
-			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").toString());
-			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").toString());
-			int cState = Integer.parseInt(currentNode.getNodeValue());
+			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").getNodeValue());
+			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").getNodeValue());
+			int cState = Integer.parseInt(currentNode.getTextContent());
 			switch(mySimulationType){
 			case 0:
 				activeCells.add(new fireCell(cRow, cColumn, cState));
@@ -140,6 +140,8 @@ public class Main extends Application {
 				return 1;
 			case "wator":
 				return 2;
+			case "segregation":
+				return 3;
 		}
 		throw new Exception("No Simulation Type Defined");
 	}
