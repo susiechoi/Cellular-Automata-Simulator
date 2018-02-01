@@ -16,6 +16,7 @@ public class Grid {
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myHeight][myWidth]; 
+		myGroup = new Group();
 		for (Cell cell : activeCells) {
 			myCells[cell.myRow][cell.myColumn] = cell; 
 		}
