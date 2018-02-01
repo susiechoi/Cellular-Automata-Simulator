@@ -2,9 +2,8 @@ package cellsociety_team17;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-
+import cellsociety_team17.Cell;
 import javafx.scene.Group;
-import javafx.scene.control.Cell;
 
 public class Grid {
 
@@ -18,7 +17,7 @@ public class Grid {
 		myHeight = height;
 		myCells = new Cell[myHeight][myWidth]; 
 		for (Cell cell : cells) {
-			myCells[cell.myRow][cell.myCol] = cell; 
+			myCells[cell.myRow][cell.myColumn] = cell; 
 		}
 		for (Cell cell : cells) {
 			setCellNeighbors(cell);
@@ -33,10 +32,10 @@ public class Grid {
 	
 	private ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1][cell.myCol]);
-		if (cell.myRow < myHeight-1) neighbors.add(myCells[cell.myRow+1][cell.myCol]);
-		if (cell.myCol > 0) neighbors.add(myCells[cell.myRow][cell.myCol-1]);
-		if (cell.myCol < myWidth-1) neighbors.add(myCells[cell.myRow][cell.myCol+1]);
+		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
+		if (cell.myRow < myHeight-1) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
+		if (cell.myColumn > 0) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
+		if (cell.myColumn< myWidth-1) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
 		return neighbors; 
 	}
 
