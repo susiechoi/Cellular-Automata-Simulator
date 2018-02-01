@@ -1,22 +1,23 @@
 package cellsociety_team17;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import javafx.scene.control.Cell;
+import cellsociety_team17.Cell;
 import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
 
 	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
-	public static final int DEFAULT_THRESHOLD = 0.5; 
+	public static final double DEFAULT_THRESHOLD = 0.5; 
 	
 	// threshold t represents satisfaction with segregation 
 	private float myThreshold;
 
 	public SegregationCell(int row, int col, int startState) {
 		super(row, col, startState);
-		myThreshold = DEFAULT_THRESHOLD;
+		myThreshold = (float) DEFAULT_THRESHOLD;
 	}
 
 	public SegregationCell(int row, int col, int startState, float threshold) {
@@ -41,7 +42,7 @@ public class SegregationCell extends Cell {
 		return myNeighbors;
 	}
 
-	public void updateState() {
+	public void updateState() throws Exception {
 		if (this.needToMove()) { 
 			this.moveToEmptySpace();
 		}
@@ -52,14 +53,14 @@ public class SegregationCell extends Cell {
 		int nonEmptyNeighbors = -1; 
 		for (Cell neighbor : myNeighbors) {
 			if (neighbor.myState != 0) {
-				if (neighbor.myState = myState) neighborsLikeMe++; 
+				if (neighbor.myState == myState) neighborsLikeMe++; 
 				nonEmptyNeighbors++; 
 			}
 		}
 		return ((neighborsLikeMe / nonEmptyNeighbors) < myThreshold);
 	}
 
-	private void moveToEmptySpace() {
+	private void moveToEmptySpace() throws Exception {
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
 
 		for (Cell neighbor : myNeighbors) {
@@ -77,7 +78,7 @@ public class SegregationCell extends Cell {
 				possSpot.myState = myState;
 				myState = 0; 
 				updateColor(this); 
-				updateColor(neighbor); 
+				updateColor(possSpot);
 				return;
 			} 
 			possEmptySpots.addAll(possSpot.myNeighbors);
@@ -87,6 +88,12 @@ public class SegregationCell extends Cell {
 
 	private void updateColor(Cell cell) {
 		cell.myRectangle.setFill(STATE_COLORS[cell.myState]);
+	}
+
+	@Override
+	void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 
