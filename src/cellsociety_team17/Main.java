@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +21,7 @@ import javafx.util.Duration;
 public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
+	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
 	private ArrayList<cell> activeCells = new ArrayList<cell>();
@@ -57,11 +59,12 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		//Scene
+		myScene = setUpScene();
 		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> step(SECOND_DELAY));
+                e -> Step(SECOND_DELAY));
 		Timeline myTimeline = new Timeline();
 		myTimeline.setCycleCount(Timeline.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
@@ -77,7 +80,10 @@ public class Main extends Application {
 	}
 	
 	private Scene setUpScene() {
-		
+		myRoot = new Group();
+		Scene tempScene = new Scene(myRoot, 600,600);
+		//TODO: Add input buttons surrounding grid graphic
+		myRoot.getChildren().add(myGrid.getGraphic());
 	}
 	
 	private void startSimulation(grid G) {
