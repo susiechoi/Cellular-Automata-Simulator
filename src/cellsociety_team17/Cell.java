@@ -16,7 +16,9 @@ public abstract class Cell {
 		myState=state;
 		myRow= row;
 		myColumn= column;
+		myRectangle = new Rectangle(10,10);
 	}
+	
 
 	public int getMyState() {
 		return myState;
