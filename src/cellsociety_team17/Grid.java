@@ -12,14 +12,14 @@ public class Grid {
 	private Cell[][] myCells; 
 	private Group myGroup;
 
-	public Grid(int width, int height, ArrayList<Cell> cells) {
+	public Grid(int width, int height, ArrayList<Cell> activeCells) {
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myHeight][myWidth]; 
-		for (Cell cell : cells) {
+		for (Cell cell : activeCells) {
 			myCells[cell.myRow][cell.myColumn] = cell; 
 		}
-		for (Cell cell : cells) {
+		for (Cell cell : activeCells) {
 			setCellNeighbors(cell);
 			myGroup.getChildren().add(cell.myRectangle);
 		}

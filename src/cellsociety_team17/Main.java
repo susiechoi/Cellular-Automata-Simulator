@@ -1,5 +1,6 @@
 package cellsociety_team17;
 
+import cellsociety_team17.Cell;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -13,7 +14,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -24,7 +24,7 @@ public class Main extends Application {
 	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
-	private ArrayList<cell> activeCells = new ArrayList<cell>();
+	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "/assets/test.xml";
@@ -83,10 +83,11 @@ public class Main extends Application {
 		myRoot = new Group();
 		Scene tempScene = new Scene(myRoot, 600,600);
 		//TODO: Add input buttons surrounding grid graphic
-		myRoot.getChildren().add(myGrid.getGraphic());
+		myRoot.getChildren().add(myGrid.getGroup());
+		return tempScene;
 	}
 	
-	private void startSimulation(grid G) {
+	private void startSimulation(Grid G) {
 		//TODO: completeStartSimulation
 	}
 	
@@ -94,7 +95,7 @@ public class Main extends Application {
 		myXmlFile = new File(s);
 	}
 	
-	private grid readInput(File f) {
+	private Grid readInput(File f) {
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
 		Document myDocument = myDocumentBuilder.parse(f);
@@ -108,10 +109,24 @@ public class Main extends Application {
 			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").toString());
 			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").toString());
 			int cState = Integer.parseInt(currentNode.getNodeValue());
-			activeCells.add(new cell(cRow, cColumn, cState));
+			switch(mySimulationType){
+			case 0:
+				activeCells.add(new fireCell(cRow, cColumn, cState));
+				break;	
+			case 1:
+				activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+				break;
+			case 2:
+				activeCells.add(new WatorCell(cRow, cColumn, cState));
+				break;
+			case 3:
+				activeCells.add(new SegregationCell(cRow, cColumn, cState));
+				break;
+			}
+			
 		}
 		
-		myGrid = new Grid(myHeight, myWidth, mySimulationType, activeCells);
+		myGrid = new Grid(myHeight, myWidth, activeCells);
 		return myGrid;
 		
 	}
