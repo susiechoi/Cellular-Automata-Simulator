@@ -109,6 +109,7 @@ public class Main extends Application {
 			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").getNodeValue());
 			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").getNodeValue());
 			int cState = Integer.parseInt(currentNode.getTextContent());
+			//TODO: change to use Java Reflection
 			switch(mySimulationType){
 			case 0:
 				activeCells.add(new fireCell(cRow, cColumn, cState));

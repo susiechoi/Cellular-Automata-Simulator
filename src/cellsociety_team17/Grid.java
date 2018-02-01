@@ -53,9 +53,17 @@ public class Grid {
 	public int getWidth() {
 		return myWidth;
 	}
+	
+	public double getWidthInPixels() {
+		return myWidth * Cell.CELLSIZE;
+	}
 
 	public int getHeight() {
 		return myHeight; 
+	}
+	
+	public double getHeightInPixels() {
+		return myHeight * Cell.CELLSIZE;
 	}
 
 }
