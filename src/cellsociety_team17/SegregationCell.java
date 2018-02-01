@@ -9,13 +9,14 @@ import javafx.scene.paint.Color;
 public class SegregationCell extends Cell {
 
 	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
-
+	public static final int DEFAULT_THRESHOLD = 0.5; 
+	
 	// threshold t represents satisfaction with segregation 
-	// TODO in Grid class, add sthg so that if it's the segregation simulation, also the immediate diagonal cells are added
 	private float myThreshold;
 
 	public SegregationCell(int row, int col, int startState) {
 		super(row, col, startState);
+		myThreshold = DEFAULT_THRESHOLD;
 	}
 
 	public SegregationCell(int row, int col, int startState, float threshold) {
@@ -31,6 +32,7 @@ public class SegregationCell extends Cell {
 		return myState;
 	}
 
+	// TODO ? in Grid class, add sthg so that if it's the segregation simulation, also the immediate diagonal cells are added
 	public void setNeighbors(ArrayList<Cell> neighbors) {
 		myNeighbors = neighbors; 
 	}
