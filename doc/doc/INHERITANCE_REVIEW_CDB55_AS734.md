@@ -1,3 +1,7 @@
+Collin Brown -- CDB55
+Aditya Sirdhar -- AS734
+
+
 ## Part 1
 
 * What is an implementation decision that your design is encapsulating (i.e., hiding) for other areas of the program?
