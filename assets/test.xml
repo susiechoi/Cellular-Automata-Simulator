@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8">
+	<meta>
+		<simulationType>Fire</simulationType>
+		<title>Cells on Fire</title>
+		<author>Collin Brown</author>
+		<height>10</height>
+		<width>10</width>
+		<probability>.5</probability>
+	</meta>
+	<grid>
+		<cell column=2 row=1>1</cell>
+	</grid>"assets/test.xml"
+</xml>

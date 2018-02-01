@@ -69,6 +69,7 @@ For certain simulations, users will also need to specify basic rules for the sim
     * <B>Variables</B><br />
         * myState -- keeps the state of a given cell
         * myType -- keeps the type of simulation
+        * ArrayList<cell> myNeighbors -- list of neighboring cells
     * <B>Methods</B><br />
         * public int getMyState -- returns the state of an object
         * public void setMyState -- sets the state of an object
