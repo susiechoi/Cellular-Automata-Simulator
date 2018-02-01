@@ -27,7 +27,7 @@ public class Main extends Application {
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
-	private static String FILEPATH = "/assets/test.xml";
+	private static String FILEPATH = "assets/test.xml";
 	private final int FRAMES_PER_SECOND = 60;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -95,7 +95,7 @@ public class Main extends Application {
 		myXmlFile = new File(s);
 	}
 	
-	private Grid readInput(File f) {
+	private Grid readInput(File f) throws Exception {
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
 		Document myDocument = myDocumentBuilder.parse(f);
@@ -132,20 +132,20 @@ public class Main extends Application {
 	}
 
 	private int getSimulationType(Document d) throws Exception {
-		String typeString = d.getElementsByTagName("simulationType").item(0).getNodeValue();
+		String typeString = d.getElementsByTagName("simulationType").item(0).getTextContent().toLowerCase();
 		switch(typeString){
 			case "fire":
 				return 0;
-			case "Game Of Life":
+			case "game of life":
 				return 1;
-			case "Wator":
+			case "wator":
 				return 2;
 		}
 		throw new Exception("No Simulation Type Defined");
 	}
 	
 	private int getIntFromXML(Document d, String s) {
-		String nodeString = d.getElementsByTagName(s).item(0).getNodeValue();
+		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();
 		return Integer.parseInt(nodeString);
 	}
 }
