@@ -1,7 +1,7 @@
 package cellsociety_team17;
 
 public class SplashScreen {
-	// oh no a conflict
+// a resolution
 	private ArrayList<Rectangle> mySimulationOptions; 
 
 	public SplashScreen() {
