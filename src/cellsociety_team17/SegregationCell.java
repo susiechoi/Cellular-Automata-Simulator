@@ -9,15 +9,15 @@ import javafx.scene.paint.Color;
 public class SegregationCell extends Cell {
 
 	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
+	public static final int DEFAULT_THRESHOLD = 0.5; 
 	
 	// threshold t represents satisfaction with segregation 
-	// TODO add starting proportions of group 1 and group 2 to XML (all non-assigned states will just become state 0, empty) 
-	// TODO in Grid class, add sthg so that if it's the segregation simulation, also the immediate diagonal cells are added
 	private float myThreshold;
 
-	//	public SegregationCell(int row, int col, int startState) {
-	//		super(row, col, startState);
-	//	}
+	public SegregationCell(int row, int col, int startState) {
+		super(row, col, startState);
+		myThreshold = DEFAULT_THRESHOLD;
+	}
 
 	public SegregationCell(int row, int col, int startState, float threshold) {
 		super(row, col, startState);
@@ -32,6 +32,7 @@ public class SegregationCell extends Cell {
 		return myState;
 	}
 
+	// TODO ? in Grid class, add sthg so that if it's the segregation simulation, also the immediate diagonal cells are added
 	public void setNeighbors(ArrayList<Cell> neighbors) {
 		myNeighbors = neighbors; 
 	}
@@ -45,7 +46,7 @@ public class SegregationCell extends Cell {
 			this.moveToEmptySpace();
 		}
 	}
-	
+
 	private boolean needToMove() {
 		int neighborsLikeMe = 0;
 		int nonEmptyNeighbors = -1; 
@@ -60,7 +61,7 @@ public class SegregationCell extends Cell {
 
 	private void moveToEmptySpace() {
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
-		
+
 		for (Cell neighbor : myNeighbors) {
 			if (neighbor.myState == 0) {
 				neighbor.myState = myState;
@@ -83,7 +84,7 @@ public class SegregationCell extends Cell {
 		}
 		throw new Exception("Threshold unsatisfied, but no empty spots to move to!");
 	}
-	
+
 	private void updateColor(Cell cell) {
 		cell.myRectangle.setFill(STATE_COLORS[cell.myState]);
 	}
