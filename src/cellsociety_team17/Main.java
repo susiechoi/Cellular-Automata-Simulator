@@ -8,11 +8,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Cell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
@@ -21,6 +24,11 @@ public class Main extends Application {
 	private int mySimulationType;
 	private ArrayList<cell> activeCells = new ArrayList<cell>();
 	private File myXmlFile;
+	private Timeline myTimeLine;
+	private static String FILEPATH = "/assets/test.xml";
+	private final int FRAMES_PER_SECOND = 60;
+	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
 	/**
 	 * 
@@ -32,9 +40,14 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+			
+			
 			myPrimaryStage = primaryStage;
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
+			setFile(FILEPATH); 
+			readInput(myXmlFile);
+			startSimulation(myGrid);
 	}
 	
 	/**
@@ -42,9 +55,17 @@ public class Main extends Application {
 	 * @param timeElapsed
 	 * @return
 	 */
-	private Object Step(Double timeElapsed) {
-		//TODO: Complete Step
-		return null;
+	private void Step(Double timeElapsed) {
+		//Scene
+		myPrimaryStage.setScene(myScene);
+		
+		//Timeline
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                e -> step(SECOND_DELAY));
+		Timeline myTimeline = new Timeline();
+		myTimeline.setCycleCount(Timeline.INDEFINITE);
+		myTimeline.getKeyFrames().add(frame);
+		myTimeline.play();
 	}
 	
 	/**
@@ -53,6 +74,10 @@ public class Main extends Application {
 	 */
 	private void handleMouseInput(MouseEvent e) {
 		//TODO: Complete handleMouseInput
+	}
+	
+	private Scene setUpScene() {
+		
 	}
 	
 	private void startSimulation(grid G) {
