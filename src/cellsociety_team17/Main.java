@@ -46,6 +46,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 			
 			myPrimaryStage = primaryStage;
+			myPrimaryStage.setResizable(false);
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
 			setFile(FILEPATH); 
