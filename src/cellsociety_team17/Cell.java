@@ -11,7 +11,7 @@ public abstract class Cell {
 	protected int myColumn;
 	protected Rectangle myRectangle; 
 	protected ArrayList<Cell> myNeighbors;
-	public static final int CELLSIZE = 10;
+	public static final int CELLSIZE = 40;
 
 	public Cell(int row, int column, int state) {
 		myState=state;

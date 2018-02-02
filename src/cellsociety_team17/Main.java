@@ -24,7 +24,9 @@ public class Main extends Application {
 	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
+	private String mySimulationTitle;
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
+	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "assets/test.xml";
@@ -43,8 +45,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 			
-			
 			myPrimaryStage = primaryStage;
+			myPrimaryStage.setResizable(false);
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
 			setFile(FILEPATH); 
@@ -58,10 +60,6 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
-		//Scene
-		SimulationView mySimulationView = new SimulationView(myGrid);
-		myScene = mySimulationView.getScene();
-		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -82,8 +80,9 @@ public class Main extends Application {
 	
 	
 	private void startSimulation(Grid G) {
-		SimulationView mySimulationView = new SimulationView(myGrid);
+		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
 		myScene = mySimulationView.getScene();
+		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
 	}
 	
@@ -97,6 +96,12 @@ public class Main extends Application {
 		Document myDocument = myDocumentBuilder.parse(f);
 		
 		mySimulationType = getSimulationType(myDocument);
+		try {
+			mySimulationTitle = myDocument.getElementsByTagName("title").item(0).getTextContent();
+		} catch(Exception e) {
+			throw new Exception("No <Title> tag in the XML");
+		}
+		
 		int myWidth = getIntFromXML(myDocument, "width");
 		int myHeight = getIntFromXML(myDocument, "height");
 		
@@ -108,10 +113,10 @@ public class Main extends Application {
 			int count = 0;
 			for(int j = 0; j < currentNode.getChildNodes().getLength(); j++) {
 				if(currentNode.getChildNodes().item(j).getNodeName().equals("cell")) {
-					count++;
 					cColumn = count;
+					count++;
 					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
-					System.out.println(cRow + ", " + cColumn + ", "+ cState);
+					//System.out.println(cRow + ", " + cColumn + ", "+ cState);
 					
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
@@ -134,7 +139,7 @@ public class Main extends Application {
 			
 		}
 		
-		myGrid = new Grid(myHeight, myWidth, activeCells);
+		myGrid = new Grid(myHeight, myWidth, myCells);
 		return myGrid;
 		
 	}
