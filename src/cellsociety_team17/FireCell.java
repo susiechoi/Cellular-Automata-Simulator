@@ -41,14 +41,21 @@ public class FireCell extends Cell {
 		if (threatened && this.myState == 1) {
 			Double decimal = Math.random();
 			if (decimal < myProbability) {
-				this.setMyState(BURNING);
+				this.setMyNextState(BURNING);
 			}
 		}
 		// If the tree was burning in the last step, it is empty in this step
 		if (this.myState == BURNING) {
-			this.myState = EMPTY;
+			this.myNextState = EMPTY;
 		}
 
+	}
+	
+	/* First go through and set myNextState for all the Cells. Then, go through all of them 
+	 * again to actually update them simultaneously. 
+	 */
+	private void updateState() {
+		this.setMyState(this.getMyNextState());
 		this.updateColor();
 	}
 

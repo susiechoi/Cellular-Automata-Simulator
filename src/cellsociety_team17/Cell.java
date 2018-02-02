@@ -7,6 +7,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class Cell {
 
 	protected int myState;
+	protected int myNextState;
 	protected int myRow;
 	protected int myColumn;
 	protected Rectangle myRectangle; 
@@ -26,6 +27,14 @@ public abstract class Cell {
 
 	public void setMyState(int state) {
 		myState = state;
+	}
+	
+	public int getMyNextState() {
+		return myNextState;
+	}
+
+	public void setMyNextState(int state) {
+		myNextState = state;
 	}
 
 	public ArrayList<Cell> getNeighbors() {
