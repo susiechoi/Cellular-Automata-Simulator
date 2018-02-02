@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8">
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
 	<meta>
 		<simulationType>Fire</simulationType>
 		<title>Cells on Fire</title>
@@ -8,6 +9,125 @@
 		<probability>.5</probability>
 	</meta>
 	<grid>
-		<cell column=2 row=1>1</cell>
-	</grid>"assets/test.xml"
-</xml>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>1</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+		<row>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+			<cell>0</cell>
+		</row>
+	</grid>
+</data>
