@@ -20,10 +20,11 @@ public class SimulationView {
 	private Group myGridContainer;
 	private Group myControlsContainer;
 	private Scene myScene;
+	private String mySimulationTitle;
 
-	public SimulationView(Grid g) {
+	public SimulationView(Grid g, String simulationTitle) {
 		myGrid = g;
-		myHeaderHeight = 50;
+		myHeaderHeight = 25;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
 		
 		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
@@ -59,8 +60,11 @@ public class SimulationView {
 	
 	private void setUpHeader() {
 		myHeader = new Group();
+		myHeaderWidth = myWidth;
 		Rectangle myBanner = new Rectangle(myHeaderWidth, myHeaderHeight);
-		myBanner.setFill(Color.RED);
+		myBanner.setX(0);
+		myBanner.setY(0);
+		myBanner.setFill(Color.GREY);
 		myHeader.getChildren().add(myBanner);
 	}
 	private void setUpControls() {

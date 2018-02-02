@@ -24,6 +24,7 @@ public class Main extends Application {
 	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
+	private String mySimulationTitle;
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
 	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
@@ -58,11 +59,6 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
-		//Scene
-		SimulationView mySimulationView = new SimulationView(myGrid);
-		
-		myScene = mySimulationView.getScene();
-		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -83,7 +79,7 @@ public class Main extends Application {
 	
 	
 	private void startSimulation(Grid G) {
-		SimulationView mySimulationView = new SimulationView(myGrid);
+		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
 		myScene = mySimulationView.getScene();
 		System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
@@ -99,6 +95,12 @@ public class Main extends Application {
 		Document myDocument = myDocumentBuilder.parse(f);
 		
 		mySimulationType = getSimulationType(myDocument);
+		try {
+			mySimulationTitle = myDocument.getElementsByTagName("title").item(0).getTextContent();
+		} catch(Exception e) {
+			throw new Exception("No <Title> tag in the XML");
+		}
+		
 		int myWidth = getIntFromXML(myDocument, "width");
 		int myHeight = getIntFromXML(myDocument, "height");
 		
