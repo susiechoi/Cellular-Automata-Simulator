@@ -28,7 +28,7 @@ public class SplashScreen extends Application {
 	public SplashScreen() throws FileNotFoundException {
 		this(DEFAULT_SIMULATION_OPTIONS_FILE);
 	}
-	
+
 	public SplashScreen(String availableSimulationsFile) throws FileNotFoundException {
 		myStage = new Stage(); 
 		Pane root = new Pane(); 
@@ -48,37 +48,35 @@ public class SplashScreen extends Application {
 			Button simulationButton = new Button(readSimulationsFile.nextLine());
 			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
-				public void handle(ActionEvent e) {
-					System.out.println(simulationButton.getText()+"Cell");
+				public void handle(ActionEvent click) {
+					getUserSelection(simulationButton);
 				}
 			});
 			gridpane.add(simulationButton, colIndex, rowIndex);
 			rowIndex++; 
 		}
 		myGridPane = gridpane;
-		
 		root.getChildren().add(myGridPane);
 		myStage.setScene(scene);
 	}
-	
-//	private String getUserSelection() {
-//	}
-//	
-//	private void handleMouseInput(double xPos, double yPos) {
-//		
-//	}
+
+	private String getUserSelection(Button selectedButton) {
+		String selectedSimulation = selectedButton.getText()+"Cell";
+//		System.out.println(selectedSimulation);
+		return selectedSimulation;
+	}
 
 	public Stage getStage() {
 		return myStage; 
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		myStage.show();
 	}
-	
+
 	public static void main(String[] args) throws FileNotFoundException {
 		launch(args);
 	}
- 	
+
 }
