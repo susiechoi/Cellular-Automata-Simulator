@@ -1,14 +1,30 @@
 package cellsociety_team17;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class SimulationView {
 	private static final double MIN_WIDTH = 100;
+	private static final Paint ACCENT_COLOR = Color.LIGHTGRAY;
+	private static final Paint PRIMARY_COLOR = Color.GRAY; 
 	private double myHeight;
 	private double myWidth;
 	private double myHeaderHeight;
@@ -27,6 +43,7 @@ public class SimulationView {
 		mySimulationTitle = simulationTitle;
 		myGrid = g;
 		myHeaderHeight = 25;
+		myControlsContainerHeight = 50;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
 		
 		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
@@ -66,12 +83,13 @@ public class SimulationView {
 		Rectangle myBanner = new Rectangle(myHeaderWidth, myHeaderHeight);
 		myBanner.setX(0);
 		myBanner.setY(0);
-		myBanner.setFill(Color.GREY);
+		myBanner.setFill(ACCENT_COLOR);
 		
 		Text myBannerText = new Text();
 		myBannerText.setText(mySimulationTitle);
 		myBannerText.setTranslateX((myWidth-myBannerText.getBoundsInLocal().getWidth())/2);
 		myBannerText.setTranslateY((myHeaderHeight)/2);
+		myBannerText.fontProperty().setValue(Font.font("Verdana", FontWeight.BOLD, 12));
 		
 		myHeader.getChildren().add(myBanner);
 		myHeader.getChildren().add(myBannerText);
@@ -79,9 +97,51 @@ public class SimulationView {
 	}
 	private void setUpControls() {
 		myControlsContainer = new Group();
+		myControlsContainerWidth = myWidth;
+		
+		Rectangle myControlsBanner = new Rectangle(myControlsContainerWidth,myControlsContainerHeight);
+		myControlsBanner.setFill(ACCENT_COLOR);
+		myControlsBanner.setX(0);
+		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
+		
+		squareButton myPlayButton = new squareButton(46, "play.png");
+		squareButton myPauseButton = new squareButton(46, "pause.png");
+		myPauseButton.setTranslateX(46);
+		squareButton myFastForwardButton = new squareButton(46, "fastForward.png");
+		myFastForwardButton.setTranslateX(92);
+		
+		myControlsContainer.getChildren().add(myControlsBanner);
+		myControlsContainer.getChildren().add(myPlayButton);
+		myControlsContainer.getChildren().add(myPauseButton);
+		myControlsContainer.getChildren().add(myFastForwardButton);
+		
 	}
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
+		myGridContainer.getChildren().add(myGrid.getGroup());
 	}
 	
-}
+	private class squareButton extends ImageView {
+		squareButton(int size, String type){
+			this.setFitHeight(size);
+			this.setFitWidth(size);
+			String myFilePath = "assets/IMG/" + type;
+			java.io.FileInputStream fis;
+			try {
+				fis = new FileInputStream(myFilePath);
+				Image iv = new Image(fis);
+				this.setImage(iv);
+				this.setScaleX(.75);
+				this.setScaleY(.75);
+				this.setY(myHeaderHeight + myGrid.getHeightInPixels());
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+
+			}
+		}
+		
+	}
+	

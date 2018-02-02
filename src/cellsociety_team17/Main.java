@@ -81,7 +81,7 @@ public class Main extends Application {
 	private void startSimulation(Grid G) {
 		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
 		myScene = mySimulationView.getScene();
-		System.out.println(myScene.getWidth());
+		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
 	}
 	
@@ -115,7 +115,7 @@ public class Main extends Application {
 					cColumn = count;
 					count++;
 					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
-					System.out.println(cRow + ", " + cColumn + ", "+ cState);
+					//System.out.println(cRow + ", " + cColumn + ", "+ cState);
 					
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
