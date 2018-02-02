@@ -25,6 +25,7 @@ public class Main extends Application {
 	private Grid myGrid;
 	private int mySimulationType;
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
+	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "assets/test.xml";
@@ -43,7 +44,6 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 			
-			
 			myPrimaryStage = primaryStage;
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
@@ -60,6 +60,7 @@ public class Main extends Application {
 	private void Step(Double timeElapsed) {
 		//Scene
 		SimulationView mySimulationView = new SimulationView(myGrid);
+		
 		myScene = mySimulationView.getScene();
 		myPrimaryStage.setScene(myScene);
 		
@@ -84,6 +85,7 @@ public class Main extends Application {
 	private void startSimulation(Grid G) {
 		SimulationView mySimulationView = new SimulationView(myGrid);
 		myScene = mySimulationView.getScene();
+		System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
 	}
 	
@@ -108,8 +110,8 @@ public class Main extends Application {
 			int count = 0;
 			for(int j = 0; j < currentNode.getChildNodes().getLength(); j++) {
 				if(currentNode.getChildNodes().item(j).getNodeName().equals("cell")) {
-					count++;
 					cColumn = count;
+					count++;
 					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
 					System.out.println(cRow + ", " + cColumn + ", "+ cState);
 					
@@ -134,7 +136,7 @@ public class Main extends Application {
 			
 		}
 		
-		myGrid = new Grid(myHeight, myWidth, activeCells);
+		myGrid = new Grid(myHeight, myWidth, myCells);
 		return myGrid;
 		
 	}
