@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class SimulationView {
 	private static final double MIN_WIDTH = 100;
@@ -23,6 +24,7 @@ public class SimulationView {
 	private String mySimulationTitle;
 
 	public SimulationView(Grid g, String simulationTitle) {
+		mySimulationTitle = simulationTitle;
 		myGrid = g;
 		myHeaderHeight = 25;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
@@ -65,7 +67,15 @@ public class SimulationView {
 		myBanner.setX(0);
 		myBanner.setY(0);
 		myBanner.setFill(Color.GREY);
+		
+		Text myBannerText = new Text();
+		myBannerText.setText(mySimulationTitle);
+		myBannerText.setTranslateX((myWidth-myBannerText.getBoundsInLocal().getWidth())/2);
+		myBannerText.setTranslateY((myHeaderHeight)/2);
+		
 		myHeader.getChildren().add(myBanner);
+		myHeader.getChildren().add(myBannerText);
+		
 	}
 	private void setUpControls() {
 		myControlsContainer = new Group();
