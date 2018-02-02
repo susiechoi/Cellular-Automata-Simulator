@@ -3,13 +3,14 @@ package cellsociety_team17;
 import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
+	// myState: 2 is BURNING, 1 is TREE, 0 is EMPTY
 	public static final int BURNING = 2;
 	public static final int TREE = 1;
 	public static final int EMPTY = 0;
-	// myState: 2 is BURNING, 1 is TREE, 0 is EMPTY
 	public static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
 	public static final double DEFAULT_PROBABILITY = 0.5;
-	double myProbability;
+	
+	private double myProbability;
 
 	public FireCell(int row, int column, int state) {
 		super(row, column, state);
