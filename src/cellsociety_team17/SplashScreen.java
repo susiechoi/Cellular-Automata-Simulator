@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -41,9 +43,16 @@ public class SplashScreen extends Application {
 			throw new FileNotFoundException("Could not find file named "+availableSimulationsFile+". Using default simulation options file.");
 		}
 		int rowIndex = 0; 
+		int colIndex = 0; 
 		while (readSimulationsFile.hasNextLine()) {
 			Button simulationButton = new Button(readSimulationsFile.nextLine());
-			gridpane.add(simulationButton, 1, rowIndex);
+			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					System.out.println(simulationButton.getText()+"Cell");
+				}
+			});
+			gridpane.add(simulationButton, colIndex, rowIndex);
 			rowIndex++; 
 		}
 		myGridPane = gridpane;
@@ -63,13 +72,13 @@ public class SplashScreen extends Application {
 		return myStage; 
 	}
 	
-	public static void main(String[] args) throws FileNotFoundException {
-		launch(args);
-	}
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		myStage.show();
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		launch(args);
 	}
  	
 }

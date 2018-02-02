@@ -1,4 +1,4 @@
-Game of Life
+GameOfLife
 Segregation
-WaTor (Predator-Prey)
+WaTor
 Fire
