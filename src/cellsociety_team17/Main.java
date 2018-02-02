@@ -59,7 +59,8 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		//Scene
-		myScene = setUpScene();
+		SimulationView mySimulationView = new SimulationView(myGrid);
+		myScene = mySimulationView.getScene();
 		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
@@ -79,16 +80,11 @@ public class Main extends Application {
 		//TODO: Complete handleMouseInput
 	}
 	
-	private Scene setUpScene() {
-		myRoot = new Group();
-		Scene tempScene = new Scene(myRoot, 600,600);
-		//TODO: Add input buttons surrounding grid graphic
-		myRoot.getChildren().add(myGrid.getGroup());
-		return tempScene;
-	}
 	
 	private void startSimulation(Grid G) {
-		//TODO: completeStartSimulation
+		SimulationView mySimulationView = new SimulationView(myGrid);
+		myScene = mySimulationView.getScene();
+		myPrimaryStage.setScene(myScene);
 	}
 	
 	private void setFile(String s) {
@@ -104,25 +100,37 @@ public class Main extends Application {
 		int myWidth = getIntFromXML(myDocument, "width");
 		int myHeight = getIntFromXML(myDocument, "height");
 		
-		for(int i = 0; i < myDocument.getElementsByTagName("cell").getLength(); i++) {
-			Node currentNode = myDocument.getElementsByTagName("cell").item(i);
-			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").getNodeValue());
-			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").getNodeValue());
-			int cState = Integer.parseInt(currentNode.getTextContent());
-			switch(mySimulationType){
-			case 0:
-				activeCells.add(new fireCell(cRow, cColumn, cState));
-				break;	
-			case 1:
-				activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
-				break;
-			case 2:
-				activeCells.add(new WatorCell(cRow, cColumn, cState));
-				break;
-			case 3:
-				activeCells.add(new SegregationCell(cRow, cColumn, cState));
-				break;
+		for(int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
+			Node currentNode = myDocument.getElementsByTagName("row").item(i);
+			int cRow = i;
+			int cColumn = -1;
+			int cState = -1;
+			int count = 0;
+			for(int j = 0; j < currentNode.getChildNodes().getLength(); j++) {
+				if(currentNode.getChildNodes().item(j).getNodeName().equals("cell")) {
+					count++;
+					cColumn = count;
+					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
+					System.out.println(cRow + ", " + cColumn + ", "+ cState);
+					
+					//TODO:change to use Java Reflection
+					switch(mySimulationType){
+					case 0:
+						activeCells.add(new fireCell(cRow, cColumn, cState));
+						break;	
+					case 1:
+						activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+						break;
+					case 2:
+						activeCells.add(new WatorCell(cRow, cColumn, cState));
+						break;
+					case 3:
+						activeCells.add(new SegregationCell(cRow, cColumn, cState));
+						break;
+					}
+				}
 			}
+			
 			
 		}
 		
