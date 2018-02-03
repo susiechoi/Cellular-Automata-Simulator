@@ -3,10 +3,8 @@ package cellsociety_team17;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -15,25 +13,26 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.stage.Stage;
 
-public class SplashScreen extends Application {
+public class SplashScreen {
 
 	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
 	public static final int DEFAULT_SCREEN_SIZE = 400; 
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
-	private Stage myStage; 
+	//	private Stage myStage; 
+	private Scene myScene;
 	private GridPane myGridPane; 
+	private Pane myPane; 
 
 	public SplashScreen() throws FileNotFoundException {
 		this(DEFAULT_SIMULATION_OPTIONS_FILE);
 	}
 
 	public SplashScreen(String availableSimulationsFile) throws FileNotFoundException {
-		myStage = new Stage(); 
-		Pane root = new Pane(); 
-		GridPane gridpane = new GridPane(); 
-		Scene scene = new Scene(root, DEFAULT_SCREEN_SIZE, DEFAULT_SCREEN_SIZE, BACKGROUND_COLOR);
+		//		myStage = new Stage(); 
+		myPane = new Pane(); 
+		myGridPane = new GridPane(); 
+		myScene = new Scene(myPane, DEFAULT_SCREEN_SIZE, DEFAULT_SCREEN_SIZE, BACKGROUND_COLOR);
 		Scanner readSimulationsFile = null; 
 		try{
 			readSimulationsFile = new Scanner(new File(availableSimulationsFile));
@@ -52,31 +51,34 @@ public class SplashScreen extends Application {
 					getUserSelection(simulationButton);
 				}
 			});
-			gridpane.add(simulationButton, colIndex, rowIndex);
+			myGridPane.add(simulationButton, colIndex, rowIndex);
 			rowIndex++; 
 		}
-		myGridPane = gridpane;
-		root.getChildren().add(myGridPane);
-		myStage.setScene(scene);
+		myPane.getChildren().add(myGridPane);
+		//		myStage.setScene(myScene);
 	}
 
 	private String getUserSelection(Button selectedButton) {
 		String selectedSimulation = selectedButton.getText()+"Cell";
-//		System.out.println(selectedSimulation);
+		//		System.out.println(selectedSimulation);
 		return selectedSimulation;
 	}
 
-	public Stage getStage() {
-		return myStage; 
+	public Scene getScene() {
+		return myScene;
 	}
 
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		myStage.show();
-	}
+	//	public Stage getStage() {
+	//	return myStage; 
+	// }
 
-	public static void main(String[] args) throws FileNotFoundException {
-		launch(args);
-	}
+	//	@Override
+	//	public void start(Stage primaryStage) throws Exception {
+	//		myStage.show();
+	//	}
+	//
+	//	public static void main(String[] args) throws FileNotFoundException {
+	//		launch(args);
+	//	}
 
 }
