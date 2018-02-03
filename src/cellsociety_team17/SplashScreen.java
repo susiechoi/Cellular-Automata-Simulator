@@ -23,6 +23,7 @@ public class SplashScreen {
 	private Scene myScene;
 	private GridPane myGridPane; 
 	private Pane myPane; 
+	private String myUserSelection; 
 
 	public SplashScreen() throws FileNotFoundException {
 		this(DEFAULT_SIMULATION_OPTIONS_FILE);
@@ -48,7 +49,7 @@ public class SplashScreen {
 			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent click) {
-					getUserSelection(simulationButton);
+					handleUserSelection(simulationButton);
 				}
 			});
 			myGridPane.add(simulationButton, colIndex, rowIndex);
@@ -56,12 +57,21 @@ public class SplashScreen {
 		}
 		myPane.getChildren().add(myGridPane);
 		//		myStage.setScene(myScene);
+		myUserSelection = "";
 	}
 
-	private String getUserSelection(Button selectedButton) {
+	public void handleUserSelection(Button selectedButton) {
 		String selectedSimulation = selectedButton.getText()+"Cell";
-		//		System.out.println(selectedSimulation);
-		return selectedSimulation;
+//				System.out.println(selectedSimulation);
+		myUserSelection = selectedSimulation;
+	}
+		
+	public boolean userSelectionReceived() {
+		return (myUserSelection.length() > 0); 
+	}
+	
+	public String getUserSelection() {
+		return myUserSelection;
 	}
 
 	public Scene getScene() {
