@@ -1,0 +1,4 @@
+GameOfLife
+Segregation
+WaTor
+Fire
