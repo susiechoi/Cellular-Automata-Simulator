@@ -119,6 +119,12 @@ public class WatorCell extends Cell {
 	private void updateColor(Cell cell) {
 		cell.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
+
+	@Override
+	void updateColor() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }
