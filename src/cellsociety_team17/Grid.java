@@ -40,10 +40,12 @@ public class Grid {
 		return neighbors; 
 	}
 
-	public void updateCells(ArrayList<Cell> activeCells) {
+	public ArrayList<Cell> updateCells(ArrayList<Cell> activeCells) {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
-			cell.update(); 
+			newACells.addAll(cell.update()); 
 		}
+		return newACells;
 	}
 
 	public Group getGroup() {
