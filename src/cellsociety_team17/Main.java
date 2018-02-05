@@ -177,8 +177,14 @@ public class Main extends Application {
 						myCells.add(new WatorCell(cRow, cColumn, cState));
 						break;
 					case 3:
-						myCells.add(new SegregationCell(cRow, cColumn, cState));
-						break;
+						double mThreshold = getDoubleFromXML(myDocument, "probability");
+						Cell tempSCell = new SegregationCell(cRow, cColumn, cState, (float) mThreshold);
+						myCells.add(tempSCell);
+						if(cState != 0) {
+							activeCells.add(tempSCell);
+						}
+						
+						System.out.println(tempSCell.myRectangle.toString());
 					}
 				}
 			}
