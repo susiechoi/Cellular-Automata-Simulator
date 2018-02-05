@@ -24,7 +24,9 @@ public class Main extends Application {
 	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
+	private String mySimulationTitle;
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
+	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "assets/test.xml";
@@ -43,8 +45,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 			
-			
 			myPrimaryStage = primaryStage;
+			myPrimaryStage.setResizable(false);
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
 			setFile(FILEPATH); 
@@ -58,9 +60,6 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
-		//Scene
-		myScene = setUpScene();
-		myPrimaryStage.setScene(myScene);
 		
 		//Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
@@ -79,16 +78,12 @@ public class Main extends Application {
 		//TODO: Complete handleMouseInput
 	}
 	
-	private Scene setUpScene() {
-		myRoot = new Group();
-		Scene tempScene = new Scene(myRoot, 600,600);
-		//TODO: Add input buttons surrounding grid graphic
-		myRoot.getChildren().add(myGrid.getGroup());
-		return tempScene;
-	}
 	
 	private void startSimulation(Grid G) {
-		//TODO: completeStartSimulation
+		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
+		myScene = mySimulationView.getScene();
+		//System.out.println(myScene.getWidth());
+		myPrimaryStage.setScene(myScene);
 	}
 	
 	private void setFile(String s) {
@@ -101,32 +96,50 @@ public class Main extends Application {
 		Document myDocument = myDocumentBuilder.parse(f);
 		
 		mySimulationType = getSimulationType(myDocument);
+		try {
+			mySimulationTitle = myDocument.getElementsByTagName("title").item(0).getTextContent();
+		} catch(Exception e) {
+			throw new Exception("No <Title> tag in the XML");
+		}
+		
 		int myWidth = getIntFromXML(myDocument, "width");
 		int myHeight = getIntFromXML(myDocument, "height");
 		
-		for(int i = 0; i < myDocument.getElementsByTagName("cell").getLength(); i++) {
-			Node currentNode = myDocument.getElementsByTagName("cell").item(i);
-			int cRow = Integer.parseInt(currentNode.getAttributes().getNamedItem("row").getNodeValue());
-			int cColumn = Integer.parseInt(currentNode.getAttributes().getNamedItem("column").getNodeValue());
-			int cState = Integer.parseInt(currentNode.getTextContent());
-			switch(mySimulationType){
-			case 0:
-				activeCells.add(new fireCell(cRow, cColumn, cState));
-				break;	
-			case 1:
-				activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
-				break;
-			case 2:
-				activeCells.add(new WatorCell(cRow, cColumn, cState));
-				break;
-			case 3:
-				activeCells.add(new SegregationCell(cRow, cColumn, cState));
-				break;
+		for(int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
+			Node currentNode = myDocument.getElementsByTagName("row").item(i);
+			int cRow = i;
+			int cColumn = -1;
+			int cState = -1;
+			int count = 0;
+			for(int j = 0; j < currentNode.getChildNodes().getLength(); j++) {
+				if(currentNode.getChildNodes().item(j).getNodeName().equals("cell")) {
+					cColumn = count;
+					count++;
+					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
+					//System.out.println(cRow + ", " + cColumn + ", "+ cState);
+					
+					//TODO:change to use Java Reflection
+					switch(mySimulationType){
+					case 0:
+						activeCells.add(new fireCell(cRow, cColumn, cState));
+						break;	
+					case 1:
+						activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+						break;
+					case 2:
+						activeCells.add(new WatorCell(cRow, cColumn, cState));
+						break;
+					case 3:
+						activeCells.add(new SegregationCell(cRow, cColumn, cState));
+						break;
+					}
+				}
 			}
+			
 			
 		}
 		
-		myGrid = new Grid(myHeight, myWidth, activeCells);
+		myGrid = new Grid(myHeight, myWidth, myCells);
 		return myGrid;
 		
 	}
