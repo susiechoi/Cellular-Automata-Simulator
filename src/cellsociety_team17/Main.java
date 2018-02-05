@@ -30,7 +30,7 @@ public class Main extends Application {
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "assets/test.xml";
-	private final int FRAMES_PER_SECOND = 60;
+	private final int FRAMES_PER_SECOND = 1;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
@@ -60,14 +60,11 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
+		for(Cell c: myCells) {
+			c.update();
+		}
 		
-		//Timeline
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> Step(SECOND_DELAY));
-		Timeline myTimeline = new Timeline();
-		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myTimeline.getKeyFrames().add(frame);
-		myTimeline.play();
+		
 	}
 	
 	/**
@@ -84,6 +81,14 @@ public class Main extends Application {
 		myScene = mySimulationView.getScene();
 		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
+		
+		//Timeline
+				KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		                e -> Step(SECOND_DELAY));
+				Timeline myTimeline = new Timeline();
+				myTimeline.setCycleCount(Timeline.INDEFINITE);
+				myTimeline.getKeyFrames().add(frame);
+				myTimeline.play();
 	}
 	
 	private void setFile(String s) {

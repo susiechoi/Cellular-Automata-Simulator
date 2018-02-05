@@ -14,17 +14,7 @@ public class FireCell extends Cell {
 	public FireCell(int row, int column, int state) {
 		super(row, column, state);
 		myProbability = DEFAULT_PROBABILITY;
-		switch(myState) {
-		case 0:
-			this.myRectangle.setFill(Color.WHITE);
-			break;
-		case 1:
-			this.myRectangle.setFill(Color.GREEN);
-			break;
-		case 2:
-			this.myRectangle.setFill(Color.RED);
-			break;
-		}
+		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
 
 	public FireCell(int row, int column, int state, double prob) {
