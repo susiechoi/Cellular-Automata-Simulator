@@ -34,6 +34,8 @@ public class SimulationView {
 	public static final int DEFAULT_BUTTON_SIZE = 46;
 	public static final double DEFAULT_BUTTON_SCALE = 0.75; 
 	public static final String IMG_FILE_PATH = "assets/IMG/"; 
+	private static final double DEFAULT_SPEED = 1;
+	private static final double DEFAULT_SPEED_CHANGE = 0.5; 
 
 	private ResourceBundle myResources;
 	private double myHeight;
@@ -57,6 +59,7 @@ public class SimulationView {
 		myHeaderHeight = 25;
 		myControlsContainerHeight = 50;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
+		mySpeed.set(DEFAULT_SPEED);
 
 		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
 			myWidth = myGrid.getWidthInPixels();
@@ -116,16 +119,56 @@ public class SimulationView {
 		myControlsBanner.setX(0);
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 
+		
+		squareButton mySlowDownButton = new squareButton(DEFAULT_BUTTON_SIZE, "Reverse");
+		mySlowDownButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(-DEFAULT_SPEED_CHANGE);	
+			}
+		});
+
 		squareButton myPlayButton = new squareButton(DEFAULT_BUTTON_SIZE, "Play");
-		squareButton myPauseButton = new squareButton(DEFAULT_BUTTON_SIZE, "Pause");
-		myPauseButton.setTranslateX(DEFAULT_BUTTON_SIZE);
+		myPlayButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(playing.get()) {
+					playing.set(false);
+					myPlayButton = new squareButton(DEFAULT_BUTTON_SIZE, "Play");
+				} else {
+					playing.set(true);
+					myPlayButton = new squareButton(DEFAULT_BUTTON_SIZE, "Pause");
+				}
+			}
+			
+		});
+		myPlayButton.setTranslateX(DEFAULT_BUTTON_SIZE);
+
 		squareButton myFastForwardButton = new squareButton(DEFAULT_BUTTON_SIZE, "FastForward");
 		myFastForwardButton.setTranslateX(DEFAULT_BUTTON_SIZE * 2);
+		myFastForwardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(DEFAULT_SPEED_CHANGE);			
+			}
+		});
+		
+		squareButton myRestartButton = new squareButton(46, "Restart");
+		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				broadcastRestart();			
+			}
+		});
+		myRestartButton.setTranslateX(138);
+
+
 
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(myPlayButton);
-		myControlsContainer.getChildren().add(myPauseButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
+		myControlsContainer.getChildren().add(myRestartButton);
 
 	}
 	private void setUpGridContainer() {
@@ -163,6 +206,18 @@ public class SimulationView {
 //			}
 		}
 	}
+	
+	public BooleanProperty getPlaying() {
+		return playing;
+	}
+	public BooleanProperty getRestart() {
+		return restart;
+	}
+	
+	private void broadcastRestart() {
+		restart.set(!restart.get());
+	}
+
 
 }
 
