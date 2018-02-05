@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -220,7 +221,20 @@ public class SimulationView {
 //					e.printStackTrace();
 				}
 			}
+		
 		}
+	
+	public BooleanProperty getPlaying() {
+		return playing;
+	}
+	public BooleanProperty getRestart() {
+		return restart;
+	}
+	
+	private void broadcastRestart() {
+		restart.set(!restart.get());
+	}
+		
 	}
 	
 	public BooleanProperty getPlaying() {

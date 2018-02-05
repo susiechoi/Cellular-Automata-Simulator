@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javafx.application.Application;
+import javafx.animation.KeyFrame;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -26,6 +30,7 @@ public class SplashScreen {
 	private GridPane myGridPane; 
 	private Pane myPane; 
 	private String myUserSelection; 
+	private BooleanProperty userSelectionRecieved = new SimpleBooleanProperty();
 
 	public SplashScreen() throws FileNotFoundException {
 		this(DEFAULT_SIMULATION_OPTIONS_FILE);
@@ -66,9 +71,12 @@ public class SplashScreen {
 		String selectedSimulation = selectedButton.getText()+"Cell";
 		//				System.out.println(selectedSimulation);
 		myUserSelection = selectedSimulation;
+		System.out.println(myUserSelection);
+		userSelectionReceived();
 	}
 
 	public boolean userSelectionReceived() {
+		userSelectionRecieved.set(myUserSelection.length() > 0);
 		return (myUserSelection.length() > 0); 
 	}
 
@@ -79,18 +87,21 @@ public class SplashScreen {
 	public Scene getScene() {
 		return myScene;
 	}
+	//	public Stage getStage() {
+	//	return myStage; 
+	// }
 
-//		public Stage getStage() {
-//		return myStage; 
-//	 }
+	public BooleanProperty userSelectionReceivedProperty() {
+		return userSelectionRecieved;
+	}
 
-//		@Override
-//		public void start(Stage primaryStage) throws Exception {
-//			myStage.show();
-//		}
-//	//
-//		public static void main(String[] args) throws FileNotFoundException {
-//			launch(args);
-//		}
+	//	@Override
+	//	public void start(Stage primaryStage) throws Exception {
+	//		myStage.show();
+	//	}
+	//
+	//	public static void main(String[] args) throws FileNotFoundException {
+	//		launch(args);
+	//	}
 
 }
