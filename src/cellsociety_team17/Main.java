@@ -60,10 +60,7 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
-		for(Cell c: myCells) {
-			c.update();
-		}
-		
+		myGrid.updateCells(myCells);	
 		
 	}
 	

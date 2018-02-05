@@ -25,34 +25,25 @@ public class FireCell extends Cell {
 
 	@Override
 	void update() {
-		Boolean threatened = false;
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : myNeighbors) {
-			if (cell.myState == BURNING) {
-				threatened = (cell.myState == BURNING);
-			}
-		}
-
-		/*
-		 * If at least one of the neighbors is burning, then it generates a random
-		 * number between 0 and 1. If they probability is less than this number, the
-		 * tree burns.
-		 */
-		if (threatened && this.myState == 1) {
-			Double decimal = Math.random();
-			if (decimal < myProbability) {
-				this.setMyState(BURNING);
+			if (cell.myState == TREE && this.myState == BURNING) {
+				double decimal = Math.random();
+				if (decimal < myProbability) {
+					cell.setMyState(BURNING);
+					cell.updateColor();
+				}
 			}
 		}
 		// If the tree was burning in the last step, it is empty in this step
-		if (this.myState == BURNING) {
-			this.myState = EMPTY;
-		}
+				if (this.myState == BURNING) {
+					this.myState = EMPTY;
+				}		
 
 		this.updateColor();
 	}
 
-	private void updateColor() {
+	 void updateColor() {
 		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
 
