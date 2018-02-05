@@ -29,7 +29,7 @@ public class Main extends Application {
 	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
-	private static String FILEPATH = "assets/test.xml";
+	private static String FILEPATH = "data/test.xml";
 	private final int FRAMES_PER_SECOND = 1;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -51,7 +51,9 @@ public class Main extends Application {
 			primaryStage.show();
 			setFile(FILEPATH); 
 			readInput(myXmlFile);
-			startSimulation(myGrid);
+			//startSimulation(myGrid);
+			myScene = new SplashScreen().getScene();
+			myPrimaryStage.setScene(myScene);
 	}
 	
 	/**
