@@ -30,6 +30,7 @@ public abstract class Cell {
 	public void setMyState(int state) {
 		myState = state;
 	}
+	
 
 	public ArrayList<Cell> getNeighbors() {
 		return myNeighbors;
