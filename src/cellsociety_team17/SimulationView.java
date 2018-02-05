@@ -1,28 +1,28 @@
 package cellsociety_team17;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.input.MouseEvent;
 
 public class SimulationView {
 	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
@@ -51,6 +51,9 @@ public class SimulationView {
 	private Group myControlsContainer;
 	private Scene myScene;
 	private String mySimulationTitle;
+	private BooleanProperty playing = new SimpleBooleanProperty();
+	private BooleanProperty restart = new SimpleBooleanProperty();
+	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
@@ -135,10 +138,10 @@ public class SimulationView {
 			public void handle(MouseEvent event) {
 				if(playing.get()) {
 					playing.set(false);
-					myPlayButton = new squareButton(DEFAULT_BUTTON_SIZE, "Play");
+					myPlayButton.setImage("Play");
 				} else {
 					playing.set(true);
-					myPlayButton = new squareButton(DEFAULT_BUTTON_SIZE, "Pause");
+					myPlayButton.setImage("Pause");
 				}
 			}
 			
@@ -166,27 +169,42 @@ public class SimulationView {
 
 
 		myControlsContainer.getChildren().add(myControlsBanner);
+		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		myControlsContainer.getChildren().add(myRestartButton);
 
 	}
+	
+	protected void changeSpeed(double d) {
+		mySpeed.set(mySpeed.get()+ d);
+	}
+
+	public DoubleProperty getMySpeed() {
+		return mySpeed;
+	}
+
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
-		myGridContainer.getChildren().add(myGrid.getGroup());
+		int n = 0;
+		while(n < myGrid.getGroup().getChildren().size()) {
+			Node temp = myGrid.getGroup().getChildren().get(n);
+			temp.setTranslateY(temp.getTranslateY()+myHeaderHeight);
+			myGridContainer.getChildren().add(temp);
+		}
 	}
 
 	private class squareButton extends ImageView {
 		squareButton(int size, String type){
 			this.setFitHeight(size);
 			this.setFitWidth(size);			
+			setImage(type);
+		}
+		private void setImage(String type) {
 			final String IMAGEFILE_SUFFIXES =
 					String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
-			//	        Button result = new Button();
 			String label = myResources.getString(type);
 			if (label.matches(IMAGEFILE_SUFFIXES)) {
-				//	            result.setGraphic(new ImageView(
-				//	                                  new Image(getClass().getResourceAsStream(DEFAULT_RESOURCE_PACKAGE + label))));
 				java.io.FileInputStream fis; 
 				try {
 					fis = new FileInputStream(DEFAULT_IMG_FILEPATH + label);
@@ -202,8 +220,6 @@ public class SimulationView {
 //					e.printStackTrace();
 				}
 			}
-//			else {
-//			}
 		}
 	}
 	
