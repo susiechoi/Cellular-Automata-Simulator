@@ -43,5 +43,6 @@ public abstract class Cell {
 	abstract void update();
 	
 	abstract void updateColor();
+
 }
 

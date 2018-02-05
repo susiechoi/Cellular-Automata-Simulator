@@ -129,7 +129,7 @@ public class Main extends Application {
 						myCells.add(new GameOfLifeCell(cRow, cColumn, cState));
 						break;
 					case 2:
-						myCells.add(new WatorCell(cRow, cColumn, cState));
+						myCells.add(new PredatorPrey(cRow, cColumn, cState));
 						break;
 					case 3:
 						myCells.add(new SegregationCell(cRow, cColumn, cState));

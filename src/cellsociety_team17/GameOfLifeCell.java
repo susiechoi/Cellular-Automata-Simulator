@@ -48,7 +48,7 @@ public class GameOfLifeCell extends Cell {
 		
 	}
 	
-	private void updateColor() {
+	 void updateColor() {
 		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
 }
