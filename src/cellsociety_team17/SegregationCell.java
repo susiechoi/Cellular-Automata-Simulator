@@ -18,11 +18,13 @@ public class SegregationCell extends Cell {
 	public SegregationCell(int row, int col, int startState) {
 		super(row, col, startState);
 		myThreshold = (float) DEFAULT_THRESHOLD;
+		this.updateColor();
 	}
 
 	public SegregationCell(int row, int col, int startState, float threshold) {
 		super(row, col, startState);
 		myThreshold = threshold; 
+		this.updateColor();
 	}
 
 	public void setMyState(int state) {
@@ -67,18 +69,19 @@ public class SegregationCell extends Cell {
 			if (neighbor.myState == 0) {
 				neighbor.myState = myState;
 				myState = 0; 
-				updateColor(this); 
-				updateColor(neighbor); 
+				this.updateColor(); 
+				neighbor.updateColor(); 
 				return;
 			} 
 			possEmptySpots.add(neighbor);
 		}
 		for (Cell possSpot : possEmptySpots) {
+			
 			if (possSpot.myState == 0) {
 				possSpot.myState = myState;
 				myState = 0; 
-				updateColor(this); 
-				updateColor(possSpot);
+				this.updateColor(); 
+				possSpot.updateColor();
 				return;
 			} 
 			possEmptySpots.addAll(possSpot.myNeighbors);
@@ -86,15 +89,25 @@ public class SegregationCell extends Cell {
 		throw new Exception("Threshold unsatisfied, but no empty spots to move to!");
 	}
 
-	private void updateColor(Cell cell) {
-		cell.myRectangle.setFill(STATE_COLORS[cell.myState]);
+
+	@Override
+	ArrayList<Cell> update() {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		try {
+			updateState();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return newACells;
+		
 	}
 
 	@Override
-	void update() {
-		// TODO Auto-generated method stub
-		
+	void updateColor() {
+		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
+
 
 
 }

@@ -18,6 +18,8 @@ public abstract class Cell {
 		myRow= row;
 		myColumn= column;
 		myRectangle = new Rectangle(CELLSIZE, CELLSIZE);
+		myRectangle.setX(myColumn*CELLSIZE);
+		myRectangle.setY(myRow * CELLSIZE);
 	}
 	
 
@@ -28,6 +30,7 @@ public abstract class Cell {
 	public void setMyState(int state) {
 		myState = state;
 	}
+	
 
 	public ArrayList<Cell> getNeighbors() {
 		return myNeighbors;
@@ -37,6 +40,10 @@ public abstract class Cell {
 		myNeighbors = neighbors;
 	}
 
-	abstract void update();
+	abstract ArrayList<Cell> update();
+	
+	abstract void updateColor();
+
+
 }
 
