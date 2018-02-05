@@ -152,9 +152,10 @@ public class SimulationView {
 					this.setScaleY(.75);
 					this.setY(myHeaderHeight + myGrid.getHeightInPixels());
 				}
+				// TODO make more detailed catch block
 				catch (FileNotFoundException e) {
-					System.out.println("Remember to add more than just print stack trace here");
-					e.printStackTrace();
+					System.out.println("No file found");
+//					e.printStackTrace();
 				}
 			}
 //			else {
