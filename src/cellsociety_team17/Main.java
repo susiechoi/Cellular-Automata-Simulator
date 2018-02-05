@@ -121,7 +121,7 @@ public class Main extends Application {
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
 					case 0:
-						activeCells.add(new fireCell(cRow, cColumn, cState));
+						activeCells.add(new FireCell(cRow, cColumn, cState));
 						break;	
 					case 1:
 						activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
