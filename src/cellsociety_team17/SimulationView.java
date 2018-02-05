@@ -124,7 +124,6 @@ public class SimulationView {
 			Node temp = myGrid.getGroup().getChildren().get(n);
 			temp.setTranslateY(temp.getTranslateY()+myHeaderHeight);
 			myGridContainer.getChildren().add(temp);
-			System.out.println(temp.toString());
 		}
 		
 		
