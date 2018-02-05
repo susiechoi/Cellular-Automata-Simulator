@@ -30,7 +30,6 @@ public class Main extends Application {
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
 	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
-	private Timeline myTimeLine;
 	private static String DEFAULT_FILEPATH = "data/";
 	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -77,14 +76,6 @@ public class Main extends Application {
 	private void Step(Double timeElapsed) {
 		activeCells = myGrid.updateCells(activeCells);
 		
-	}
-	
-	/**
-	 * 
-	 * @param e
-	 */
-	private void handleMouseInput(MouseEvent e) {
-		//TODO: Complete handleMouseInput
 	}
 	
 	
