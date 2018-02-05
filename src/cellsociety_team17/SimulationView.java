@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -118,7 +119,15 @@ public class SimulationView {
 	}
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
-		myGridContainer.getChildren().add(myGrid.getGroup());
+		int n = 0;
+		while(n < myGrid.getGroup().getChildren().size()) {
+			Node temp = myGrid.getGroup().getChildren().get(n);
+			temp.setTranslateY(temp.getTranslateY()+myHeaderHeight);
+			myGridContainer.getChildren().add(temp);
+		}
+		
+		
+		
 	}
 	
 	private class squareButton extends ImageView {

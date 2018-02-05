@@ -30,7 +30,7 @@ public class Main extends Application {
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String FILEPATH = "assets/test.xml";
-	private final int FRAMES_PER_SECOND = 60;
+	private final int FRAMES_PER_SECOND = 1;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
@@ -60,14 +60,8 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
+		myGrid.updateCells(myCells);	
 		
-		//Timeline
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                e -> Step(SECOND_DELAY));
-		Timeline myTimeline = new Timeline();
-		myTimeline.setCycleCount(Timeline.INDEFINITE);
-		myTimeline.getKeyFrames().add(frame);
-		myTimeline.play();
 	}
 	
 	/**
@@ -84,6 +78,14 @@ public class Main extends Application {
 		myScene = mySimulationView.getScene();
 		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
+		
+		//Timeline
+				KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+		                e -> Step(SECOND_DELAY));
+				Timeline myTimeline = new Timeline();
+				myTimeline.setCycleCount(Timeline.INDEFINITE);
+				myTimeline.getKeyFrames().add(frame);
+				myTimeline.play();
 	}
 	
 	private void setFile(String s) {
@@ -121,16 +123,16 @@ public class Main extends Application {
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
 					case 0:
-						activeCells.add(new fireCell(cRow, cColumn, cState));
+						myCells.add(new FireCell(cRow, cColumn, cState));
 						break;	
 					case 1:
-						activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+						myCells.add(new GameOfLifeCell(cRow, cColumn, cState));
 						break;
 					case 2:
-						activeCells.add(new WatorCell(cRow, cColumn, cState));
+						myCells.add(new WatorCell(cRow, cColumn, cState));
 						break;
 					case 3:
-						activeCells.add(new SegregationCell(cRow, cColumn, cState));
+						myCells.add(new SegregationCell(cRow, cColumn, cState));
 						break;
 					}
 				}

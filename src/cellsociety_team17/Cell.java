@@ -18,6 +18,8 @@ public abstract class Cell {
 		myRow= row;
 		myColumn= column;
 		myRectangle = new Rectangle(CELLSIZE, CELLSIZE);
+		myRectangle.setX(myColumn*CELLSIZE);
+		myRectangle.setY(myRow * CELLSIZE);
 	}
 	
 
@@ -39,5 +41,7 @@ public abstract class Cell {
 	}
 
 	abstract void update();
+	
+	abstract void updateColor();
 }
 
