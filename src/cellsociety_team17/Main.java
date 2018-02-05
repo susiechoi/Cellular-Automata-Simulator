@@ -12,6 +12,8 @@ import org.w3c.dom.Node;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -52,8 +54,15 @@ public class Main extends Application {
 			setFile(FILEPATH); 
 			readInput(myXmlFile);
 			//startSimulation(myGrid);
-			myScene = new SplashScreen().getScene();
+			SplashScreen mySplash = new SplashScreen();
+			myScene = mySplash.getScene();
 			myPrimaryStage.setScene(myScene);
+			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>(){
+
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					System.out.println("yeh");				
+				}});
 	}
 	
 	/**
