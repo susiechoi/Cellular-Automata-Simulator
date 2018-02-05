@@ -37,22 +37,24 @@ public class WatorCell extends Cell {
 	}
 
 	@Override
-	void update() {
+	ArrayList<Cell> update() {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		if (this.getMyState() == FISH) {
-			this.fishUpdate();
+			newACells = this.fishUpdate();
 		}
 
 		if (this.getMyState() == SHARK) {
-			this.sharkUpdate();
+			newACells = this.sharkUpdate();
 		}
 
 		updateColor(this);
+		return newACells;
 	}
 	
 
-	private void fishUpdate() {
+	private ArrayList<Cell> fishUpdate() {
 		this.fishCycles++;
-
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
 		for (Cell neighbor : myNeighbors) {
 			if (neighbor.getMyState() == EMPTY) {
@@ -66,16 +68,18 @@ public class WatorCell extends Cell {
 			cellToMoveTo.setMyState(FISH);
 			// give the cell that the fished moved to a fish cycles amount
 			updateColor(cellToMoveTo);
+			newACells.add(cellToMoveTo);
 			
 			if (this.fishCycles < this.fishCyclesReproduce) {
 				this.setMyState(EMPTY);
 			}
 			this.fishCycles=0;
 		}
-
+		return newACells;
 	}
 
-	private void sharkUpdate() {
+	private ArrayList<Cell> sharkUpdate() {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		this.mySharkEnergy--;
 		this.sharkCycles++;
 		ArrayList<Integer> fishSpace = new ArrayList<Integer>();
@@ -107,13 +111,15 @@ public class WatorCell extends Cell {
 			int indexOfMove = (int) Math.random() * emptySpace.size();
 			Cell cellToMoveTo = myNeighbors.get(indexOfMove);
 			cellToMoveTo.setMyState(SHARK);
+			newACells.add(cellToMoveTo);
 			// give the cell that the shark moved to a shark cycles amount
 			updateColor(cellToMoveTo);	
 			if (sharkCycles < sharkCyclesReproduce) {
 				this.setMyState(EMPTY);
 			}
 			this.sharkCycles=0;
-		}	
+		}
+		return newACells;
 	}
 
 	private void updateColor(Cell cell) {

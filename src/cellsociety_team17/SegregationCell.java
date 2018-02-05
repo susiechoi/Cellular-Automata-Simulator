@@ -91,8 +91,9 @@ public class SegregationCell extends Cell {
 	}
 
 	@Override
-	void update() {
-		// TODO Auto-generated method stub
+	ArrayList<Cell> update() {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		return newACells;
 		
 	}
 
