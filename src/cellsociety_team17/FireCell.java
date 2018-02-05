@@ -37,7 +37,7 @@ public class FireCell extends Cell {
 			}
 		}
 		// If the tree was burning in the last step, it is empty in this step
-		else if (this.myState == BURNING) {
+		if (this.myState == BURNING) {
 			this.setMyState(EMPTY);
 		}
 		this.updateColor();
