@@ -9,8 +9,10 @@ public class GameOfLifeCell extends Cell {
 
 	@Override
 	void update() {
-		// TODO Auto-generated method stub
-
+		
+		
+		
+		
 	}
 
 }
