@@ -96,5 +96,11 @@ public class SegregationCell extends Cell {
 		
 	}
 
+	@Override
+	void updateColor() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

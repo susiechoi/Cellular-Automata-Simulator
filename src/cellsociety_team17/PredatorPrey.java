@@ -1,11 +1,15 @@
 package cellsociety_team17;
 
-public class GameOfLifeCell extends Cell {
+import javafx.scene.paint.Color;
 
-	public GameOfLifeCell(int row, int column, int state) {
+public class PredatorPrey extends Cell {
+	public static final Color[] STATE_COLORS = {Color.BLUE, Color.GREEN, Color.YELLOW}; 
+	
+	public PredatorPrey(int row, int column, int state) {
 		super(row, column, state);
 		// TODO Auto-generated constructor stub
 	}
+
 
 	@Override
 	void update() {
