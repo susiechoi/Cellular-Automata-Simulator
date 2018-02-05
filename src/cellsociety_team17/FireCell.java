@@ -52,7 +52,9 @@ public class FireCell extends Cell {
 	 * again to actually update them simultaneously. 
 	 */
 	
-
+	void setMyProbability(double p) {
+		myProbability = p;
+	}
 	 void updateColor() {
 		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}

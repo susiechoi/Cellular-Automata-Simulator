@@ -164,6 +164,7 @@ public class Main extends Application {
 					switch(mySimulationType){
 					case 0:
 						Cell tempCell = new FireCell(cRow, cColumn, cState);
+						((FireCell) tempCell).setMyProbability(getDoubleFromXML(myDocument, "probability"));
 						myCells.add(tempCell);
 						if(cState == 2) {
 							activeCells.add(tempCell);
@@ -190,6 +191,7 @@ public class Main extends Application {
 		
 	}
 
+
 	private int getSimulationType(Document d) throws Exception {
 		String typeString = d.getElementsByTagName("simulationType").item(0).getTextContent().toLowerCase();
 		switch(typeString){
@@ -206,7 +208,11 @@ public class Main extends Application {
 	}
 	
 	private int getIntFromXML(Document d, String s) {
+		return (int)getDoubleFromXML(d,s);
+	}
+	
+	private double getDoubleFromXML(Document d, String s) {
 		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();
-		return Integer.parseInt(nodeString);
+		return Double.parseDouble(nodeString);
 	}
 }
