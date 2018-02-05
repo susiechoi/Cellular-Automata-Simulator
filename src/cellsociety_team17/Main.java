@@ -12,6 +12,8 @@ import org.w3c.dom.Node;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +31,8 @@ public class Main extends Application {
 	private ArrayList<Cell> myCells = new ArrayList<Cell>();
 	private File myXmlFile;
 	private Timeline myTimeLine;
-	private static String FILEPATH = "assets/test.xml";
-	private final int FRAMES_PER_SECOND = 1;
+	private static String DEFAULT_FILEPATH = "data/";
+	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
@@ -49,9 +51,22 @@ public class Main extends Application {
 			myPrimaryStage.setResizable(false);
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
-			setFile(FILEPATH); 
-			readInput(myXmlFile);
-			startSimulation(myGrid);
+			//startSimulation(myGrid);
+			SplashScreen mySplash = new SplashScreen();
+			myScene = mySplash.getScene();
+			myPrimaryStage.setScene(myScene);
+			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>(){
+
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					setFile(DEFAULT_FILEPATH + mySplash.getUserSelection() + ".xml");
+					try {
+						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}});
 	}
 	
 	/**
@@ -79,13 +94,47 @@ public class Main extends Application {
 		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
 		
+		
 		//Timeline
 				KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 		                e -> Step(SECOND_DELAY));
 				Timeline myTimeline = new Timeline();
 				myTimeline.setCycleCount(Timeline.INDEFINITE);
 				myTimeline.getKeyFrames().add(frame);
-				myTimeline.play();
+				myTimeline.pause();
+			mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						if(mySimulationView.getPlaying().get()) {
+							myTimeline.play();
+						} else {
+							myTimeline.pause();
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}});
+			mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
+				@Override
+				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+					myTimeline.setRate(mySimulationView.getMySpeed().get());			
+				}
+			});
+			mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
+
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						myTimeline.pause();
+						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
 	}
 	
 	private void setFile(String s) {
@@ -93,6 +142,10 @@ public class Main extends Application {
 	}
 	
 	private Grid readInput(File f) throws Exception {
+		myCells = new ArrayList<Cell>();
+		activeCells = new ArrayList<Cell>();
+		
+		
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
 		Document myDocument = myDocumentBuilder.parse(f);
@@ -124,6 +177,7 @@ public class Main extends Application {
 					switch(mySimulationType){
 					case 0:
 						Cell tempCell = new FireCell(cRow, cColumn, cState);
+						((FireCell) tempCell).setMyProbability(getDoubleFromXML(myDocument, "probability"));
 						myCells.add(tempCell);
 						if(cState == 2) {
 							activeCells.add(tempCell);
@@ -136,8 +190,14 @@ public class Main extends Application {
 						myCells.add(new WatorCell(cRow, cColumn, cState));
 						break;
 					case 3:
-						myCells.add(new SegregationCell(cRow, cColumn, cState));
-						break;
+						double mThreshold = getDoubleFromXML(myDocument, "probability");
+						Cell tempSCell = new SegregationCell(cRow, cColumn, cState, (float) mThreshold);
+						myCells.add(tempSCell);
+						if(cState != 0) {
+							activeCells.add(tempSCell);
+						}
+						
+						System.out.println(tempSCell.myRectangle.toString());
 					}
 				}
 			}
@@ -149,6 +209,7 @@ public class Main extends Application {
 		return myGrid;
 		
 	}
+
 
 	private int getSimulationType(Document d) throws Exception {
 		String typeString = d.getElementsByTagName("simulationType").item(0).getTextContent().toLowerCase();
@@ -166,7 +227,11 @@ public class Main extends Application {
 	}
 	
 	private int getIntFromXML(Document d, String s) {
+		return (int)getDoubleFromXML(d,s);
+	}
+	
+	private double getDoubleFromXML(Document d, String s) {
 		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();
-		return Integer.parseInt(nodeString);
+		return Double.parseDouble(nodeString);
 	}
 }

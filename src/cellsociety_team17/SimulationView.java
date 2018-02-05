@@ -8,12 +8,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
@@ -26,6 +33,7 @@ public class SimulationView {
 	private static final double MIN_WIDTH = 100;
 	private static final Paint ACCENT_COLOR = Color.LIGHTGRAY;
 	private static final Paint PRIMARY_COLOR = Color.GRAY; 
+	private static final double DEFAULT_SPEED = 1;
 	private double myHeight;
 	private double myWidth;
 	private double myHeaderHeight;
@@ -39,6 +47,9 @@ public class SimulationView {
 	private Group myControlsContainer;
 	private Scene myScene;
 	private String mySimulationTitle;
+	private BooleanProperty playing = new SimpleBooleanProperty();
+	private BooleanProperty restart = new SimpleBooleanProperty();
+	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		mySimulationTitle = simulationTitle;
@@ -46,6 +57,7 @@ public class SimulationView {
 		myHeaderHeight = 25;
 		myControlsContainerHeight = 50;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
+		mySpeed.set(DEFAULT_SPEED);
 		
 		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
 			myWidth = myGrid.getWidthInPixels();
@@ -105,18 +117,65 @@ public class SimulationView {
 		myControlsBanner.setX(0);
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 		
+		squareButton mySlowDownButton = new squareButton(46, "reverse.png");
+		mySlowDownButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(-.5);	
+			}
+		});
+		
 		squareButton myPlayButton = new squareButton(46, "play.png");
-		squareButton myPauseButton = new squareButton(46, "pause.png");
-		myPauseButton.setTranslateX(46);
+		myPlayButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(playing.get()) {
+					playing.set(false);
+					myPlayButton.setImage("play.png");
+				} else {
+					playing.set(true);
+					myPlayButton.setImage("pause.png");
+				}
+			}
+			
+		});
+		myPlayButton.setTranslateX(46);
 		squareButton myFastForwardButton = new squareButton(46, "fastForward.png");
 		myFastForwardButton.setTranslateX(92);
+		myFastForwardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(.5);			
+			}
+		});
+		
+		squareButton myRestartButton = new squareButton(46, "restart.png");
+		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				broadcastRestart();			
+			}
+		});
+		myRestartButton.setTranslateX(138);
+	
 		
 		myControlsContainer.getChildren().add(myControlsBanner);
+		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
-		myControlsContainer.getChildren().add(myPauseButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
+		myControlsContainer.getChildren().add(myRestartButton);
 		
 	}
+
+	protected void changeSpeed(double d) {
+		mySpeed.set(mySpeed.get()+ d);
+	}
+	
+	public DoubleProperty getMySpeed() {
+		return mySpeed;
+	}
+
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
 		int n = 0;
@@ -134,23 +193,37 @@ public class SimulationView {
 		squareButton(int size, String type){
 			this.setFitHeight(size);
 			this.setFitWidth(size);
-			String myFilePath = "assets/IMG/" + type;
-			java.io.FileInputStream fis;
-			try {
-				fis = new FileInputStream(myFilePath);
-				Image iv = new Image(fis);
-				this.setImage(iv);
+			setImage(type);
 				this.setScaleX(.75);
 				this.setScaleY(.75);
 				this.setY(myHeaderHeight + myGrid.getHeightInPixels());
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			  
 			}
-		    
-
+			private void setImage(String type){
+				String myFilePath = "assets/IMG/" + type;
+				java.io.FileInputStream fis;
+				try {
+					fis = new FileInputStream(myFilePath);
+					Image iv = new Image(fis);
+					this.setImage(iv);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			}
+		
 		}
+	
+	public BooleanProperty getPlaying() {
+		return playing;
+	}
+	public BooleanProperty getRestart() {
+		return restart;
+	}
+	
+	private void broadcastRestart() {
+		restart.set(!restart.get());
+	}
 		
 	}
 	
