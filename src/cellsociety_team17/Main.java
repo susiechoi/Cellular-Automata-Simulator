@@ -60,7 +60,7 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
-		myGrid.updateCells(myCells);	
+		activeCells = myGrid.updateCells(activeCells);
 		
 	}
 	
@@ -123,13 +123,17 @@ public class Main extends Application {
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
 					case 0:
-						myCells.add(new FireCell(cRow, cColumn, cState));
+						Cell tempCell = new FireCell(cRow, cColumn, cState);
+						myCells.add(tempCell);
+						if(cState == 2) {
+							activeCells.add(tempCell);
+						}
 						break;	
 					case 1:
 						myCells.add(new GameOfLifeCell(cRow, cColumn, cState));
 						break;
 					case 2:
-						myCells.add(new PredatorPrey(cRow, cColumn, cState));
+						myCells.add(new WatorCell(cRow, cColumn, cState));
 						break;
 					case 3:
 						myCells.add(new SegregationCell(cRow, cColumn, cState));

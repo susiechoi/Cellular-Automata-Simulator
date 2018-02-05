@@ -40,7 +40,7 @@ public abstract class Cell {
 		myNeighbors = neighbors;
 	}
 
-	abstract void update();
+	abstract ArrayList<Cell> update();
 	
 	abstract void updateColor();
 

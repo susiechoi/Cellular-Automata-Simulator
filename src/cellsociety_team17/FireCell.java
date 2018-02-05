@@ -1,5 +1,7 @@
 package cellsociety_team17;
 
+import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
 
 public class FireCell extends Cell {
@@ -25,7 +27,8 @@ public class FireCell extends Cell {
 	}
 
 	@Override
-	void update() {
+	ArrayList<Cell> update() {
+		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : myNeighbors) {
 			if (cell.myState == TREE && this.myState == BURNING) {
@@ -33,6 +36,7 @@ public class FireCell extends Cell {
 				if (decimal < myProbability) {
 					cell.setMyState(BURNING);
 					cell.updateColor();
+					newACells.add(cell);
 				}
 			}
 		}
@@ -41,6 +45,7 @@ public class FireCell extends Cell {
 			this.setMyState(EMPTY);
 		}
 		this.updateColor();
+		return newACells;
 	}
 	
 	/* First go through and set myNextState for all the Cells. Then, go through all of them 
