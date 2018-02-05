@@ -32,6 +32,7 @@ public class SimulationView {
 	public static final Paint ACCENT_COLOR = Color.LIGHTGRAY;
 	public static final Paint PRIMARY_COLOR = Color.GRAY; 
 	public static final int DEFAULT_BUTTON_SIZE = 46;
+	public static final double DEFAULT_BUTTON_SCALE = 0.75; 
 	public static final String IMG_FILE_PATH = "assets/IMG/"; 
 
 	private ResourceBundle myResources;
@@ -148,8 +149,8 @@ public class SimulationView {
 					fis = new FileInputStream(DEFAULT_IMG_FILEPATH + label);
 					Image buttonImage = new Image(fis);
 					this.setImage(buttonImage);
-					this.setScaleX(.75);
-					this.setScaleY(.75);
+					this.setScaleX(DEFAULT_BUTTON_SCALE);
+					this.setScaleY(DEFAULT_BUTTON_SCALE);
 					this.setY(myHeaderHeight + myGrid.getHeightInPixels());
 				}
 				// TODO make more detailed catch block
