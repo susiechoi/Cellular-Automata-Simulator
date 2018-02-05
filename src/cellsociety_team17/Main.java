@@ -121,16 +121,16 @@ public class Main extends Application {
 					//TODO:change to use Java Reflection
 					switch(mySimulationType){
 					case 0:
-						activeCells.add(new fireCell(cRow, cColumn, cState));
+						myCells.add(new FireCell(cRow, cColumn, cState));
 						break;	
 					case 1:
-						activeCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+						myCells.add(new GameOfLifeCell(cRow, cColumn, cState));
 						break;
 					case 2:
-						activeCells.add(new WatorCell(cRow, cColumn, cState));
+						myCells.add(new WatorCell(cRow, cColumn, cState));
 						break;
 					case 3:
-						activeCells.add(new SegregationCell(cRow, cColumn, cState));
+						myCells.add(new SegregationCell(cRow, cColumn, cState));
 						break;
 					}
 				}
