@@ -32,7 +32,7 @@ public class Main extends Application {
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String DEFAULT_FILEPATH = "data/";
-	private final int FRAMES_PER_SECOND = 1;
+	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
@@ -103,7 +103,6 @@ public class Main extends Application {
 				myTimeline.getKeyFrames().add(frame);
 				myTimeline.pause();
 			mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
-
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 					try {
@@ -117,6 +116,16 @@ public class Main extends Application {
 						e.printStackTrace();
 					}
 				}});
+			mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
+
+				@Override
+				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+					myTimeline.setRate(mySimulationView.getMySpeed().get());
+					
+				}
+
+				
+			});
 	}
 	
 	private void setFile(String s) {

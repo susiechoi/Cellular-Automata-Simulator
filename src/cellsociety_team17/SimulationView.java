@@ -9,7 +9,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -31,6 +33,7 @@ public class SimulationView {
 	private static final double MIN_WIDTH = 100;
 	private static final Paint ACCENT_COLOR = Color.LIGHTGRAY;
 	private static final Paint PRIMARY_COLOR = Color.GRAY; 
+	private static final double DEFAULT_SPEED = 1;
 	private double myHeight;
 	private double myWidth;
 	private double myHeaderHeight;
@@ -45,6 +48,7 @@ public class SimulationView {
 	private Scene myScene;
 	private String mySimulationTitle;
 	private BooleanProperty playing = new SimpleBooleanProperty();
+	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		mySimulationTitle = simulationTitle;
@@ -52,6 +56,7 @@ public class SimulationView {
 		myHeaderHeight = 25;
 		myControlsContainerHeight = 50;
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
+		mySpeed.set(DEFAULT_SPEED);
 		
 		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
 			myWidth = myGrid.getWidthInPixels();
@@ -112,6 +117,12 @@ public class SimulationView {
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 		
 		squareButton mySlowDownButton = new squareButton(46, "reverse.png");
+		mySlowDownButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(-.5);	
+			}
+		});
 		
 		squareButton myPlayButton = new squareButton(46, "play.png");
 		myPlayButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -131,6 +142,14 @@ public class SimulationView {
 		myPlayButton.setTranslateX(46);
 		squareButton myFastForwardButton = new squareButton(46, "fastForward.png");
 		myFastForwardButton.setTranslateX(92);
+		myFastForwardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				changeSpeed(.5);
+				
+			}
+		});
 	
 		
 		myControlsContainer.getChildren().add(myControlsBanner);
@@ -139,6 +158,14 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		
 	}
+	protected void changeSpeed(double d) {
+		mySpeed.set(mySpeed.get()+ d);
+	}
+	
+	public DoubleProperty getMySpeed() {
+		return mySpeed;
+	}
+
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
 		int n = 0;
