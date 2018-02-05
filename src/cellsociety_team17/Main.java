@@ -117,13 +117,22 @@ public class Main extends Application {
 					}
 				}});
 			mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
-
 				@Override
 				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-					myTimeline.setRate(mySimulationView.getMySpeed().get());
-					
+					myTimeline.setRate(mySimulationView.getMySpeed().get());			
 				}
+			});
+			mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
 
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						myTimeline.pause();
+						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
 				
 			});
 	}
@@ -133,6 +142,10 @@ public class Main extends Application {
 	}
 	
 	private Grid readInput(File f) throws Exception {
+		myCells = new ArrayList<Cell>();
+		activeCells = new ArrayList<Cell>();
+		
+		
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
 		Document myDocument = myDocumentBuilder.parse(f);

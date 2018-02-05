@@ -48,6 +48,7 @@ public class SimulationView {
 	private Scene myScene;
 	private String mySimulationTitle;
 	private BooleanProperty playing = new SimpleBooleanProperty();
+	private BooleanProperty restart = new SimpleBooleanProperty();
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
@@ -143,21 +144,30 @@ public class SimulationView {
 		squareButton myFastForwardButton = new squareButton(46, "fastForward.png");
 		myFastForwardButton.setTranslateX(92);
 		myFastForwardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
-				changeSpeed(.5);
-				
+				changeSpeed(.5);			
 			}
 		});
+		
+		squareButton myRestartButton = new squareButton(46, "restart.png");
+		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				broadcastRestart();			
+			}
+		});
+		myRestartButton.setTranslateX(138);
 	
 		
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
+		myControlsContainer.getChildren().add(myRestartButton);
 		
 	}
+
 	protected void changeSpeed(double d) {
 		mySpeed.set(mySpeed.get()+ d);
 	}
@@ -206,6 +216,13 @@ public class SimulationView {
 	
 	public BooleanProperty getPlaying() {
 		return playing;
+	}
+	public BooleanProperty getRestart() {
+		return restart;
+	}
+	
+	private void broadcastRestart() {
+		restart.set(!restart.get());
 	}
 		
 	}
