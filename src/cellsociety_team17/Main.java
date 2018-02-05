@@ -94,13 +94,29 @@ public class Main extends Application {
 		//System.out.println(myScene.getWidth());
 		myPrimaryStage.setScene(myScene);
 		
+		
 		//Timeline
 				KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 		                e -> Step(SECOND_DELAY));
 				Timeline myTimeline = new Timeline();
 				myTimeline.setCycleCount(Timeline.INDEFINITE);
 				myTimeline.getKeyFrames().add(frame);
-				myTimeline.play();
+				myTimeline.pause();
+			mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
+
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						if(mySimulationView.getPlaying().get()) {
+							myTimeline.play();
+						} else {
+							myTimeline.pause();
+						}
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}});
 	}
 	
 	private void setFile(String s) {

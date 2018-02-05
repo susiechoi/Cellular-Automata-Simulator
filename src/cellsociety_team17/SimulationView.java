@@ -8,12 +8,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
@@ -39,6 +44,7 @@ public class SimulationView {
 	private Group myControlsContainer;
 	private Scene myScene;
 	private String mySimulationTitle;
+	private BooleanProperty playing = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		mySimulationTitle = simulationTitle;
@@ -105,15 +111,31 @@ public class SimulationView {
 		myControlsBanner.setX(0);
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 		
+		squareButton mySlowDownButton = new squareButton(46, "reverse.png");
+		
 		squareButton myPlayButton = new squareButton(46, "play.png");
-		squareButton myPauseButton = new squareButton(46, "pause.png");
-		myPauseButton.setTranslateX(46);
+		myPlayButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(playing.get()) {
+					playing.set(false);
+					myPlayButton.setImage("play.png");
+				} else {
+					playing.set(true);
+					myPlayButton.setImage("pause.png");
+				}
+			}
+			
+		});
+		myPlayButton.setTranslateX(46);
 		squareButton myFastForwardButton = new squareButton(46, "fastForward.png");
 		myFastForwardButton.setTranslateX(92);
+	
 		
 		myControlsContainer.getChildren().add(myControlsBanner);
+		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
-		myControlsContainer.getChildren().add(myPauseButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		
 	}
@@ -134,23 +156,30 @@ public class SimulationView {
 		squareButton(int size, String type){
 			this.setFitHeight(size);
 			this.setFitWidth(size);
-			String myFilePath = "assets/IMG/" + type;
-			java.io.FileInputStream fis;
-			try {
-				fis = new FileInputStream(myFilePath);
-				Image iv = new Image(fis);
-				this.setImage(iv);
+			setImage(type);
 				this.setScaleX(.75);
 				this.setScaleY(.75);
 				this.setY(myHeaderHeight + myGrid.getHeightInPixels());
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			  
 			}
-		    
-
+			private void setImage(String type){
+				String myFilePath = "assets/IMG/" + type;
+				java.io.FileInputStream fis;
+				try {
+					fis = new FileInputStream(myFilePath);
+					Image iv = new Image(fis);
+					this.setImage(iv);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 			}
+		
 		}
+	
+	public BooleanProperty getPlaying() {
+		return playing;
+	}
 		
 	}
 	
