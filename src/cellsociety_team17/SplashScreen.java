@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 public class SplashScreen {
 
-	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "assets/AvailableSimulations.txt";
+	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
 	public static final int DEFAULT_SCREEN_SIZE = 400; 
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
 //		private Stage myStage; 
@@ -83,12 +83,12 @@ public class SplashScreen {
 //		public Stage getStage() {
 //		return myStage; 
 //	 }
-
+//
 //		@Override
 //		public void start(Stage primaryStage) throws Exception {
 //			myStage.show();
 //		}
-//	//
+////	//
 //		public static void main(String[] args) throws FileNotFoundException {
 //			launch(args);
 //		}
