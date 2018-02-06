@@ -167,31 +167,31 @@ public class SimulationView {
 		});
 		myRestartButton.setTranslateX(DEFAULT_BUTTON_SIZE * 3);
 		
-//		squareButton myStepButton = new squareButton(DEFAULT_BUTTON_SIZE, "Step");
-//		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//							
-//			}
-//		});
-//		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
-//		
-//		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
-//		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//						
-//			}
-//		});
-//		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
+		squareButton myStepButton = new squareButton(DEFAULT_BUTTON_SIZE, "Step");
+		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+							
+			}
+		});
+		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
+		
+		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
+		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+						
+			}
+		});
+		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
 
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		myControlsContainer.getChildren().add(myRestartButton);
-//		myControlsContainer.getChildren().add(myStepButton);
-//		myControlsContainer.getChildren().add(myReturnHomeButton);
+		myControlsContainer.getChildren().add(myStepButton);
+		myControlsContainer.getChildren().add(myReturnHomeButton);
 	}
 	
 	protected void changeSpeed(double d) {
