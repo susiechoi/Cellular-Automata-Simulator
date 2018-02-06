@@ -55,6 +55,8 @@ public class SimulationView {
 	private BooleanProperty playing = new SimpleBooleanProperty();
 	private BooleanProperty restart = new SimpleBooleanProperty();
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
+	private BooleanProperty home = new SimpleBooleanProperty();
+	private BooleanProperty step = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
@@ -75,6 +77,8 @@ public class SimulationView {
 		setUpGridContainer();
 		setUpControls();
 		establishScene();
+		home.set(false);
+		step.set(false);
 	}
 
 	public Scene getScene() {
@@ -171,7 +175,7 @@ public class SimulationView {
 		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-							
+				step.set(!step.get());			
 			}
 		});
 		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
@@ -180,7 +184,7 @@ public class SimulationView {
 		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-						
+				home.set(!home.get());		
 			}
 		});
 		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
@@ -244,11 +248,19 @@ public class SimulationView {
 	public BooleanProperty getPlaying() {
 		return playing;
 	}
+	
 	public BooleanProperty getRestart() {
 		return restart;
 	}
 	private void broadcastRestart() {
 		restart.set(!restart.get());
+	}
+	public BooleanProperty goHome() {
+		return home;
+	}
+	public BooleanProperty step() {
+		return step;
+		
 	}
 
 }
