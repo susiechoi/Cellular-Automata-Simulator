@@ -17,13 +17,19 @@ public class WatorCell extends Cell {
 	private int sharkCyclesReproduce;
 	private int initialSharkEnergy;
 	
-	private int fishCycles;
-	private int sharkCycles;
+	private int myFishCycles;
+	private int mySharkCycles;
 	private int mySharkEnergy;
 
 	public WatorCell(int row, int column, int state) {
 		super(row, column, state);
-
+		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		fishCyclesReproduce = DEFAULT_FISH_CLOCK;
+		sharkCyclesReproduce = DEFAULT_SHARK_CLOCK;
+		initialSharkEnergy = DEFAULT_SHARK_ENERGY;
+		myFishCycles=0;
+		mySharkCycles=0;
+		mySharkEnergy= initialSharkEnergy;
 	}
 
 	public WatorCell(int row, int column, int state, int fishCycles, int sharkCycles, int sharkEnergy) {
@@ -31,9 +37,10 @@ public class WatorCell extends Cell {
 		fishCyclesReproduce = fishCycles;
 		sharkCyclesReproduce = sharkCycles;
 		initialSharkEnergy = sharkEnergy;
-		fishCycles=0;
-		sharkCycles=0;
-		mySharkEnergy=sharkEnergy;
+		myFishCycles=0;
+		mySharkCycles=0;
+		mySharkEnergy=initialSharkEnergy;
+		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
 
 	@Override
@@ -53,7 +60,7 @@ public class WatorCell extends Cell {
 	
 
 	private ArrayList<Cell> fishUpdate() {
-		this.fishCycles++;
+		this.myFishCycles++;
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
 		for (Cell neighbor : myNeighbors) {
@@ -69,11 +76,11 @@ public class WatorCell extends Cell {
 			// give the cell that the fished moved to a fish cycles amount
 			updateColor(cellToMoveTo);
 			newACells.add(cellToMoveTo);
-			
-			if (this.fishCycles < this.fishCyclesReproduce) {
+			newACells.addAll(this.myNeighbors);
+			if (this.myFishCycles < this.fishCyclesReproduce) {
 				this.setMyState(EMPTY);
 			}
-			this.fishCycles=0;
+			this.myFishCycles=0;
 		}
 		return newACells;
 	}
@@ -81,7 +88,7 @@ public class WatorCell extends Cell {
 	private ArrayList<Cell> sharkUpdate() {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		this.mySharkEnergy--;
-		this.sharkCycles++;
+		this.mySharkCycles++;
 		ArrayList<Integer> fishSpace = new ArrayList<Integer>();
 		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
 		for (Cell neighbor : myNeighbors) {
@@ -101,10 +108,12 @@ public class WatorCell extends Cell {
 			this.mySharkEnergy++;
 			// give the cell that the shark moved to a shark cycles amount
 			updateColor(cellToMoveTo);
-			if (this.sharkCycles < this.sharkCyclesReproduce) {
+			newACells.add(cellToMoveTo);
+			newACells.addAll(this.myNeighbors);
+			if (this.mySharkCycles < this.sharkCyclesReproduce) {
 				this.setMyState(EMPTY);
 			}
-			this.sharkCycles=0;
+			this.mySharkCycles=0;
 		}
 		
 		if (fishSpace.isEmpty() && !emptySpace.isEmpty()) {
@@ -112,12 +121,13 @@ public class WatorCell extends Cell {
 			Cell cellToMoveTo = myNeighbors.get(indexOfMove);
 			cellToMoveTo.setMyState(SHARK);
 			newACells.add(cellToMoveTo);
+			newACells.addAll(this.myNeighbors);
 			// give the cell that the shark moved to a shark cycles amount
 			updateColor(cellToMoveTo);	
-			if (sharkCycles < sharkCyclesReproduce) {
+			if (mySharkCycles < sharkCyclesReproduce) {
 				this.setMyState(EMPTY);
 			}
-			this.sharkCycles=0;
+			this.mySharkCycles=0;
 		}
 		return newACells;
 	}

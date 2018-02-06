@@ -190,8 +190,12 @@ public class Main extends Application {
 							activeCells.add(tempGCell);
 						}
 						break;
-					case 2:
-						myCells.add(new WatorCell(cRow, cColumn, cState));
+					case 2: // Modified by Judi at 6:52PM 2/5/2018
+						Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+						myCells.add(tempWCell);
+						//if(cState==2) {
+							activeCells.add(tempWCell);
+						//}
 						break;
 					case 3:
 						double mThreshold = getDoubleFromXML(myDocument, "probability");
