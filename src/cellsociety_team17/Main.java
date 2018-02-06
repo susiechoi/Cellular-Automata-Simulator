@@ -183,8 +183,12 @@ public class Main extends Application {
 							activeCells.add(tempCell);
 						}
 						break;	
-					case 1:
-						myCells.add(new GameOfLifeCell(cRow, cColumn, cState));
+					case 1: // Modified by Judi at 6:28PM 2/5/2018
+						Cell tempGCell = new GameOfLifeCell(cRow, cColumn, cState);
+						myCells.add(tempGCell);
+						if(cState==1) {
+							activeCells.add(tempGCell);
+						}
 						break;
 					case 2:
 						myCells.add(new WatorCell(cRow, cColumn, cState));
