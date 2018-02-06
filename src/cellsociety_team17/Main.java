@@ -138,8 +138,21 @@ public class Main extends Application {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 					try {
-						myTimeline.pause();
+						myTimeline.stop();
 						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
+			mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+						myTimeline.setRate(.1);
+						myTimeline.play();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}				
