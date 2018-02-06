@@ -47,7 +47,7 @@ public class SplashScreen {
 		}
 		catch (IOException e){
 			readSimulationsFile = new Scanner(new File(DEFAULT_SIMULATION_OPTIONS_FILE));
-			throw new FileNotFoundException("Could not find file named "+availableSimulationsFile+". Using default simulation options file.");
+			System.out.println("Could not find file named "+availableSimulationsFile+". Using default simulation options file.");
 		}
 		int rowIndex = 0; 
 		int colIndex = 0; 

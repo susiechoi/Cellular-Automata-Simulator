@@ -232,9 +232,8 @@ public class SimulationView {
 					this.setScaleY(DEFAULT_BUTTON_SCALE);
 					this.setY(myHeaderHeight + myGrid.getHeightInPixels());
 				}
-				// TODO make more detailed catch block
 				catch (FileNotFoundException e) {
-					System.out.println("No file found");
+					System.out.println("Specify an existing file path for button images.");
 //					e.printStackTrace();
 				}
 			}
