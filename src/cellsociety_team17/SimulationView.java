@@ -158,23 +158,40 @@ public class SimulationView {
 			}
 		});
 		
-		squareButton myRestartButton = new squareButton(46, "Restart");
+		squareButton myRestartButton = new squareButton(DEFAULT_BUTTON_SIZE, "Restart");
 		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				broadcastRestart();			
 			}
 		});
-		myRestartButton.setTranslateX(138);
-
-
+		myRestartButton.setTranslateX(DEFAULT_BUTTON_SIZE * 3);
+		
+//		squareButton myStepButton = new squareButton(DEFAULT_BUTTON_SIZE, "Step");
+//		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//			@Override
+//			public void handle(MouseEvent event) {
+//							
+//			}
+//		});
+//		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
+//		
+//		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
+//		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//			@Override
+//			public void handle(MouseEvent event) {
+//						
+//			}
+//		});
+//		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
 
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		myControlsContainer.getChildren().add(myRestartButton);
-
+//		myControlsContainer.getChildren().add(myStepButton);
+//		myControlsContainer.getChildren().add(myReturnHomeButton);
 	}
 	
 	protected void changeSpeed(double d) {
@@ -223,18 +240,6 @@ public class SimulationView {
 			}
 		
 		}
-	
-	public BooleanProperty getPlaying() {
-		return playing;
-	}
-	public BooleanProperty getRestart() {
-		return restart;
-	}
-	
-	private void broadcastRestart() {
-		restart.set(!restart.get());
-	}
-		
 	}
 	
 	public BooleanProperty getPlaying() {
@@ -243,11 +248,9 @@ public class SimulationView {
 	public BooleanProperty getRestart() {
 		return restart;
 	}
-	
 	private void broadcastRestart() {
 		restart.set(!restart.get());
 	}
-
 
 }
 
