@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import cellsociety_team17.Cell;
@@ -14,17 +15,20 @@ public class SegregationCell extends Cell {
 	
 	// threshold t represents satisfaction with segregation 
 	private float myThreshold;
+	private ArrayList<Cell> myNonEmptyNeighbors; 
 
 	public SegregationCell(int row, int col, int startState) {
 		super(row, col, startState);
 		myThreshold = (float) DEFAULT_THRESHOLD;
 		this.updateColor();
+		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
 	public SegregationCell(int row, int col, int startState, float threshold) {
 		super(row, col, startState);
 		myThreshold = threshold; 
 		this.updateColor();
+		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
 	public void setMyState(int state) {
@@ -35,7 +39,6 @@ public class SegregationCell extends Cell {
 		return myState;
 	}
 
-	// TODO ? in Grid class, add sthg so that if it's the segregation simulation, also the immediate diagonal cells are added
 	public void setNeighbors(ArrayList<Cell> neighbors) {
 		myNeighbors = neighbors; 
 	}
@@ -43,71 +46,75 @@ public class SegregationCell extends Cell {
 	public ArrayList<Cell> getNeighbors(){
 		return myNeighbors;
 	}
-
-	public void updateState() throws Exception {
-		if (this.needToMove()) { 
-			this.moveToEmptySpace();
+	
+	public ArrayList<Cell> update() {
+		Cell newACell = null;
+		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
+			newACell = this.moveToEmptySpace();
 		}
+		ArrayList<Cell> newACellList = new ArrayList<Cell>();
+		newACellList.add(newACell);
+		return newACellList;
 	}
 
 	private boolean needToMove() {
-		int neighborsLikeMe = 0;
-		int nonEmptyNeighbors = -1; 
+		int neighborsLikeMe = 0; 
 		for (Cell neighbor : myNeighbors) {
 			if (neighbor.myState != 0) {
 				if (neighbor.myState == myState) neighborsLikeMe++; 
-				nonEmptyNeighbors++; 
+				myNonEmptyNeighbors.add(neighbor); 
 			}
 		}
-		return ((neighborsLikeMe / nonEmptyNeighbors) < myThreshold);
+		return (myNonEmptyNeighbors.isEmpty() || (neighborsLikeMe / myNonEmptyNeighbors.size()) < myThreshold);
 	}
 
-	private void moveToEmptySpace() throws Exception {
-		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
-
-		for (Cell neighbor : myNeighbors) {
-			if (neighbor.myState == 0) {
-				neighbor.myState = myState;
-				myState = 0; 
-				this.updateColor(); 
-				neighbor.updateColor(); 
-				return;
-			} 
-			possEmptySpots.add(neighbor);
-		}
-		for (Cell possSpot : possEmptySpots) {
-			
-			if (possSpot.myState == 0) {
-				possSpot.myState = myState;
-				myState = 0; 
-				this.updateColor(); 
-				possSpot.updateColor();
-				return;
-			} 
-			possEmptySpots.addAll(possSpot.myNeighbors);
-		}
-		throw new Exception("Threshold unsatisfied, but no empty spots to move to!");
-	}
-
-
-	@Override
-	ArrayList<Cell> update() {
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
-		try {
-			updateState();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return newACells;
+	private Cell moveToEmptySpace() {
+//		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
+//
+//		for (Cell neighbor : myNeighbors) {
+//			if (neighbor.myState == 0) {
+//				neighbor.myState = myState;
+//				myState = 0; 
+//				this.updateColor(); 
+//				neighbor.updateColor(); 
+//				return neighbor;
+//			} 
+//			possEmptySpots.add(neighbor);
+//		}
+//		for (Cell possSpot : possEmptySpots) {
+//			
+//			if (possSpot.myState == 0) {
+//				possSpot.myState = myState;
+//				myState = 0; 
+//				this.updateColor(); 
+//				possSpot.updateColor();
+//				return possSpot;
+//			} 
+//			possEmptySpots.addAll(possSpot.myNeighbors);
+//		}
+//		return this;
 		
+		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
+		possEmptySpots.addAll(myNeighbors);
+		Random randomGen = new Random(); 
+		while (true) {
+			int randomIndex = randomGen.nextInt(possEmptySpots.size());
+			Cell possEmptySpot = possEmptySpots.get(randomIndex);
+			if (possEmptySpot.myState == 0) {
+				possEmptySpot.myState = myState;
+				myState = 0; 
+				this.updateColor(); 
+				possEmptySpot.updateColor(); 
+				return possEmptySpot;
+			}
+			possEmptySpots.addAll(possEmptySpot.myNeighbors);
+		}
 	}
 
 	@Override
 	void updateColor() {
 		this.myRectangle.setFill(STATE_COLORS[this.myState]);
 	}
-
 
 
 }

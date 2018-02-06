@@ -41,9 +41,10 @@ public class Grid {
 	}
 
 	public ArrayList<Cell> updateCells(ArrayList<Cell> activeCells) {
+		System.out.println(activeCells);
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
-			newACells.addAll(cell.update()); 
+			if (cell != null) newACells.addAll(cell.update()); 
 		}
 		return newACells;
 	}
