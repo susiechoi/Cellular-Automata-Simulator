@@ -158,23 +158,20 @@ public class SimulationView {
 			}
 		});
 		
-		squareButton myRestartButton = new squareButton(46, "Restart");
+		squareButton myRestartButton = new squareButton(DEFAULT_BUTTON_SIZE, "Restart");
 		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				broadcastRestart();			
 			}
 		});
-		myRestartButton.setTranslateX(138);
-
-
+		myRestartButton.setTranslateX(DEFAULT_BUTTON_SIZE * 3);
 
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		myControlsContainer.getChildren().add(myRestartButton);
-
 	}
 	
 	protected void changeSpeed(double d) {
@@ -223,18 +220,6 @@ public class SimulationView {
 			}
 		
 		}
-	
-	public BooleanProperty getPlaying() {
-		return playing;
-	}
-	public BooleanProperty getRestart() {
-		return restart;
-	}
-	
-	private void broadcastRestart() {
-		restart.set(!restart.get());
-	}
-		
 	}
 	
 	public BooleanProperty getPlaying() {
