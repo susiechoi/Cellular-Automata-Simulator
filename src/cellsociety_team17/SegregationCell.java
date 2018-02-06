@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import cellsociety_team17.Cell;
@@ -48,13 +49,8 @@ public class SegregationCell extends Cell {
 	
 	public ArrayList<Cell> update() {
 		Cell newACell = null;
-		if (this.needToMove()) { 
-			if (myNonEmptyNeighbors.size() == 0) {
-				newACell = this; 
-			}
-			else {
-				newACell = this.moveToEmptySpace();
-			}
+		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
+			newACell = this.moveToEmptySpace();
 		}
 		ArrayList<Cell> newACellList = new ArrayList<Cell>();
 		newACellList.add(newACell);
@@ -69,35 +65,50 @@ public class SegregationCell extends Cell {
 				myNonEmptyNeighbors.add(neighbor); 
 			}
 		}
-		return (myNonEmptyNeighbors.size() == 0 || 
-				((neighborsLikeMe / myNonEmptyNeighbors.size()) < myThreshold));
+		return (myNonEmptyNeighbors.isEmpty() || (neighborsLikeMe / myNonEmptyNeighbors.size()) < myThreshold);
 	}
 
 	private Cell moveToEmptySpace() {
+//		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
+//
+//		for (Cell neighbor : myNeighbors) {
+//			if (neighbor.myState == 0) {
+//				neighbor.myState = myState;
+//				myState = 0; 
+//				this.updateColor(); 
+//				neighbor.updateColor(); 
+//				return neighbor;
+//			} 
+//			possEmptySpots.add(neighbor);
+//		}
+//		for (Cell possSpot : possEmptySpots) {
+//			
+//			if (possSpot.myState == 0) {
+//				possSpot.myState = myState;
+//				myState = 0; 
+//				this.updateColor(); 
+//				possSpot.updateColor();
+//				return possSpot;
+//			} 
+//			possEmptySpots.addAll(possSpot.myNeighbors);
+//		}
+//		return this;
+		
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
-
-		for (Cell neighbor : myNeighbors) {
-			if (neighbor.myState == 0) {
-				neighbor.myState = myState;
+		possEmptySpots.addAll(myNeighbors);
+		Random randomGen = new Random(); 
+		while (true) {
+			int randomIndex = randomGen.nextInt(possEmptySpots.size());
+			Cell possEmptySpot = possEmptySpots.get(randomIndex);
+			if (possEmptySpot.myState == 0) {
+				possEmptySpot.myState = myState;
 				myState = 0; 
 				this.updateColor(); 
-				neighbor.updateColor(); 
-				return neighbor;
-			} 
-			possEmptySpots.add(neighbor);
+				possEmptySpot.updateColor(); 
+				return possEmptySpot;
+			}
+			possEmptySpots.addAll(possEmptySpot.myNeighbors);
 		}
-		for (Cell possSpot : possEmptySpots) {
-			
-			if (possSpot.myState == 0) {
-				possSpot.myState = myState;
-				myState = 0; 
-				this.updateColor(); 
-				possSpot.updateColor();
-				return possSpot;
-			} 
-			possEmptySpots.addAll(possSpot.myNeighbors);
-		}
-		return this;
 	}
 
 	@Override
