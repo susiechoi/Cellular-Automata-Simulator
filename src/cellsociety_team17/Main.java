@@ -201,7 +201,7 @@ public class Main extends Application {
 							activeCells.add(tempSCell);
 						}
 						
-						System.out.println(tempSCell.myRectangle.toString());
+//						System.out.println(tempSCell.myRectangle.toString());
 					}
 				}
 			}

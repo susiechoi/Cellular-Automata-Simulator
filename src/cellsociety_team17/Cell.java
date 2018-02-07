@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import java.util.ArrayList;
 
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Cell {
@@ -10,6 +11,7 @@ public abstract class Cell {
 	protected int myRow;
 	protected int myColumn;
 	protected Rectangle myRectangle; 
+	protected Polygon myPolygon; 
 	protected ArrayList<Cell> myNeighbors;
 	public static final int CELLSIZE = 40;
 
