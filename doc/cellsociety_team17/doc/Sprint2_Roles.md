@@ -1,3 +1,5 @@
+<Sprint 2 specs>(https://www2.cs.duke.edu/courses/compsci308/spring18/assign/02_cellsociety/part3_KH2.php)
+
 # Simulation 
 * Diff neighborhood arrangements - Susie
 * Diff Cell shapes - 
