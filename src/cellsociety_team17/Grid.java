@@ -11,8 +11,8 @@ import javafx.scene.Group;
 
 public class Grid {
 
-	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "D";
-	public static final boolean DEFAULT_TOROIDALITY = false; 
+	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
+	public static final boolean DEFAULT_TOROIDALITY = true; 
 	public static final String NEIGHBORHOOD_METHOD_START = "findNeighbors";
 
 	private int myWidth;
@@ -54,21 +54,23 @@ public class Grid {
 		catch (NoSuchMethodException e) {
 			System.out.println("Neighborhood-setting method for that specific neighborhood grouping not found."
 					+ "Use again with default neighborhood-setting method.");
-//			 e.printStackTrace(); 
+			//			 e.printStackTrace(); 
 		}
-		
+
 		try {
 			method.invoke(this, cell, toroidal);
 		} 
 		catch (IllegalArgumentException e) {
 			System.out.println("Specified method found, but specified arguments are illegal.");
-//			e.printStackTrace();
+			//			e.printStackTrace();
 		}
 		catch (IllegalAccessException e) {
-//			e.printStackTrace();
+			System.out.println("Illegal access");
+			//			e.printStackTrace();
 		}
 		catch (InvocationTargetException e) {
-			e.printStackTrace();
+			System.out.println("Invocation target exception");
+			//			e.printStackTrace();
 		}
 		return neighbors; 
 	}
@@ -80,6 +82,10 @@ public class Grid {
 		if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
 		if (inBounds(cell.myRow, cell.myColumn-1)) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
 		if (inBounds(cell.myRow, cell.myColumn+1)) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
+		if (toroidal) {
+			if (cell.myColumn == 0) neighbors.add(myCells[cell.myRow][myWidth-1]);
+			else if (cell.myColumn == myWidth-1) neighbors.add(myCells[cell.myRow][0]);
+		}
 		cell.setNeighbors(neighbors); 
 	}
 
@@ -90,6 +96,16 @@ public class Grid {
 		if (inBounds(cell.myRow+1, cell.myColumn+1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn+1]);
 		if (inBounds(cell.myRow+1, cell.myColumn-1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn-1]);
 		if (inBounds(cell.myRow-1, cell.myColumn-1)) neighbors.add(myCells[cell.myRow-1][cell.myColumn-1]);
+//		if (toroidal) {
+//			if (cell.myColumn == 0) {
+//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
+//				neighbors.add(myCells[cell.myRow+1][myWidth-1]);
+//			}
+//			else if (cell.myColumn == myWidth-1) {
+//				neighbors.add(myCells[cell.myRow-1][0]);
+//				neighbors.add(myCells[cell.myRow+1][0]);
+//			}
+//		}
 		cell.setNeighbors(neighbors); 
 	}
 
@@ -100,6 +116,14 @@ public class Grid {
 		if (inBounds(cell.myRow-1, cell.myColumn)) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
 		if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
 		if (inBounds(cell.myRow+1, cell.myColumn+1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn+1]);
+//		if (toroidal) {
+//			if (cell.myColumn == 0) {
+//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
+//			} 
+//			else if (cell.myColumn == myWidth-1) {
+//				neighbors.add(myCells[cell.myRow+1][0]);
+//			}
+//		}
 		cell.setNeighbors(neighbors); 
 	}
 
@@ -136,33 +160,33 @@ public class Grid {
 		return myHeight * Cell.CELLSIZE;
 	}
 
-//	private abstract class NeighborhoodMaker {
-//
-//		private NeighborhoodMaker() {
-//
-//		}
-//
-//		abstract List<Cell> getNeighbors(Cell cell); 
-//
-//		private boolean inBounds(int row, int col) {
-//			return (row >= 0 && row < myHeight && col >= 0 && col < myWidth);
-//		}
-//
-//		private class DNeighborhoodMaker extends NeighborhoodMaker {
-//
-//			private DNeighborhoodMaker() {
-//				
-//			}
-//			
-//			@Override
-//			List<Cell> getNeighbors(Cell cell) {
-//				List<Cell> neighbors = new ArrayList<Cell>();
-//				if (inBounds(cell.myRow-1, cell.myColumn)) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
-//				if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
-//				if (inBounds(cell.myRow, cell.myColumn-1)) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
-//				if (inBounds(cell.myRow, cell.myColumn+1)) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
-//				return neighbors; 
-//			}	
-//		}
-//	}
+	//	private abstract class NeighborhoodMaker {
+	//
+	//		private NeighborhoodMaker() {
+	//
+	//		}
+	//
+	//		abstract List<Cell> getNeighbors(Cell cell); 
+	//
+	//		private boolean inBounds(int row, int col) {
+	//			return (row >= 0 && row < myHeight && col >= 0 && col < myWidth);
+	//		}
+	//
+	//		private class DNeighborhoodMaker extends NeighborhoodMaker {
+	//
+	//			private DNeighborhoodMaker() {
+	//				
+	//			}
+	//			
+	//			@Override
+	//			List<Cell> getNeighbors(Cell cell) {
+	//				List<Cell> neighbors = new ArrayList<Cell>();
+	//				if (inBounds(cell.myRow-1, cell.myColumn)) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
+	//				if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
+	//				if (inBounds(cell.myRow, cell.myColumn-1)) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
+	//				if (inBounds(cell.myRow, cell.myColumn+1)) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
+	//				return neighbors; 
+	//			}	
+	//		}
+	//	}
 }
