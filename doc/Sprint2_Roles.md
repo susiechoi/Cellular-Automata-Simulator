@@ -2,18 +2,18 @@
 
 # Simulation 
 * Diff neighborhood arrangements - Susie
-* Diff Cell shapes - 
+* Diff Cell shapes - Collin
 * Diff grid edge types - Susie 
-* Additional simulations - 
+* Additional simulations - Judi
 
 # Configuration
-* Save current state as XML - 
-* XML format checking - 
-* Diff ways to set initial configuration
-* Diff simulation styling - 
+* Save current state as XML - Collin
+* XML format checking - Collin
+* Diff ways to set initial configuration - Susie 
+* Diff simulation styling - Judi
 
 # Visualization
-* Graph simulated populations over time - 
-* User manipulation of starting parameters - 
-* Real-time user manipulation of Cells - 
-* Multiple simulations at same time - 
+* Graph simulated populations over time - Judi
+* User manipulation of starting parameters - Judi
+* Real-time user manipulation of Cells - Judi
+* Multiple simulations at same time - Susie 
