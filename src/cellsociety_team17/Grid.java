@@ -11,7 +11,7 @@ import javafx.scene.Group;
 
 public class Grid {
 
-	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
+	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "D";
 	public static final boolean DEFAULT_TOROIDALITY = true; 
 	public static final String NEIGHBORHOOD_METHOD_START = "findNeighbors";
 
