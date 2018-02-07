@@ -9,7 +9,7 @@ import javafx.scene.Group;
 
 public class Grid {
 
-	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "D";
+	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
 	public static final String NEIGHBORHOOD_METHOD_START = "findNeighbors";
 
 	private int myWidth;
@@ -102,7 +102,7 @@ public class Grid {
 	}
 
 	private boolean inBounds(int row, int col) {
-		return (row > 0 && row < myHeight-1 && col > 0 && col < myWidth-1);
+		return (row >= 0 && row < myHeight && col >= 0 && col < myWidth);
 	}
 
 	public ArrayList<Cell> updateCells(ArrayList<Cell> activeCells) {
