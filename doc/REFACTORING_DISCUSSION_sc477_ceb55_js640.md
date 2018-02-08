@@ -4,7 +4,7 @@ There were only three instances of duplicated code, one of which was in Grid.jav
 
 # Checklist refactoring 
 
-I chose to address "Communication" issues in the Segregation and Grid classes by decomposing 1-line "if" statements into 2-line decompositions of the "if" with the action in curly braces. We also removed unused imports in Grid, SplashScreen, and SegregationCell. All of the "Communication" changes were considered major and required little discussion by the team. 
+We chose to address "Communication" issues in the Segregation and Grid classes by decomposing 1-line "if" statements into 2-line decompositions of the "if" with the action in curly braces. We also removed unused imports in Grid, SplashScreen, and SegregationCell. All of the "Communication" changes were considered major and required little discussion by the team. 
 
 There were no notable errors in flexibility. There were a few errors under modularity regarding the STATE_COLORS array holding the colors for each state of cell in the simulations. We removed the duplication by creating a single Cell colors array in the Cell superclass. 
 
@@ -12,4 +12,4 @@ One notable highlight was the "No manager classes" check, which indicated that o
 
 # General refactoring
 
-I tried to make detailed error messages in each "catch" block of the try/catches in the Grid class, most of which relate to the use of Java reflection. These were targeted so that a programmer would be better able to identify the issue and respond appropriately, especially since many of the same exceptions can be thrown in a single Java reflection method invocation. 
+We tried to make detailed error messages in each "catch" block of the try/catches in the Grid class, most of which relate to the use of Java reflection. These were targeted so that a programmer would be better able to identify the issue and respond appropriately, especially since many of the same exceptions can be thrown in a single Java reflection method invocation. 
