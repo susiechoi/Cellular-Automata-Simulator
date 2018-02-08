@@ -203,20 +203,21 @@ public class Main extends Application {
 				}
 			}
 		}
-		Iterator it = myAttributes.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        System.out.println(pair.getKey() + " = " + pair.getValue());
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }
-		mySimulationType = getSimulationType(myDocument);
+		
 		try {
+		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
 		} catch(Exception e) {
-			throw new Exception("No <Title> tag in the XML");
+			System.out.println("Invalid or missing Simulation Type");
 		}
 		
-		int myWidth = (int) getDoubleFromXML(myDocument, "width");
-		int myHeight = (int) getDoubleFromXML(myDocument, "height");
+		int myWidth = 0;
+		int myHeight = 0;
+		try {
+			myWidth = (int) ((double) myAttributes.get("width")); 
+			myHeight = (int) ((double) myAttributes.get("height"));
+			} catch(Exception e) {
+				System.out.println("Invalid or missing dimensions");
+		}
 		
 		for(int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("row").item(i);
@@ -287,9 +288,8 @@ public class Main extends Application {
 		return true;
 	}
 
-	private int getSimulationType(Document d) throws Exception {
-		String typeString = d.getElementsByTagName("simulationType").item(0).getTextContent().toLowerCase();
-		switch(typeString){
+	private int setSimulationType(String type) throws Exception {
+		switch(type.toLowerCase()){
 			case "fire":
 				return 0;
 			case "game of life":
