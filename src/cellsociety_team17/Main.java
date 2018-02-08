@@ -3,6 +3,7 @@ package cellsociety_team17;
 import cellsociety_team17.Cell;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,9 +13,12 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -122,63 +126,67 @@ public class Main extends Application {
 				myTimeline.setCycleCount(Timeline.INDEFINITE);
 				myTimeline.getKeyFrames().add(frame);
 				myTimeline.pause();
-			mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					try {
-						if(mySimulationView.getPlaying().get()) {
-							myTimeline.play();
-						} else {
-							myTimeline.pause();
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}});
-			mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
-				@Override
-				public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-					myTimeline.setRate(mySimulationView.getMySpeed().get());			
-				}
-			});
-			mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					try {
-						myTimeline.stop();
-						startSimulation(readInput(myXmlFile));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}				
-				}
-				
-			});
-			mySimulationView.step().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					try {
-						System.out.print(myTimeline.getKeyFrames().get(0).getTime());
-						myTimeline.setRate(.1);
+			setUpChangeListeners(mySimulationView, myTimeline);
+	}
+
+	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					if(mySimulationView.getPlaying().get()) {
 						myTimeline.play();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}				
-				}
-				
-			});
-			mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					try {
+					} else {
 						myTimeline.pause();
-						showSplashScreen();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}				
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-			});
+			}});
+		mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				myTimeline.setRate(mySimulationView.getMySpeed().get());			
+			}
+		});
+		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.stop();
+					startSimulation(readInput(myXmlFile));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+		mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+					myTimeline.setRate(.1);
+					myTimeline.play();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.pause();
+					showSplashScreen();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
 	}
 	
 	private void setFile(String s) {
@@ -190,9 +198,7 @@ public class Main extends Application {
 		activeCells = new ArrayList<Cell>();
 		
 		
-		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
-		Document myDocument = myDocumentBuilder.parse(f);
+		Document myDocument = buildDocument(f);
 		NodeList attrList = myDocument.getElementsByTagName("meta").item(0).getChildNodes();
 		for(int i = 0; i < attrList.getLength(); i++) {
 			if(!attrList.item(i).getNodeName().equals("#text")) {
@@ -204,17 +210,8 @@ public class Main extends Application {
 			}
 		}
 		
-		try {
-		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
-		} catch(Exception e) {
-			System.out.println("Invalid or missing Simulation Type");
-		}
-		
-		try {
-			mySimulationTitle = myAttributes.get("title").toString(); 
-			} catch(Exception e) {
-				System.out.println("Invalid or missing Title");
-			}
+		setMySimulationType();
+		setMySimulationTitle();
 		
 		
 		int myWidth = 0;
@@ -226,6 +223,20 @@ public class Main extends Application {
 				System.out.println("Invalid or missing dimensions");
 		}
 		
+		createCells(myDocument);
+		
+		myGrid = new Grid(myHeight, myWidth, myCells);
+		if(myAttributes.containsKey("shape")) {
+			switch(myAttributes.get("shape").toString()){
+				case "triangle":
+					myGrid.setMyShape(new Triangle());
+			}
+		}
+		return myGrid;
+		
+	}
+
+	private void createCells(Document myDocument) {
 		for(int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("row").item(i);
 			int cRow = i;
@@ -239,37 +250,20 @@ public class Main extends Application {
 					cState = Integer.parseInt(currentNode.getChildNodes().item(j).getTextContent());
 					//System.out.println(cRow + ", " + cColumn + ", "+ cState);
 					
-					//TODO:change to use Java Reflection
+					//TODO:make sure to check all possible parameters for each simulation
 					switch(mySimulationType){
 					case 0:
-						Cell tempCell = new FireCell(cRow, cColumn, cState);
-						((FireCell) tempCell).setMyProbability(getDoubleFromXML(myDocument, "probability"));
-						myCells.add(tempCell);
-						if(cState == 2) {
-							activeCells.add(tempCell);
-						}
+						makeFireCell(myDocument, cRow, cColumn, cState);
 						break;	
 					case 1: // Modified by Judi at 6:28PM 2/5/2018
-						Cell tempGCell = new GameOfLifeCell(cRow, cColumn, cState);
-						myCells.add(tempGCell);
-						if(cState==1) {
-							activeCells.add(tempGCell);
-						}
+						createGameOfLifeCell(cRow, cColumn, cState);
 						break;
 					case 2: // Modified by Judi at 6:52PM 2/5/2018
-						Cell tempWCell = new WatorCell(cRow, cColumn, cState);
-						myCells.add(tempWCell);
-						if(cState!=0) {
-							activeCells.add(tempWCell);
-						}
+						createWatorCell(cRow, cColumn, cState);
 						break;
 					case 3:
-						double mThreshold = getDoubleFromXML(myDocument, "probability");
-						Cell tempSCell = new SegregationCell(cRow, cColumn, cState, (float) mThreshold);
-						myCells.add(tempSCell);
-						if(cState != 0) {
-							activeCells.add(tempSCell);
-						}
+						createSegregationCell(myDocument, cRow, cColumn, cState);
+						break;
 						
 //						System.out.println(tempSCell.myRectangle.toString());
 					}
@@ -278,16 +272,63 @@ public class Main extends Application {
 			
 			
 		}
-		
-		myGrid = new Grid(myHeight, myWidth, myCells);
-		if(myAttributes.containsKey("shape")) {
-			switch(myAttributes.get("shape").toString()){
-				case "triangle":
-					myGrid.setMyShape(new Triangle());
-			}
+	}
+
+	private void createSegregationCell(Document myDocument, int cRow, int cColumn, int cState) {
+		double mThreshold = getDoubleFromXML(myDocument, "probability");
+		Cell tempSCell = new SegregationCell(cRow, cColumn, cState, (float) mThreshold);
+		myCells.add(tempSCell);
+		if(cState != 0) {
+			activeCells.add(tempSCell);
 		}
-		return myGrid;
-		
+	}
+
+	private void createWatorCell(int cRow, int cColumn, int cState) {
+		Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+		myCells.add(tempWCell);
+		if(cState!=0) {
+			activeCells.add(tempWCell);
+		}
+	}
+
+	private void createGameOfLifeCell(int cRow, int cColumn, int cState) {
+		Cell tempGCell = new GameOfLifeCell(cRow, cColumn, cState);
+		myCells.add(tempGCell);
+		if(cState==1) {
+			activeCells.add(tempGCell);
+		}
+	}
+
+	private void makeFireCell(Document myDocument, int cRow, int cColumn, int cState) {
+		Cell tempCell = new FireCell(cRow, cColumn, cState);
+		((FireCell) tempCell).setMyProbability(getDoubleFromXML(myDocument, "probability"));
+		myCells.add(tempCell);
+		if(cState == 2) {
+			activeCells.add(tempCell);
+		}
+	}
+
+	private void setMySimulationTitle() {
+		try {
+			mySimulationTitle = myAttributes.get("title").toString(); 
+			} catch(Exception e) {
+				System.out.println("Invalid or missing Title");
+			}
+	}
+
+	private void setMySimulationType() {
+		try {
+		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
+		} catch(Exception e) {
+			System.out.println("Invalid or missing Simulation Type");
+		}
+	}
+
+	private Document buildDocument(File f) throws ParserConfigurationException, SAXException, IOException {
+		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
+		Document myDocument = myDocumentBuilder.parse(f);
+		return myDocument;
 	}
 
 
