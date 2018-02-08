@@ -17,7 +17,7 @@ public class FireCell extends Cell {
 	public FireCell(int row, int column, int state) {
 		super(row, column, state);
 		myProbability = DEFAULT_PROBABILITY;
-		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 
 	public FireCell(int row, int column, int state, double prob) {
@@ -30,8 +30,8 @@ public class FireCell extends Cell {
 	ArrayList<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		/* Loops to see if any of the neighbors are burning */
-		for (Cell cell : myNeighbors) {
-			if (cell.myState == TREE && this.myState == BURNING) {
+		for (Cell cell : getMyNeighbors()) {
+			if (cell.getMyState() == TREE && this.getMyState() == BURNING) {
 				double decimal = Math.random();
 				if (decimal < myProbability) {
 					cell.setMyState(BURNING);
@@ -41,7 +41,7 @@ public class FireCell extends Cell {
 			}
 		}
 		// If the tree was burning in the last step, it is empty in this step
-		if (this.myState == BURNING) {
+		if (this.getMyState() == BURNING) {
 			this.setMyState(EMPTY);
 		}
 		this.updateColor();
@@ -56,7 +56,7 @@ public class FireCell extends Cell {
 		myProbability = p;
 	}
 	 void updateColor() {
-		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 
 }

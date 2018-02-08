@@ -34,13 +34,15 @@ public class Grid {
 		myGroup = new Group();
 		myToroidality = toroidal; 
 		for (Cell cell : activeCells) {
-			myCells[cell.myRow][cell.myColumn] = cell; 
+			myCells[cell.getMyRow()][cell.getMyColumn()] = cell; 
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape);
 			myGroup.getChildren().add(cell.myRectangle);
 		}
 	}
+	
+	
 
 	// TODO IMPROVE CATCH BLOCKS
 	private void setCellNeighbors(Cell cell, String neighborhoodShape)  { 
@@ -118,7 +120,6 @@ public class Grid {
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
 	}
-
 	
 	
 	private abstract class NeighborhoodMaker {

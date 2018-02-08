@@ -2,12 +2,19 @@ package cellsociety_team17;
 
 import cellsociety_team17.Cell;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.Pair;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
@@ -29,6 +37,7 @@ public class Main extends Application {
 	private String mySimulationTitle;
 	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
 	private ArrayList<Cell> myCells = new ArrayList<Cell>();
+	private HashMap myAttributes = new HashMap();
 	private File myXmlFile;
 	private Timeline myTimeLine;
 	private static String DEFAULT_FILEPATH = "data/";
@@ -52,7 +61,13 @@ public class Main extends Application {
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
 			//startSimulation(myGrid);
-			SplashScreen mySplash = new SplashScreen();
+			showSplashScreen();
+	}
+	
+	private void showSplashScreen() {
+		SplashScreen mySplash;
+		try {
+			mySplash = new SplashScreen();
 			myScene = mySplash.getScene();
 			myPrimaryStage.setScene(myScene);
 			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>(){
@@ -67,8 +82,13 @@ public class Main extends Application {
 						e.printStackTrace();
 					}
 				}});
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
-	
+
 	/**
 	 * 
 	 * @param timeElapsed
@@ -123,12 +143,36 @@ public class Main extends Application {
 				}
 			});
 			mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
-
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						myTimeline.stop();
+						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
+			mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+						myTimeline.setRate(.1);
+						myTimeline.play();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
+			mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 					try {
 						myTimeline.pause();
-						startSimulation(readInput(myXmlFile));
+						showSplashScreen();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}				
@@ -149,16 +193,38 @@ public class Main extends Application {
 		DocumentBuilderFactory myDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder myDocumentBuilder = myDocumentBuilderFactory.newDocumentBuilder();
 		Document myDocument = myDocumentBuilder.parse(f);
-		
-		mySimulationType = getSimulationType(myDocument);
-		try {
-			mySimulationTitle = myDocument.getElementsByTagName("title").item(0).getTextContent();
-		} catch(Exception e) {
-			throw new Exception("No <Title> tag in the XML");
+		NodeList attrList = myDocument.getElementsByTagName("meta").item(0).getChildNodes();
+		for(int i = 0; i < attrList.getLength(); i++) {
+			if(!attrList.item(i).getNodeName().equals("#text")) {
+				if(isNumeric(attrList.item(i).getTextContent())) {
+					 myAttributes.put(attrList.item(i).getNodeName(), getDoubleFromXML(myDocument, attrList.item(i).getNodeName()));
+				} else {
+					myAttributes.put(attrList.item(i).getNodeName(), attrList.item(i).getTextContent());
+				}
+			}
 		}
 		
-		int myWidth = getIntFromXML(myDocument, "width");
-		int myHeight = getIntFromXML(myDocument, "height");
+		try {
+		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
+		} catch(Exception e) {
+			System.out.println("Invalid or missing Simulation Type");
+		}
+		
+		try {
+			mySimulationTitle = myAttributes.get("title").toString(); 
+			} catch(Exception e) {
+				System.out.println("Invalid or missing Title");
+			}
+		
+		
+		int myWidth = 0;
+		int myHeight = 0;
+		try {
+			myWidth = (int) ((double) myAttributes.get("width")); 
+			myHeight = (int) ((double) myAttributes.get("height"));
+			} catch(Exception e) {
+				System.out.println("Invalid or missing dimensions");
+		}
 		
 		for(int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("row").item(i);
@@ -190,8 +256,12 @@ public class Main extends Application {
 							activeCells.add(tempGCell);
 						}
 						break;
-					case 2:
-						myCells.add(new WatorCell(cRow, cColumn, cState));
+					case 2: // Modified by Judi at 6:52PM 2/5/2018
+						Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+						myCells.add(tempWCell);
+						if(cState==2) {
+							activeCells.add(tempWCell);
+						}
 						break;
 					case 3:
 						double mThreshold = getDoubleFromXML(myDocument, "probability");
@@ -215,9 +285,18 @@ public class Main extends Application {
 	}
 
 
-	private int getSimulationType(Document d) throws Exception {
-		String typeString = d.getElementsByTagName("simulationType").item(0).getTextContent().toLowerCase();
-		switch(typeString){
+	private boolean isNumeric(String str) {
+		try {
+			double d = Double.parseDouble(str);
+		}
+		catch(NumberFormatException nfe) {
+			return false;
+		}
+		return true;
+	}
+
+	private int setSimulationType(String type) throws Exception {
+		switch(type.toLowerCase()){
 			case "fire":
 				return 0;
 			case "game of life":
@@ -230,9 +309,6 @@ public class Main extends Application {
 		throw new Exception("No Simulation Type Defined");
 	}
 	
-	private int getIntFromXML(Document d, String s) {
-		return (int)getDoubleFromXML(d,s);
-	}
 	
 	private double getDoubleFromXML(Document d, String s) {
 		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();

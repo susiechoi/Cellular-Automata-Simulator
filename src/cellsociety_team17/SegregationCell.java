@@ -31,20 +31,12 @@ public class SegregationCell extends Cell {
 		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
-	public void setMyState(int state) {
-		myState = state;
-	}
-
-	public int getMyState() {
-		return myState;
-	}
-
 	public void setNeighbors(ArrayList<Cell> neighbors) {
-		myNeighbors = neighbors; 
+		setMyNeighbors(neighbors); 
 	}
 
 	public ArrayList<Cell> getNeighbors(){
-		return myNeighbors;
+		return getMyNeighbors();
 	}
 	
 	public ArrayList<Cell> update() {
@@ -59,9 +51,9 @@ public class SegregationCell extends Cell {
 
 	private boolean needToMove() {
 		int neighborsLikeMe = 0; 
-		for (Cell neighbor : myNeighbors) {
-			if (neighbor.myState != 0) {
-				if (neighbor.myState == myState) neighborsLikeMe++; 
+		for (Cell neighbor : getMyNeighbors()) {
+			if (neighbor.getMyState() != 0) {
+				if (neighbor.getMyState() == this.getMyState()) neighborsLikeMe++; 
 				myNonEmptyNeighbors.add(neighbor); 
 			}
 		}
@@ -95,25 +87,25 @@ public class SegregationCell extends Cell {
 //		return this;
 		
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
-		possEmptySpots.addAll(myNeighbors);
+		possEmptySpots.addAll(getMyNeighbors());
 		Random randomGen = new Random(); 
 		while (true) {
 			int randomIndex = randomGen.nextInt(possEmptySpots.size());
 			Cell possEmptySpot = possEmptySpots.get(randomIndex);
-			if (possEmptySpot.myState == 0) {
-				possEmptySpot.myState = myState;
-				myState = 0; 
+			if (possEmptySpot.getMyState() == 0) {
+				possEmptySpot.setMyState(this.getMyState());
+				this.setMyState(0); 
 				this.updateColor(); 
 				possEmptySpot.updateColor(); 
 				return possEmptySpot;
 			}
-			possEmptySpots.addAll(possEmptySpot.myNeighbors);
+			possEmptySpots.addAll(possEmptySpot.getMyNeighbors());
 		}
 	}
 
 	@Override
 	void updateColor() {
-		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 
 

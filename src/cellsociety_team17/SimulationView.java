@@ -55,6 +55,8 @@ public class SimulationView {
 	private BooleanProperty playing = new SimpleBooleanProperty();
 	private BooleanProperty restart = new SimpleBooleanProperty();
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
+	private BooleanProperty home = new SimpleBooleanProperty();
+	private BooleanProperty step = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
@@ -75,6 +77,8 @@ public class SimulationView {
 		setUpGridContainer();
 		setUpControls();
 		establishScene();
+		home.set(false);
+		step.set(false);
 	}
 
 	public Scene getScene() {
@@ -167,31 +171,31 @@ public class SimulationView {
 		});
 		myRestartButton.setTranslateX(DEFAULT_BUTTON_SIZE * 3);
 		
-//		squareButton myStepButton = new squareButton(DEFAULT_BUTTON_SIZE, "Step");
-//		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//							
-//			}
-//		});
-//		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
-//		
-//		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
-//		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent event) {
-//						
-//			}
-//		});
-//		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
+		squareButton myStepButton = new squareButton(DEFAULT_BUTTON_SIZE, "Step");
+		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				step.set(!step.get());			
+			}
+		});
+		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
+		
+		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
+		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				home.set(!home.get());		
+			}
+		});
+		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
 
 		myControlsContainer.getChildren().add(myControlsBanner);
 		myControlsContainer.getChildren().add(mySlowDownButton);
 		myControlsContainer.getChildren().add(myPlayButton);
 		myControlsContainer.getChildren().add(myFastForwardButton);
 		myControlsContainer.getChildren().add(myRestartButton);
-//		myControlsContainer.getChildren().add(myStepButton);
-//		myControlsContainer.getChildren().add(myReturnHomeButton);
+		myControlsContainer.getChildren().add(myStepButton);
+		myControlsContainer.getChildren().add(myReturnHomeButton);
 	}
 	
 	protected void changeSpeed(double d) {
@@ -244,11 +248,19 @@ public class SimulationView {
 	public BooleanProperty getPlaying() {
 		return playing;
 	}
+	
 	public BooleanProperty getRestart() {
 		return restart;
 	}
 	private void broadcastRestart() {
 		restart.set(!restart.get());
+	}
+	public BooleanProperty goHome() {
+		return home;
+	}
+	public BooleanProperty step() {
+		return step;
+		
 	}
 
 }
