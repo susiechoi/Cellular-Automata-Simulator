@@ -14,7 +14,7 @@ public class GameOfLifeCell extends Cell {
 
 	public GameOfLifeCell(int row, int column, int state) {
 		super(row, column, state);
-		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 		System.out.println("new cell");
 		
 	}
@@ -24,16 +24,16 @@ public class GameOfLifeCell extends Cell {
 		System.out.println("update");
 		ArrayList<Cell> aliveNeighbors = new ArrayList<Cell>();
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
-		for(Cell neighbor:this.myNeighbors) {
+		for(Cell neighbor:this.getMyNeighbors()) {
 			if(neighbor.getMyState()==ALIVE) {
 				aliveNeighbors.add(neighbor);
 			}
 		}
 		
-		if(this.myState==DEAD) {
+		if(this.getMyState()==DEAD) {
 			 newACells= this.deadUpdate(aliveNeighbors);
 		}
-		if (this.myState==ALIVE) {
+		if (this.getMyState()==ALIVE) {
 			newACells= this.aliveUpdate(aliveNeighbors);
 		}		
 		return newACells;
@@ -62,6 +62,6 @@ public class GameOfLifeCell extends Cell {
 	}
 	
 	 void updateColor() {
-		this.myRectangle.setFill(STATE_COLORS[this.myState]);
+		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 }

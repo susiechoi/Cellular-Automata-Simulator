@@ -18,11 +18,11 @@ public class Grid {
 		myCells = new Cell[myHeight][myWidth]; 
 		myGroup = new Group();
 		for (Cell cell : activeCells) {
-			myCells[cell.myRow][cell.myColumn] = cell; 
+			myCells[cell.getMyRow()][cell.getMyColumn()] = cell; 
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell);
-			myGroup.getChildren().add(cell.myRectangle);
+			myGroup.getChildren().add(cell.getMyShape());
 		}
 	}
 
@@ -33,10 +33,10 @@ public class Grid {
 	
 	private ArrayList<Cell> findInBoundsNeighbors(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		if (cell.myRow > 0) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
-		if (cell.myRow < myHeight-1) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
-		if (cell.myColumn > 0) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
-		if (cell.myColumn< myWidth-1) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
+		if (cell.getMyRow() > 0) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
+		if (cell.getMyRow() < myHeight-1) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
+		if (cell.getMyColumn() > 0) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()-1]);
+		if (cell.getMyColumn()< myWidth-1) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()+1]);
 		return neighbors; 
 	}
 
