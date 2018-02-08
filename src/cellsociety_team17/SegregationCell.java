@@ -1,7 +1,6 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -10,7 +9,6 @@ import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
 
-	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
 	public static final double DEFAULT_THRESHOLD = 0.5; 
 	
 	// threshold t represents satisfaction with segregation 
@@ -53,7 +51,9 @@ public class SegregationCell extends Cell {
 		int neighborsLikeMe = 0; 
 		for (Cell neighbor : getMyNeighbors()) {
 			if (neighbor.getMyState() != 0) {
-				if (neighbor.getMyState() == this.getMyState()) neighborsLikeMe++; 
+				if (neighbor.getMyState() == this.getMyState()) {
+					neighborsLikeMe++; 
+				}
 				myNonEmptyNeighbors.add(neighbor); 
 			}
 		}

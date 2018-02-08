@@ -1,11 +1,8 @@
 package cellsociety_team17;
 
-import java.beans.Statement;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 
 import cellsociety_team17.Cell;
 import javafx.scene.Group;
@@ -49,6 +46,7 @@ public class Grid {
 
 	// TODO IMPROVE CATCH BLOCKS
 	private void setCellNeighbors(Cell cell, String neighborhoodShape)  { 
+
 		Class<?> classInstance = null; 
 		Method method = null; 
 		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
@@ -60,7 +58,6 @@ public class Grid {
 		}
 		catch (ClassNotFoundException e) {
 			System.out.println("Class: "+subclassName+" not found.");
-			//			e.printStackTrace();
 		}
 
 		// step 2: method 
@@ -70,10 +67,9 @@ public class Grid {
 		catch (NoSuchMethodException e) {
 			System.out.println("Neighborhood-setting method for that specific neighborhood grouping not found."
 					+ "Use again with default neighborhood-setting method.");
-			//			e.printStackTrace(); 
 		}
 		catch (SecurityException e) {
-			e.printStackTrace();
+			System.out.println("Permission issue relating to"+classInstance.getName());
 		}
 
 		// step 3: method invocation
@@ -81,13 +77,13 @@ public class Grid {
 			method.invoke(new NeighborhoodMakerD(), cell);
 		} 
 		catch (IllegalAccessException e) {
-			e.printStackTrace();
+			System.out.println("Class "+this.getClass().getName()+" does not have access to "+subclassName);
 		} 
 		catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			System.out.println("Illegal arguments in invoke method.");
 		} 
 		catch (InvocationTargetException e) {
-			e.printStackTrace();
+			System.out.println("Error came from: "+methodName);
 		}
 
 	}
@@ -142,13 +138,25 @@ public class Grid {
 		@Override
 		protected void setNeighbors(Cell cell) {
 			ArrayList<Cell> neighbors = new ArrayList<Cell>();
-			if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
-			if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
-			if (inBounds(cell.getMyRow(), cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()-1]);
-			if (inBounds(cell.getMyRow(), cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()+1]);
+			if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) {
+				neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
+			}
+			if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) {
+				neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
+			}
+			if (inBounds(cell.getMyRow(), cell.getMyColumn()-1)) {
+				neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()-1]);
+			}
+			if (inBounds(cell.getMyRow(), cell.getMyColumn()+1)) {
+				neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()+1]);
+			}
 			if (myToroidality) {
-				if (cell.getMyColumn() == 0) neighbors.add(myCells[cell.getMyRow()][myWidth-1]);
-				else if (cell.getMyColumn() == myWidth-1) neighbors.add(myCells[cell.getMyRow()][0]);
+				if (cell.getMyColumn() == 0) {
+					neighbors.add(myCells[cell.getMyRow()][myWidth-1]);
+				}
+				else if (cell.getMyColumn() == myWidth-1) {
+					neighbors.add(myCells[cell.getMyRow()][0]);
+				}
 			}
 			cell.setNeighbors(neighbors); 
 		}
@@ -162,10 +170,18 @@ public class Grid {
 		@Override
 		protected void setNeighbors(Cell cell) {
 			ArrayList<Cell> neighbors = new ArrayList<Cell>();
-			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()+1]);
-			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
-			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()-1]);
-			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
+			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()+1)) {
+				neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()+1]);
+			}
+			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) {
+				neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
+			}
+			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()-1)) {
+				neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()-1]);
+			}
+			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) {
+				neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
+			}
 			//		if (toroidal) {
 			//			if (cell.getMyColumn() == 0) {
 			//				neighbors.add(myCells[cell.getMyRow()-1][myWidth-1]);
@@ -188,10 +204,18 @@ public class Grid {
 		@Override
 		protected void setNeighbors(Cell cell) {
 			ArrayList<Cell> neighbors = new ArrayList<Cell>();
-			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
-			if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
-			if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
-			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
+			if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) {
+				neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
+			}
+			if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) {
+				neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
+			}
+			if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) {
+				neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
+			}
+			if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) {
+				neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
+			}
 			//		if (toroidal) {
 			//			if (cell.getMyColumn() == 0) {
 			//				neighbors.add(myCells[cell.getMyRow()-1][myWidth-1]);
