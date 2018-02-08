@@ -1,6 +1,7 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
@@ -27,7 +28,7 @@ public class FireCell extends Cell {
 	}
 
 	@Override
-	ArrayList<Cell> update() {
+	List<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : getMyNeighbors()) {
