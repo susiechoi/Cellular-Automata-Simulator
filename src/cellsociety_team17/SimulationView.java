@@ -193,7 +193,7 @@ public class SimulationView {
 					myPlayButton.setImage("Pause");
 				}
 			}
-			
+
 		});
 		myPlayButton.setTranslateX(DEFAULT_BUTTON_SIZE);
 		return myPlayButton;
@@ -217,7 +217,7 @@ public class SimulationView {
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 		return myControlsBanner;
 	}
-	
+
 	protected void changeSpeed(double d) {
 		mySpeed.set(mySpeed.get()+ d);
 	}
@@ -258,17 +258,17 @@ public class SimulationView {
 				}
 				catch (FileNotFoundException e) {
 					System.out.println("Specify an existing file path for button images.");
-//					e.printStackTrace();
+					//					e.printStackTrace();
 				}
 			}
-		
+
 		}
 	}
-	
+
 	public BooleanProperty getPlaying() {
 		return playing;
 	}
-	
+
 	public BooleanProperty getRestart() {
 		return restart;
 	}
@@ -280,7 +280,7 @@ public class SimulationView {
 	}
 	public BooleanProperty step() {
 		return step;
-		
+
 	}
 
 }

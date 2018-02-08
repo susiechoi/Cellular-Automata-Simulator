@@ -13,7 +13,7 @@ public class SegregationCell extends Cell {
 
 	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
 	public static final double DEFAULT_THRESHOLD = 0.5; 
-	
+
 	// threshold t represents satisfaction with segregation 
 	private float myThreshold;
 	private List<Cell> myNonEmptyNeighbors; 
@@ -39,7 +39,7 @@ public class SegregationCell extends Cell {
 	public List<Cell> getNeighbors(){
 		return getMyNeighbors();
 	}
-	
+
 	public List<Cell> update() {
 		Cell newACell = null;
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
@@ -62,31 +62,31 @@ public class SegregationCell extends Cell {
 	}
 
 	private Cell moveToEmptySpace() {
-//		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
-//
-//		for (Cell neighbor : myNeighbors) {
-//			if (neighbor.myState == 0) {
-//				neighbor.myState = myState;
-//				myState = 0; 
-//				this.updateColor(); 
-//				neighbor.updateColor(); 
-//				return neighbor;
-//			} 
-//			possEmptySpots.add(neighbor);
-//		}
-//		for (Cell possSpot : possEmptySpots) {
-//			
-//			if (possSpot.myState == 0) {
-//				possSpot.myState = myState;
-//				myState = 0; 
-//				this.updateColor(); 
-//				possSpot.updateColor();
-//				return possSpot;
-//			} 
-//			possEmptySpots.addAll(possSpot.myNeighbors);
-//		}
-//		return this;
-		
+		//		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
+		//
+		//		for (Cell neighbor : myNeighbors) {
+		//			if (neighbor.myState == 0) {
+		//				neighbor.myState = myState;
+		//				myState = 0; 
+		//				this.updateColor(); 
+		//				neighbor.updateColor(); 
+		//				return neighbor;
+		//			} 
+		//			possEmptySpots.add(neighbor);
+		//		}
+		//		for (Cell possSpot : possEmptySpots) {
+		//			
+		//			if (possSpot.myState == 0) {
+		//				possSpot.myState = myState;
+		//				myState = 0; 
+		//				this.updateColor(); 
+		//				possSpot.updateColor();
+		//				return possSpot;
+		//			} 
+		//			possEmptySpots.addAll(possSpot.myNeighbors);
+		//		}
+		//		return this;
+
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
 		possEmptySpots.addAll(getMyNeighbors());
 		Random randomGen = new Random(); 

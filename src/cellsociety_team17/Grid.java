@@ -39,8 +39,8 @@ public class Grid {
 			myGroup.getChildren().add(cell.getMyShape());
 		}
 	}
-	
-	
+
+
 
 	//	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
 	//		ArrayList<Cell> inBoundsNeighbors = findInBoundsNeighbors(cell, neighborhoodShape);
@@ -101,16 +101,16 @@ public class Grid {
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()-1]);
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
-//		if (toroidal) {
-//			if (cell.myColumn == 0) {
-//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
-//				neighbors.add(myCells[cell.myRow+1][myWidth-1]);
-//			}
-//			else if (cell.myColumn == myWidth-1) {
-//				neighbors.add(myCells[cell.myRow-1][0]);
-//				neighbors.add(myCells[cell.myRow+1][0]);
-//			}
-//		}
+		//		if (toroidal) {
+		//			if (cell.myColumn == 0) {
+		//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
+		//				neighbors.add(myCells[cell.myRow+1][myWidth-1]);
+		//			}
+		//			else if (cell.myColumn == myWidth-1) {
+		//				neighbors.add(myCells[cell.myRow-1][0]);
+		//				neighbors.add(myCells[cell.myRow+1][0]);
+		//			}
+		//		}
 		cell.setNeighbors(neighbors); 
 	}
 
@@ -121,14 +121,14 @@ public class Grid {
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
-//		if (toroidal) {
-//			if (cell.myColumn == 0) {
-//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
-//			} 
-//			else if (cell.myColumn == myWidth-1) {
-//				neighbors.add(myCells[cell.myRow+1][0]);
-//			}
-//		}
+		//		if (toroidal) {
+		//			if (cell.myColumn == 0) {
+		//				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
+		//			} 
+		//			else if (cell.myColumn == myWidth-1) {
+		//				neighbors.add(myCells[cell.myRow+1][0]);
+		//			}
+		//		}
 		cell.setNeighbors(neighbors); 
 	}
 
@@ -164,11 +164,11 @@ public class Grid {
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
 	}
-	
+
 	public Shape getShapeType() {
 		return myShapeType;
 	}
-	
+
 	public void setMyShape(Shape s) {
 		myShapeType=s;
 	}
