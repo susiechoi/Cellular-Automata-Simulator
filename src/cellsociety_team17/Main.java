@@ -39,8 +39,8 @@ public class Main extends Application {
 	private Grid myGrid;
 	private int mySimulationType;
 	private String mySimulationTitle;
-	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
-	private ArrayList<Cell> myCells = new ArrayList<Cell>();
+	private List<Cell> activeCells = new ArrayList<Cell>();
+	private List<Cell> myCells = new ArrayList<Cell>();
 	private HashMap myAttributes = new HashMap();
 	private File myXmlFile;
 	private Timeline myTimeLine;

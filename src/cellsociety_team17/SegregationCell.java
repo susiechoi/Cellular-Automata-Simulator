@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -35,7 +36,7 @@ public class SegregationCell extends Cell {
 		setMyNeighbors(neighbors); 
 	}
 
-	public ArrayList<Cell> getNeighbors(){
+	public List<Cell> getNeighbors(){
 		return getMyNeighbors();
 	}
 	

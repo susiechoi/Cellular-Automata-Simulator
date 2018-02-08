@@ -1,6 +1,7 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.shape.Shape;
 
@@ -12,7 +13,7 @@ public abstract class Cell {
 	private int myRow;
 	private int myColumn;
 	private Shape myShape; 
-	private ArrayList<Cell> myNeighbors;
+	private List<Cell> myNeighbors;
 	public static final int CELLSIZE = 40;
 
 	public Cell(int row, int column, int state) {
@@ -92,7 +93,7 @@ public abstract class Cell {
 	 * Gets an ArrayList of cells containing all the neighboring cells
 	 * @return ArrayList<CEll>
 	 */
-	public ArrayList<Cell> getNeighbors() {
+	public List<Cell> getNeighbors() {
 		return getMyNeighbors();
 	}
 	/**
@@ -108,7 +109,7 @@ public abstract class Cell {
 	abstract void updateColor();
 
 
-	public ArrayList<Cell> getMyNeighbors() {
+	public List<Cell> getMyNeighbors() {
 		return myNeighbors;
 	}
 
