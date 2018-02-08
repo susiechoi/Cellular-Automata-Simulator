@@ -6,7 +6,6 @@ import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import cellsociety_team17.Cell;
-import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
 
