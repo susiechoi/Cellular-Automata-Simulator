@@ -1,6 +1,7 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
@@ -44,10 +45,10 @@ public class WatorCell extends Cell {
 	}
 
 	@Override
-	ArrayList<Cell> update() {
+	List<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		if (this.getMyState() == FISH) {
-			newACells = this.fishUpdate();
+			newACells = (ArrayList<Cell>) this.fishUpdate();
 		}
 
 		else if (this.getMyState() == EMPTY) {
@@ -55,9 +56,9 @@ public class WatorCell extends Cell {
 		}
 
 		else if (this.getMyState() == SHARK) {
-			newACells= sharkDeath(mySharkEnergy);
+			newACells= (ArrayList<Cell>) sharkDeath(mySharkEnergy);
 			if (this.getMyState() == SHARK) {
-				newACells = this.sharkUpdate();
+				newACells = (ArrayList<Cell>) this.sharkUpdate();
 			}
 		}
 
@@ -65,7 +66,7 @@ public class WatorCell extends Cell {
 		return newACells;
 	}
 
-	private ArrayList<Cell> fishUpdate() {
+	private List<Cell> fishUpdate() {
 		System.out.println("Fish update");
 		this.myFishCycles++;
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
@@ -95,7 +96,7 @@ public class WatorCell extends Cell {
 		return newACells;
 	}
 
-	private ArrayList<Cell> sharkUpdate() {
+	private List<Cell> sharkUpdate() {
 		System.out.println("Shark update");
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		this.mySharkEnergy--;
@@ -150,7 +151,7 @@ public class WatorCell extends Cell {
 		return newACells;
 	}
 
-	private ArrayList<Cell> sharkDeath(int sharkEnergy) {
+	private List<Cell> sharkDeath(int sharkEnergy) {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		if (sharkEnergy == 0) {
 			this.setMyState(EMPTY);

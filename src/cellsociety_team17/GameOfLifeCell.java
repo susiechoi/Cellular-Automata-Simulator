@@ -1,6 +1,7 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
@@ -20,10 +21,10 @@ public class GameOfLifeCell extends Cell {
 	}
 
 	@Override
-	 ArrayList<Cell> update() {
+	 List<Cell> update() {
 		System.out.println("update");
 		ArrayList<Cell> aliveNeighbors = new ArrayList<Cell>();
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells =new ArrayList<Cell>();;
 		for(Cell neighbor:this.getMyNeighbors()) {
 			if(neighbor.getMyState()==ALIVE) {
 				aliveNeighbors.add(neighbor);
@@ -31,15 +32,15 @@ public class GameOfLifeCell extends Cell {
 		}
 		
 		if(this.getMyState()==DEAD) {
-			 newACells= this.deadUpdate(aliveNeighbors);
+			 newACells= (ArrayList<Cell>) this.deadUpdate(aliveNeighbors);
 		}
 		if (this.getMyState()==ALIVE) {
-			newACells= this.aliveUpdate(aliveNeighbors);
+			newACells= (ArrayList<Cell>) this.aliveUpdate(aliveNeighbors);
 		}		
 		return newACells;
 	}
 	
-	private ArrayList<Cell> deadUpdate(ArrayList<Cell> alive){
+	private List<Cell> deadUpdate(List<Cell> alive){
 		ArrayList<Cell> newACells= new ArrayList<Cell>();
 		if(alive.size()==3) {
 			this.setMyState(ALIVE);
@@ -50,7 +51,7 @@ public class GameOfLifeCell extends Cell {
 		return newACells;
 	}
 
-	private ArrayList<Cell> aliveUpdate(ArrayList<Cell> alive) {
+	private List<Cell> aliveUpdate(List<Cell> alive) {
 		ArrayList<Cell> newACells= new ArrayList<Cell>();
 		if(alive.size()<2 || alive.size()>3) {
 			this.setMyState(DEAD);
