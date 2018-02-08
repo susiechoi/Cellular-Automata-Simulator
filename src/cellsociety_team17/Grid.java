@@ -22,11 +22,11 @@ public class Grid {
 	private Group myGroup;
 	private Shape myShapeType;
 
-	public Grid(int width, int height, ArrayList<Cell> activeCells) {
+	public Grid(int width, int height, List<Cell> activeCells) {
 		this(width, height, activeCells, DEFAULT_NEIGHBORHOOD_SHAPE, DEFAULT_TOROIDALITY);
 	}
 
-	public Grid(int width, int height, ArrayList<Cell> activeCells, String neighborhoodShape, boolean toroidal) {
+	public Grid(int width, int height, List<Cell> activeCells, String neighborhoodShape, boolean toroidal) {
 		myWidth = width;
 		myHeight = height;
 		myCells = new Cell[myHeight][myWidth]; 
@@ -135,7 +135,7 @@ public class Grid {
 		return (row >= 0 && row < myHeight && col >= 0 && col < myWidth);
 	}
 
-	public ArrayList<Cell> updateCells(ArrayList<Cell> activeCells) {
+	public List<Cell> updateCells(List<Cell> activeCells) {
 		//		System.out.println(activeCells);
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
