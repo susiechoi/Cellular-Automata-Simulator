@@ -17,17 +17,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sun.rmi.runtime.Log;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
@@ -119,7 +118,7 @@ public class Main extends Application {
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
 				e -> Step(SECOND_DELAY));
 		Timeline myTimeline = new Timeline();
-		myTimeline.setCycleCount(Timeline.INDEFINITE);
+		myTimeline.setCycleCount(Animation.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 		myTimeline.pause();
 		setUpChangeListeners(mySimulationView, myTimeline);
