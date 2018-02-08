@@ -10,9 +10,9 @@ public class FireCell extends Cell {
 	public static final int BURNING = 2;
 	public static final int TREE = 1;
 	public static final int EMPTY = 0;
-	public static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
+	protected static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
 	protected static final double DEFAULT_PROBABILITY = 0.5;
-	
+
 	private double myProbability;
 
 	public FireCell(int row, int column, int state) {
@@ -29,7 +29,7 @@ public class FireCell extends Cell {
 
 	@Override
 	List<Cell> update() {
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : getMyNeighbors()) {
 			if (cell.getMyState() == TREE && this.getMyState() == BURNING) {
@@ -48,15 +48,17 @@ public class FireCell extends Cell {
 		this.updateColor();
 		return newACells;
 	}
-	
-	/* First go through and set myNextState for all the Cells. Then, go through all of them 
-	 * again to actually update them simultaneously. 
+
+	/*
+	 * First go through and set myNextState for all the Cells. Then, go through all
+	 * of them again to actually update them simultaneously.
 	 */
-	
+
 	void setMyProbability(double p) {
 		myProbability = p;
 	}
-	 void updateColor() {
+	 @Override
+	void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 

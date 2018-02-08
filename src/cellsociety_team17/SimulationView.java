@@ -23,7 +23,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.input.MouseEvent;
 
 public class SimulationView {
 	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
@@ -31,12 +30,12 @@ public class SimulationView {
 	public static final String DEFAULT_LANGUAGE = "Image";
 	public static final double MIN_WIDTH = 100;
 	public static final Paint ACCENT_COLOR = Color.LIGHTGRAY;
-	public static final Paint PRIMARY_COLOR = Color.GRAY; 
+	public static final Paint PRIMARY_COLOR = Color.GRAY;
 	public static final int DEFAULT_BUTTON_SIZE = 46;
-	public static final double DEFAULT_BUTTON_SCALE = 0.75; 
-	public static final String IMG_FILE_PATH = "assets/IMG/"; 
+	public static final double DEFAULT_BUTTON_SCALE = 0.75;
+	public static final String IMG_FILE_PATH = "assets/IMG/";
 	private static final double DEFAULT_SPEED = 1;
-	private static final double DEFAULT_SPEED_CHANGE = 0.5; 
+	private static final double DEFAULT_SPEED_CHANGE = 0.5;
 
 	private ResourceBundle myResources;
 	private double myHeight;
@@ -59,7 +58,7 @@ public class SimulationView {
 	private BooleanProperty step = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
 		mySimulationTitle = simulationTitle;
 		myGrid = g;
 		myHeaderHeight = 25;
@@ -67,7 +66,7 @@ public class SimulationView {
 		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
 		mySpeed.set(DEFAULT_SPEED);
 
-		if(myGrid.getWidthInPixels() > MIN_WIDTH) {
+		if (myGrid.getWidthInPixels() > MIN_WIDTH) {
 			myWidth = myGrid.getWidthInPixels();
 		} else {
 			myWidth = MIN_WIDTH;
@@ -110,14 +109,15 @@ public class SimulationView {
 
 		Text myBannerText = new Text();
 		myBannerText.setText(mySimulationTitle);
-		myBannerText.setTranslateX((myWidth-myBannerText.getBoundsInLocal().getWidth())/2);
-		myBannerText.setTranslateY((myHeaderHeight)/2);
+		myBannerText.setTranslateX((myWidth - myBannerText.getBoundsInLocal().getWidth()) / 2);
+		myBannerText.setTranslateY((myHeaderHeight) / 2);
 		myBannerText.fontProperty().setValue(Font.font("Verdana", FontWeight.BOLD, 12));
 
 		myHeader.getChildren().add(myBanner);
 		myHeader.getChildren().add(myBannerText);
 
 	}
+
 	private void setUpControls() {
 		myControlsContainer = new Group();
 		myControlsContainerWidth = myWidth;
@@ -127,7 +127,7 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(setUpPlayButton());
 		myControlsContainer.getChildren().add(setUpFastForwardButton());
 		myControlsContainer.getChildren().add(setUpRestartButton());
-		myControlsContainer.getChildren().add( setUpStepButton());
+		myControlsContainer.getChildren().add(setUpStepButton());
 		myControlsContainer.getChildren().add(setUpReturnHomeButton());
 	}
 
@@ -136,7 +136,7 @@ public class SimulationView {
 		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				home.set(!home.get());		
+				home.set(!home.get());
 			}
 		});
 		myReturnHomeButton.setTranslateX(DEFAULT_BUTTON_SIZE * 5);
@@ -148,7 +148,7 @@ public class SimulationView {
 		myStepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				step.set(!step.get());			
+				step.set(!step.get());
 			}
 		});
 		myStepButton.setTranslateX(DEFAULT_BUTTON_SIZE * 4);
@@ -160,7 +160,7 @@ public class SimulationView {
 		myRestartButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				broadcastRestart();			
+				broadcastRestart();
 			}
 		});
 		myRestartButton.setTranslateX(DEFAULT_BUTTON_SIZE * 3);
@@ -173,7 +173,7 @@ public class SimulationView {
 		myFastForwardButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				changeSpeed(DEFAULT_SPEED_CHANGE);			
+				changeSpeed(DEFAULT_SPEED_CHANGE);
 			}
 		});
 		return myFastForwardButton;
@@ -185,7 +185,7 @@ public class SimulationView {
 
 			@Override
 			public void handle(MouseEvent event) {
-				if(playing.get()) {
+				if (playing.get()) {
 					playing.set(false);
 					myPlayButton.setImage("Play");
 				} else {
@@ -193,7 +193,7 @@ public class SimulationView {
 					myPlayButton.setImage("Pause");
 				}
 			}
-			
+
 		});
 		myPlayButton.setTranslateX(DEFAULT_BUTTON_SIZE);
 		return myPlayButton;
@@ -204,22 +204,22 @@ public class SimulationView {
 		mySlowDownButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				changeSpeed(-DEFAULT_SPEED_CHANGE);	
+				changeSpeed(-DEFAULT_SPEED_CHANGE);
 			}
 		});
 		return mySlowDownButton;
 	}
 
 	private Rectangle setUpControlsBanner() {
-		Rectangle myControlsBanner = new Rectangle(myControlsContainerWidth,myControlsContainerHeight);
+		Rectangle myControlsBanner = new Rectangle(myControlsContainerWidth, myControlsContainerHeight);
 		myControlsBanner.setFill(ACCENT_COLOR);
 		myControlsBanner.setX(0);
 		myControlsBanner.setY(myHeaderHeight + myGrid.getHeightInPixels());
 		return myControlsBanner;
 	}
-	
+
 	protected void changeSpeed(double d) {
-		mySpeed.set(mySpeed.get()+ d);
+		mySpeed.set(mySpeed.get() + d);
 	}
 
 	public DoubleProperty getMySpeed() {
@@ -229,25 +229,26 @@ public class SimulationView {
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
 		int n = 0;
-		while(n < myGrid.getGroup().getChildren().size()) {
+		while (n < myGrid.getGroup().getChildren().size()) {
 			Node temp = myGrid.getGroup().getChildren().get(n);
-			temp.setTranslateY(temp.getTranslateY()+myHeaderHeight);
+			temp.setTranslateY(temp.getTranslateY() + myHeaderHeight);
 			myGridContainer.getChildren().add(temp);
 		}
 	}
 
 	private class squareButton extends ImageView {
-		squareButton(int size, String type){
+		squareButton(int size, String type) {
 			this.setFitHeight(size);
-			this.setFitWidth(size);			
+			this.setFitWidth(size);
 			setImage(type);
 		}
+
 		private void setImage(String type) {
-			final String IMAGEFILE_SUFFIXES =
-					String.format(".*\\.(%s)", String.join("|", ImageIO.getReaderFileSuffixes()));
+			final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)",
+					String.join("|", ImageIO.getReaderFileSuffixes()));
 			String label = myResources.getString(type);
 			if (label.matches(IMAGEFILE_SUFFIXES)) {
-				java.io.FileInputStream fis; 
+				java.io.FileInputStream fis;
 				try {
 					fis = new FileInputStream(DEFAULT_IMG_FILEPATH + label);
 					Image buttonImage = new Image(fis);
@@ -255,33 +256,34 @@ public class SimulationView {
 					this.setScaleX(DEFAULT_BUTTON_SCALE);
 					this.setScaleY(DEFAULT_BUTTON_SCALE);
 					this.setY(myHeaderHeight + myGrid.getHeightInPixels());
-				}
-				catch (FileNotFoundException e) {
+				} catch (FileNotFoundException e) {
 					System.out.println("Specify an existing file path for button images.");
-//					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
-		
+
 		}
 	}
-	
+
 	public BooleanProperty getPlaying() {
 		return playing;
 	}
-	
+
 	public BooleanProperty getRestart() {
 		return restart;
 	}
+
 	private void broadcastRestart() {
 		restart.set(!restart.get());
 	}
+
 	public BooleanProperty goHome() {
 		return home;
 	}
+
 	public BooleanProperty step() {
 		return step;
-		
+
 	}
 
 }
-
