@@ -210,6 +210,13 @@ public class Main extends Application {
 			System.out.println("Invalid or missing Simulation Type");
 		}
 		
+		try {
+			mySimulationTitle = myAttributes.get("title").toString(); 
+			} catch(Exception e) {
+				System.out.println("Invalid or missing Title");
+			}
+		
+		
 		int myWidth = 0;
 		int myHeight = 0;
 		try {
