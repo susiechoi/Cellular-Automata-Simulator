@@ -65,7 +65,8 @@ public class GameOfLifeCell extends Cell {
 		return newACells;
 	}
 	
-	 void updateColor() {
+	 @Override
+	void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 }
