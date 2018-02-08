@@ -12,7 +12,7 @@ public class FireCell extends Cell {
 	public static final int EMPTY = 0;
 	protected static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
 	protected static final double DEFAULT_PROBABILITY = 0.5;
-	
+
 	private double myProbability;
 
 	public FireCell(int row, int column, int state) {
@@ -48,11 +48,12 @@ public class FireCell extends Cell {
 		this.updateColor();
 		return newACells;
 	}
-	
-	/* First go through and set myNextState for all the Cells. Then, go through all of them 
-	 * again to actually update them simultaneously. 
+
+	/*
+	 * First go through and set myNextState for all the Cells. Then, go through all
+	 * of them again to actually update them simultaneously.
 	 */
-	
+
 	void setMyProbability(double p) {
 		myProbability = p;
 	}
