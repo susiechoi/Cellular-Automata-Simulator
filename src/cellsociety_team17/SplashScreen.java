@@ -71,7 +71,7 @@ public class SplashScreen {
 		String selectedSimulation = selectedButton.getText()+"Cell";
 //				System.out.println(selectedSimulation);
 		myUserSelection = selectedSimulation;
-		//System.out.println(myUserSelection);
+//		System.out.println(myUserSelection);
 		userSelectionReceived();
 	}
 		
