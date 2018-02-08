@@ -1,11 +1,11 @@
 package cellsociety_team17;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import cellsociety_team17.Cell;
-import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
 
