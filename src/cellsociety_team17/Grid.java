@@ -23,6 +23,7 @@ public class Grid {
 	private Cell[][] myCells; 
 	private Group myGroup;
 	private boolean myToroidality; 
+
 	private Shape myShapeType;
 
 	public Grid(int width, int height, ArrayList<Cell> activeCells) {
@@ -43,8 +44,8 @@ public class Grid {
 			myGroup.getChildren().add(cell.getMyShape());
 		}
 	}
-	
-	
+
+
 
 	// TODO IMPROVE CATCH BLOCKS
 	private void setCellNeighbors(Cell cell, String neighborhoodShape)  { 
@@ -88,7 +89,8 @@ public class Grid {
 		catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-	} 
+
+	}
 
 	private boolean inBounds(int row, int col) {
 		return (row >= 0 && row < myHeight && col >= 0 && col < myWidth);
@@ -122,7 +124,7 @@ public class Grid {
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
 	}
-		
+
 	private abstract class NeighborhoodMaker {
 
 		private NeighborhoodMaker() {
@@ -151,7 +153,7 @@ public class Grid {
 			cell.setNeighbors(neighbors); 
 		}
 	}
-	
+
 	private class NeighborhoodMakerC extends NeighborhoodMaker {
 
 		private NeighborhoodMakerC() {
@@ -177,7 +179,7 @@ public class Grid {
 			cell.setNeighbors(neighbors); 
 		}
 	}
-	
+
 	private class NeighborhoodMakerZ extends NeighborhoodMaker {
 
 		private NeighborhoodMakerZ() {
@@ -205,7 +207,7 @@ public class Grid {
 	public Shape getShapeType() {
 		return myShapeType;
 	}
-	
+
 	public void setMyShape(Shape s) {
 		myShapeType=s;
 	}
