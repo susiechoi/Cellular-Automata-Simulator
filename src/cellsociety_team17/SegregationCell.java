@@ -16,7 +16,7 @@ public class SegregationCell extends Cell {
 	
 	// threshold t represents satisfaction with segregation 
 	private float myThreshold;
-	private ArrayList<Cell> myNonEmptyNeighbors; 
+	private List<Cell> myNonEmptyNeighbors; 
 
 	public SegregationCell(int row, int col, int startState) {
 		super(row, col, startState);
@@ -32,7 +32,7 @@ public class SegregationCell extends Cell {
 		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
-	public void setNeighbors(ArrayList<Cell> neighbors) {
+	public void setNeighbors(List<Cell> neighbors) {
 		setMyNeighbors(neighbors); 
 	}
 
@@ -40,7 +40,7 @@ public class SegregationCell extends Cell {
 		return getMyNeighbors();
 	}
 	
-	public ArrayList<Cell> update() {
+	public List<Cell> update() {
 		Cell newACell = null;
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
 			newACell = this.moveToEmptySpace();
