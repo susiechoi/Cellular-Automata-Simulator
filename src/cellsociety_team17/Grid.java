@@ -12,15 +12,15 @@ import javafx.scene.shape.Shape;
 public class Grid {
 
 	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
-	public static final boolean DEFAULT_TOROIDALITY = true; 
+	public static final boolean DEFAULT_TOROIDALITY = true;
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
 
 	private int myWidth;
 	private int myHeight;
-	private Cell[][] myCells; 
+	private Cell[][] myCells;
 	private Group myGroup;
-	private boolean myToroidality; 
+	private boolean myToroidality;
 
 	private Shape myShapeType;
 
@@ -31,11 +31,11 @@ public class Grid {
 	public Grid(int width, int height, List<Cell> activeCells, String neighborhoodShape, boolean toroidal) {
 		myWidth = width;
 		myHeight = height;
-		myCells = new Cell[myHeight][myWidth]; 
+		myCells = new Cell[myHeight][myWidth];
 		myGroup = new Group();
-		myToroidality = toroidal; 
+		myToroidality = toroidal;
 		for (Cell cell : activeCells) {
-			myCells[cell.getMyRow()][cell.getMyColumn()] = cell; 
+			myCells[cell.getMyRow()][cell.getMyColumn()] = cell;
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape);
@@ -43,63 +43,55 @@ public class Grid {
 		}
 	}
 
-
-
 	// TODO IMPROVE CATCH BLOCKS
-	private void setCellNeighbors(Cell cell, String neighborhoodShape)  { 
+	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
 
-		Class<?> classInstance = null; 
-		Method method = null; 
+		Class<?> classInstance = null;
+		Method method = null;
 		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
 		String methodName = SET_NEIGHBORS_METHOD_NAME;
 
 		// step 1: class
 		try {
 			classInstance = Class.forName(subclassName);
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println("Class: "+subclassName+" not found.");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class: " + subclassName + " not found.");
 		}
 
-		// step 2: method 
+		// step 2: method
 		try {
 			method = classInstance.getDeclaredMethod(methodName, Cell.class);
-		} 
-		catch (NoSuchMethodException e) {
+		} catch (NoSuchMethodException e) {
 			System.out.println("Neighborhood-setting method for that specific neighborhood grouping not found."
 					+ "Use again with default neighborhood-setting method.");
-		}
-		catch (SecurityException e) {
-			System.out.println("Permission issue relating to"+classInstance.getName());
+		} catch (SecurityException e) {
+			System.out.println("Permission issue relating to" + classInstance.getName());
 		}
 
 		// step 3: method invocation
 		try {
 			method.invoke(new NeighborhoodMakerC(), cell);
-		} 
-		catch (IllegalAccessException e) {
-			System.out.println("Class "+this.getClass().getName()+" does not have access to "+subclassName);
-		} 
-		catch (IllegalArgumentException e) {
+		} catch (IllegalAccessException e) {
+			System.out.println("Class " + this.getClass().getName() + " does not have access to " + subclassName);
+		} catch (IllegalArgumentException e) {
 			System.out.println("Illegal arguments in invoke method.");
-		} 
-		catch (InvocationTargetException e) {
-			System.out.println("Error came from: "+methodName);
+		} catch (InvocationTargetException e) {
+			System.out.println("Error came from: " + methodName);
 		}
-
 	}
-
+	
 	public List<Cell> updateCells(List<Cell> activeCells) {
-		//		System.out.println(activeCells);
+		// System.out.println(activeCells);
 		List<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
-			if (cell != null) newACells.addAll(cell.update()); 
+			if (cell != null)
+				newACells.addAll(cell.update());
 		}
 		return newACells;
 	}
 
 	public Group getGroup() {
-		return myGroup; 
+		return myGroup;
 	}
 
 	public int getWidth() {
@@ -111,7 +103,7 @@ public class Grid {
 	}
 
 	public int getHeight() {
-		return myHeight; 
+		return myHeight;
 	}
 
 	public double getHeightInPixels() {
@@ -169,7 +161,7 @@ public class Grid {
 			else if (inToroidalBounds(x[idx], y[idx])) {
 				neighbors.add(myCells[x[idx]][0]);
 			}
-			cell.setNeighbors(neighbors); 
+			cell.setNeighbors(neighbors);
 		}
 	}
 
@@ -255,7 +247,7 @@ public class Grid {
 	}
 
 	public void setMyShape(Shape s) {
-		myShapeType=s;
+		myShapeType = s;
 	}
 
 }
