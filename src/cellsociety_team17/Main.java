@@ -82,12 +82,12 @@ public class Main extends Application {
 					try {
 						startSimulation(readInput(myXmlFile));
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						System.out.println("error starting the simulation");
 						e.printStackTrace();
 					}
 				}});
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			System.out.print("File not found!!!");
 			e1.printStackTrace();
 		}
 		
@@ -145,7 +145,7 @@ public class Main extends Application {
 					myTimeline.pause();
 					showSplashScreen();
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("Error returning to Home Screen");
 				}				
 			}
 			
@@ -161,6 +161,7 @@ public class Main extends Application {
 					myTimeline.setRate(.1);
 					myTimeline.play();
 				} catch (Exception e) {
+					System.out.println("Error stepping through project");
 					e.printStackTrace();
 				}				
 			}
@@ -176,6 +177,7 @@ public class Main extends Application {
 					myTimeline.stop();
 					startSimulation(readInput(myXmlFile));
 				} catch (Exception e) {
+					System.out.print("Error Starting Simulation");
 					e.printStackTrace();
 				}				
 			}
@@ -203,7 +205,7 @@ public class Main extends Application {
 						myTimeline.pause();
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					System.out.println("Error in playing/pausing the timeline");
 					e.printStackTrace();
 				}
 			}});
