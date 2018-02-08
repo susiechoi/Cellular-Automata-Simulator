@@ -1,6 +1,7 @@
 package cellsociety_team17;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.paint.Color;
 
@@ -10,7 +11,7 @@ public class FireCell extends Cell {
 	public static final int TREE = 1;
 	public static final int EMPTY = 0;
 	public static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
-	public static final double DEFAULT_PROBABILITY = 0.5;
+	protected static final double DEFAULT_PROBABILITY = 0.5;
 	
 	private double myProbability;
 
@@ -27,7 +28,7 @@ public class FireCell extends Cell {
 	}
 
 	@Override
-	ArrayList<Cell> update() {
+	List<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<Cell>();
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : getMyNeighbors()) {

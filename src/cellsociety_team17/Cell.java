@@ -1,6 +1,6 @@
 package cellsociety_team17;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
@@ -14,7 +14,7 @@ public abstract class Cell {
 	private int myRow;
 	private int myColumn;
 	private Shape myShape; 
-	private ArrayList<Cell> myNeighbors;
+	private List<Cell> myNeighbors;
 	public static final int CELLSIZE = 40;
 
 	public Cell(int row, int column, int state) {
@@ -91,32 +91,32 @@ public abstract class Cell {
 	}
 	
 	/**
-	 * Gets an ArrayList of cells containing all the neighboring cells
-	 * @return ArrayList<CEll>
+	 * Gets an ArrayList<Cell> of cells containing all the neighboring cells
+	 * @return ArrayList<Cell><CEll>
 	 */
-	public ArrayList<Cell> getNeighbors() {
+	public List<Cell> getNeighbors() {
 		return getMyNeighbors();
 	}
 	/**
-	 * Sets an ArrayList of cells containing all the neighboring cells
+	 * Sets an ArrayList<Cell> of cells containing all the neighboring cells
 	 * @param neighbors
 	 */
-	public void setNeighbors(ArrayList<Cell> neighbors) {
+	public void setNeighbors(List<Cell> neighbors) {
 		setMyNeighbors(neighbors);
 	}
 
-	abstract ArrayList<Cell> update();
+	abstract List<Cell> update();
 	
 	abstract void updateColor();
 
 
-	public ArrayList<Cell> getMyNeighbors() {
+	public List<Cell> getMyNeighbors() {
 		return myNeighbors;
 	}
 
 
-	public void setMyNeighbors(ArrayList<Cell> myNeighbors) {
-		this.myNeighbors = myNeighbors;
+	public void setMyNeighbors(List<Cell> neighbors) {
+		this.myNeighbors = neighbors;
 	}
 
 

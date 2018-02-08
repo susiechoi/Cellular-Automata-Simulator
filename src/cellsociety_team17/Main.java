@@ -6,10 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,20 +27,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
-	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
 	private String mySimulationTitle;
-	private ArrayList<Cell> activeCells = new ArrayList<Cell>();
-	private ArrayList<Cell> myCells = new ArrayList<Cell>();
+	private List<Cell> activeCells = new ArrayList<Cell>();
+	private List<Cell> myCells = new ArrayList<Cell>();
+	@SuppressWarnings("rawtypes")
 	private HashMap myAttributes = new HashMap();
 	private File myXmlFile;
-	private Timeline myTimeLine;
 	private static String DEFAULT_FILEPATH = "data/";
 	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -82,12 +77,12 @@ public class Main extends Application {
 					try {
 						startSimulation(readInput(myXmlFile));
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
+						System.out.println("error starting the simulation");
 						e.printStackTrace();
 					}
 				}});
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
+			System.out.print("File not found!!!");
 			e1.printStackTrace();
 		}
 		
@@ -130,6 +125,72 @@ public class Main extends Application {
 	}
 
 	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline) {
+		setUpPlayingChangeListener(mySimulationView, myTimeline);
+		setUpSpeedChangeListener(mySimulationView, myTimeline);
+		setUpRestartChangeListener(mySimulationView, myTimeline);
+		setUpStepChangeListener(mySimulationView, myTimeline);
+		setUpHomeListener(mySimulationView, myTimeline);
+	}
+
+	private void setUpHomeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.pause();
+					showSplashScreen();
+				} catch (Exception e) {
+					System.out.println("Error returning to Home Screen");
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpStepChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+					myTimeline.setRate(.1);
+					myTimeline.play();
+				} catch (Exception e) {
+					System.out.println("Error stepping through project");
+					e.printStackTrace();
+					throw e;
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.stop();
+					startSimulation(readInput(myXmlFile));
+				} catch (Exception e) {
+					System.out.print("Error Starting Simulation");
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpSpeedChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				myTimeline.setRate(mySimulationView.getMySpeed().get());			
+			}
+		});
+	}
+
+	private void setUpPlayingChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
 		mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -140,53 +201,10 @@ public class Main extends Application {
 						myTimeline.pause();
 					}
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
+					System.out.println("Error in playing/pausing the timeline");
 					e.printStackTrace();
 				}
 			}});
-		mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				myTimeline.setRate(mySimulationView.getMySpeed().get());			
-			}
-		});
-		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					myTimeline.stop();
-					startSimulation(readInput(myXmlFile));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
-		mySimulationView.step().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
-					myTimeline.setRate(.1);
-					myTimeline.play();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
-		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					myTimeline.pause();
-					showSplashScreen();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
 	}
 	
 	private void setFile(String s) {
@@ -313,6 +331,7 @@ public class Main extends Application {
 			mySimulationTitle = myAttributes.get("title").toString(); 
 			} catch(Exception e) {
 				System.out.println("Invalid or missing Title");
+				e.printStackTrace();
 			}
 	}
 
@@ -321,6 +340,7 @@ public class Main extends Application {
 		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
 		} catch(Exception e) {
 			System.out.println("Invalid or missing Simulation Type");
+			e.printStackTrace();
 		}
 	}
 
