@@ -3,10 +3,12 @@ package cellsociety_team17;
 import java.util.List;
 
 import javafx.scene.shape.Shape;
-
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Cell {
+
+	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
 
 	private int myState;
 	private int myRow;
@@ -113,8 +115,8 @@ public abstract class Cell {
 	}
 
 
-	public void setMyNeighbors(List<Cell> myNeighbors) {
-		this.myNeighbors = myNeighbors;
+	public void setMyNeighbors(List<Cell> neighbors) {
+		this.myNeighbors = neighbors;
 	}
 
 
