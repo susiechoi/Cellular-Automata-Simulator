@@ -30,13 +30,15 @@ public class Grid {
 		myCells = new Cell[myHeight][myWidth]; 
 		myGroup = new Group();
 		for (Cell cell : activeCells) {
-			myCells[cell.myRow][cell.myColumn] = cell; 
+			myCells[cell.getMyRow()][cell.getMyColumn()] = cell; 
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape, toroidal);
 			myGroup.getChildren().add(cell.myRectangle);
 		}
 	}
+	
+	
 
 	//	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
 	//		ArrayList<Cell> inBoundsNeighbors = findInBoundsNeighbors(cell, neighborhoodShape);
