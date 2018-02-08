@@ -50,7 +50,7 @@ public class Grid {
 	private List<Cell> setCellNeighbors(Cell cell, String neighborhoodShape, boolean toroidal) {
 		Method method = null; 
 		String methodName = NEIGHBORHOOD_METHOD_START + neighborhoodShape;
-		ArrayList<Cell> neighbors = new ArrayList<Cell>(); 
+		List<Cell> neighbors = new ArrayList<Cell>(); 
 
 		try {
 			method = this.getClass().getDeclaredMethod(methodName, Cell.class, boolean.class);
@@ -81,7 +81,7 @@ public class Grid {
 
 	// D = direct neighbors (N, S, E, W) 
 	private void findNeighborsD(Cell cell, boolean toroidal) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		List<Cell> neighbors = new ArrayList<Cell>();
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
 		if (inBounds(cell.getMyRow(), cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()-1]);
@@ -95,7 +95,7 @@ public class Grid {
 
 	// C = corner neighbors (NE, SE, SW, NW) 
 	private void findNeighborsC(Cell cell, boolean toroidal) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		List<Cell> neighbors = new ArrayList<Cell>();
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()+1]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()-1]);
@@ -115,7 +115,7 @@ public class Grid {
 
 	// Z = Z-shaped neighbors (NW, N, S, SE) 
 	private void findNeighborsZ(Cell cell, boolean toroidal) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		List<Cell> neighbors = new ArrayList<Cell>();
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
 		if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
 		if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
@@ -137,7 +137,7 @@ public class Grid {
 
 	public List<Cell> updateCells(List<Cell> activeCells) {
 		//		System.out.println(activeCells);
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		List<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
 			if (cell != null) newACells.addAll(cell.update()); 
 		}

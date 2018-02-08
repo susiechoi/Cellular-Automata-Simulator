@@ -113,8 +113,8 @@ public abstract class Cell {
 	}
 
 
-	public void setMyNeighbors(List<Cell> myNeighbors) {
-		this.myNeighbors = myNeighbors;
+	public void setMyNeighbors(List<Cell> neighbors) {
+		this.myNeighbors = neighbors;
 	}
 
 
