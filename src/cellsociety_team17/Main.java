@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,6 +45,7 @@ public class Main extends Application {
 	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	private static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
 
 	/**
 	 * 
@@ -78,12 +81,13 @@ public class Main extends Application {
 						startSimulation(readInput(myXmlFile));
 					} catch (Exception e) {
 						System.out.println("error starting the simulation");
-						e.printStackTrace();
+						LOGGER.log(Level.FINE, e.getMessage());
 					}
 				}
 			});
 		} catch (FileNotFoundException e1) {
 			System.out.print("File not found!!!");
+			LOGGER.log(Level.FINE, e1.getMessage());
 			e1.printStackTrace();
 		}
 
@@ -99,13 +103,6 @@ public class Main extends Application {
 
 	}
 
-	/**
-	 * 
-	 * @param e
-	 */
-	private void handleMouseInput(MouseEvent e) {
-		// TODO: Complete handleMouseInput
-	}
 
 	private void startSimulation(Grid G) {
 		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
@@ -139,7 +136,8 @@ public class Main extends Application {
 					showSplashScreen();
 				} catch (Exception e) {
 					System.out.println("Error returning to Home Screen");
-				}
+					LOGGER.log(Level.FINE, e.getMessage());
+				}				
 			}
 
 		});
@@ -156,8 +154,8 @@ public class Main extends Application {
 				} catch (Exception e) {
 					System.out.println("Error stepping through project");
 					e.printStackTrace();
-					throw e;
-				}
+					LOGGER.log(Level.FINE, e.getMessage());
+				}				
 			}
 
 		});
@@ -172,8 +170,8 @@ public class Main extends Application {
 					startSimulation(readInput(myXmlFile));
 				} catch (Exception e) {
 					System.out.print("Error Starting Simulation");
-					e.printStackTrace();
-				}
+					LOGGER.log(Level.FINE, e.getMessage());
+				}				
 			}
 
 		});
@@ -200,7 +198,7 @@ public class Main extends Application {
 					}
 				} catch (Exception e) {
 					System.out.println("Error in playing/pausing the timeline");
-					e.printStackTrace();
+					LOGGER.log(Level.FINE, e.getMessage());
 				}
 			}
 		});
@@ -237,7 +235,7 @@ public class Main extends Application {
 			myHeight = (int) ((double) myAttributes.get("height"));
 		} catch (Exception e) {
 			System.out.println("Invalid or missing dimensions");
-			throw e;
+			LOGGER.log(Level.FINE, e.getMessage());
 		}
 
 		createCells(myDocument);
@@ -329,8 +327,7 @@ public class Main extends Application {
 			mySimulationTitle = myAttributes.get("title").toString();
 		} catch (Exception e) {
 			System.out.println("Invalid or missing Title");
-			e.printStackTrace();
-			throw e;
+			LOGGER.log(Level.FINE, e.getMessage());
 		}
 	}
 
@@ -339,7 +336,7 @@ public class Main extends Application {
 			mySimulationType = setSimulationType(myAttributes.get("simulationType").toString());
 		} catch (Exception e) {
 			System.out.println("Invalid or missing Simulation Type");
-			e.printStackTrace();
+			LOGGER.log(Level.FINE, e.getMessage());
 		}
 	}
 
