@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import cellsociety_team17.Cell;
 import javafx.scene.Group;
+import javafx.scene.shape.Shape;
 
 public class Grid {
 
@@ -11,6 +12,7 @@ public class Grid {
 	private int myHeight;
 	private Cell[][] myCells; 
 	private Group myGroup;
+	private Shape myShapeType;
 
 	public Grid(int width, int height, ArrayList<Cell> activeCells) {
 		myWidth = width;
@@ -69,6 +71,14 @@ public class Grid {
 	
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
+	}
+	
+	public Shape getShapeType() {
+		return myShapeType;
+	}
+	
+	public void setMyShape(Shape s) {
+		myShapeType=s;
 	}
 
 }
