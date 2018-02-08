@@ -10,8 +10,10 @@ public class GameOfLifeCell extends Cell {
 	// myState: 0 is dead, 1 is alive
 	public static final int DEAD=0;
 	public static final int ALIVE=1;
+	public static final int MIN_ALIVE=2;
+	public static final int MAX_ALIVE=3;
 	
-	public static final Color[] STATE_COLORS = { Color.RED, Color.GREEN};
+	protected static final Color[] STATE_COLORS = { Color.RED, Color.GREEN};
 
 	public GameOfLifeCell(int row, int column, int state) {
 		super(row, column, state);
@@ -53,7 +55,7 @@ public class GameOfLifeCell extends Cell {
 
 	private List<Cell> aliveUpdate(List<Cell> alive) {
 		ArrayList<Cell> newACells= new ArrayList<Cell>();
-		if(alive.size()<2 || alive.size()>3) {
+		if(alive.size()<MIN_ALIVE || alive.size()>MAX_ALIVE) {
 			this.setMyState(DEAD);
 			this.updateColor();
 			newACells.add(this);
