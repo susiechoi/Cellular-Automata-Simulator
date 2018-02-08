@@ -20,13 +20,13 @@ public class SplashScreen {
 
 	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
 	public static final String DEFAULT_PATH = "data/";
-	public static final int DEFAULT_SCREEN_SIZE = 400; 
+	public static final int DEFAULT_SCREEN_SIZE = 400;
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
-	//	private Stage myStage; 
+	// private Stage myStage;
 	private Scene myScene;
-	private GridPane myGridPane; 
-	private Pane myPane; 
-	private String myUserSelection; 
+	private GridPane myGridPane;
+	private Pane myPane;
+	private String myUserSelection;
 	private BooleanProperty userSelectionRecieved = new SimpleBooleanProperty();
 
 	public SplashScreen() throws FileNotFoundException {
@@ -34,20 +34,20 @@ public class SplashScreen {
 	}
 
 	public SplashScreen(String availableSimulationsFile) throws FileNotFoundException {
-		//		myStage = new Stage(); 
-		myPane = new Pane(); 
-		myGridPane = new GridPane(); 
+		// myStage = new Stage();
+		myPane = new Pane();
+		myGridPane = new GridPane();
 		myScene = new Scene(myPane, DEFAULT_SCREEN_SIZE, DEFAULT_SCREEN_SIZE, BACKGROUND_COLOR);
-		Scanner readSimulationsFile = null; 
-		try{
+		Scanner readSimulationsFile = null;
+		try {
 			readSimulationsFile = new Scanner(new File(availableSimulationsFile));
-		}
-		catch (IOException e){
+		} catch (IOException e) {
 			readSimulationsFile = new Scanner(new File(DEFAULT_SIMULATION_OPTIONS_FILE));
-			System.out.println("Could not find file named "+availableSimulationsFile+". Using default simulation options file.");
+			System.out.println("Could not find file named " + availableSimulationsFile
+					+ ". Using default simulation options file.");
 		}
-		int rowIndex = 0; 
-		int colIndex = 0; 
+		int rowIndex = 0;
+		int colIndex = 0;
 		while (readSimulationsFile.hasNextLine()) {
 			Button simulationButton = new Button(readSimulationsFile.nextLine());
 			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -57,26 +57,26 @@ public class SplashScreen {
 				}
 			});
 			myGridPane.add(simulationButton, colIndex, rowIndex);
-			rowIndex++; 
+			rowIndex++;
 		}
 		myPane.getChildren().add(myGridPane);
-		//		myStage.setScene(myScene);
+		// myStage.setScene(myScene);
 		myUserSelection = "";
 	}
 
 	public void handleUserSelection(Button selectedButton) {
-		String selectedSimulation = selectedButton.getText()+"Cell";
-//				System.out.println(selectedSimulation);
+		String selectedSimulation = selectedButton.getText() + "Cell";
+		// System.out.println(selectedSimulation);
 		myUserSelection = selectedSimulation;
-//		System.out.println(myUserSelection);
+		// System.out.println(myUserSelection);
 		userSelectionReceived();
 	}
-		
+
 	public boolean userSelectionReceived() {
 		userSelectionRecieved.set(myUserSelection.length() > 0);
-		return (myUserSelection.length() > 0); 
+		return (myUserSelection.length() > 0);
 	}
-	
+
 	public String getUserSelection() {
 		return myUserSelection;
 	}
@@ -84,21 +84,21 @@ public class SplashScreen {
 	public Scene getScene() {
 		return myScene;
 	}
-	//	public Stage getStage() {
-	//	return myStage; 
+	// public Stage getStage() {
+	// return myStage;
 	// }
 
 	public BooleanProperty userSelectionReceivedProperty() {
 		return userSelectionRecieved;
 	}
 
-	//	@Override
-	//	public void start(Stage primaryStage) throws Exception {
-	//		myStage.show();
-	//	}
+	// @Override
+	// public void start(Stage primaryStage) throws Exception {
+	// myStage.show();
+	// }
 	//
-	//	public static void main(String[] args) throws FileNotFoundException {
-	//		launch(args);
-	//	}
+	// public static void main(String[] args) throws FileNotFoundException {
+	// launch(args);
+	// }
 
 }
