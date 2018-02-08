@@ -1,0 +1,38 @@
+<data>
+	<meta>
+		<simulationType>game of life</simulationType>
+		<title>Cells Alive </title>
+		<author>Judi Sanchez</author>
+		<height>5</height>
+		<width>5</width></meta>
+	<grid>
+		<row>
+			<cell>0</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell></row>
+		<row>
+			<cell>1</cell>
+			<cell>0</cell>
+			<cell>1</cell>
+			<cell>0</cell>
+			<cell>1</cell></row>
+		<row>
+			<cell>0</cell>
+			<cell>1</cell>
+			<cell>0</cell>
+			<cell>1</cell>
+			<cell>0</cell></row>
+		<row>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell></row>
+		<row>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>1</cell>
+			<cell>0</cell></row></grid></data>

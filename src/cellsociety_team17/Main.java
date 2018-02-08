@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import cellsociety_team17.Cell;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -52,7 +53,13 @@ public class Main extends Application {
 			primaryStage.setTitle("Team 17 -- Cell Society");
 			primaryStage.show();
 			//startSimulation(myGrid);
-			SplashScreen mySplash = new SplashScreen();
+			showSplashScreen();
+	}
+	
+	private void showSplashScreen() {
+		SplashScreen mySplash;
+		try {
+			mySplash = new SplashScreen();
 			myScene = mySplash.getScene();
 			myPrimaryStage.setScene(myScene);
 			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>(){
@@ -67,8 +74,13 @@ public class Main extends Application {
 						e.printStackTrace();
 					}
 				}});
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	}
-	
+
 	/**
 	 * 
 	 * @param timeElapsed
@@ -123,12 +135,36 @@ public class Main extends Application {
 				}
 			});
 			mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
-
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						myTimeline.stop();
+						startSimulation(readInput(myXmlFile));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
+			mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+				@Override
+				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+					try {
+						System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+						myTimeline.setRate(.1);
+						myTimeline.play();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}				
+				}
+				
+			});
+			mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 					try {
 						myTimeline.pause();
-						startSimulation(readInput(myXmlFile));
+						showSplashScreen();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}				
@@ -190,8 +226,12 @@ public class Main extends Application {
 							activeCells.add(tempGCell);
 						}
 						break;
-					case 2:
-						myCells.add(new WatorCell(cRow, cColumn, cState));
+					case 2: // Modified by Judi at 6:52PM 2/5/2018
+						Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+						myCells.add(tempWCell);
+						if(cState==2) {
+							activeCells.add(tempWCell);
+						}
 						break;
 					case 3:
 						double mThreshold = getDoubleFromXML(myDocument, "probability");
