@@ -36,7 +36,7 @@ public class Grid {
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape, toroidal);
-			myGroup.getChildren().add(cell.myRectangle);
+			myGroup.getChildren().add(cell.getMyShape());
 		}
 	}
 	
@@ -82,13 +82,13 @@ public class Grid {
 	// D = direct neighbors (N, S, E, W) 
 	private void findNeighborsD(Cell cell, boolean toroidal) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		if (inBounds(cell.myRow-1, cell.myColumn)) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
-		if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
-		if (inBounds(cell.myRow, cell.myColumn-1)) neighbors.add(myCells[cell.myRow][cell.myColumn-1]);
-		if (inBounds(cell.myRow, cell.myColumn+1)) neighbors.add(myCells[cell.myRow][cell.myColumn+1]);
+		if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
+		if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
+		if (inBounds(cell.getMyRow(), cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()-1]);
+		if (inBounds(cell.getMyRow(), cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()][cell.getMyColumn()+1]);
 		if (toroidal) {
-			if (cell.myColumn == 0) neighbors.add(myCells[cell.myRow][myWidth-1]);
-			else if (cell.myColumn == myWidth-1) neighbors.add(myCells[cell.myRow][0]);
+			if (cell.getMyColumn() == 0) neighbors.add(myCells[cell.getMyRow()][myWidth-1]);
+			else if (cell.getMyColumn() == myWidth-1) neighbors.add(myCells[cell.getMyRow()][0]);
 		}
 		cell.setNeighbors(neighbors); 
 	}
@@ -96,10 +96,10 @@ public class Grid {
 	// C = corner neighbors (NE, SE, SW, NW) 
 	private void findNeighborsC(Cell cell, boolean toroidal) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		if (inBounds(cell.myRow-1, cell.myColumn+1)) neighbors.add(myCells[cell.myRow-1][cell.myColumn+1]);
-		if (inBounds(cell.myRow+1, cell.myColumn+1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn+1]);
-		if (inBounds(cell.myRow+1, cell.myColumn-1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn-1]);
-		if (inBounds(cell.myRow-1, cell.myColumn-1)) neighbors.add(myCells[cell.myRow-1][cell.myColumn-1]);
+		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()+1]);
+		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
+		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()-1]);
+		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
 //		if (toroidal) {
 //			if (cell.myColumn == 0) {
 //				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
@@ -116,10 +116,10 @@ public class Grid {
 	// Z = Z-shaped neighbors (NW, N, S, SE) 
 	private void findNeighborsZ(Cell cell, boolean toroidal) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		if (inBounds(cell.myRow-1, cell.myColumn-1)) neighbors.add(myCells[cell.myRow-1][cell.myColumn-1]);
-		if (inBounds(cell.myRow-1, cell.myColumn)) neighbors.add(myCells[cell.myRow-1][cell.myColumn]);
-		if (inBounds(cell.myRow+1, cell.myColumn)) neighbors.add(myCells[cell.myRow+1][cell.myColumn]);
-		if (inBounds(cell.myRow+1, cell.myColumn+1)) neighbors.add(myCells[cell.myRow+1][cell.myColumn+1]);
+		if (inBounds(cell.getMyRow()-1, cell.getMyColumn()-1)) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()-1]);
+		if (inBounds(cell.getMyRow()-1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()-1][cell.getMyColumn()]);
+		if (inBounds(cell.getMyRow()+1, cell.getMyColumn())) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()]);
+		if (inBounds(cell.getMyRow()+1, cell.getMyColumn()+1)) neighbors.add(myCells[cell.getMyRow()+1][cell.getMyColumn()+1]);
 //		if (toroidal) {
 //			if (cell.myColumn == 0) {
 //				neighbors.add(myCells[cell.myRow-1][myWidth-1]);
