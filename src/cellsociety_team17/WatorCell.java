@@ -70,7 +70,7 @@ public class WatorCell extends Cell {
 		System.out.println("Fish update");
 		this.myFishCycles++;
 		ArrayList<Cell> newACells = new ArrayList<>();
-		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
+		ArrayList<Integer> emptySpace = new ArrayList<>();
 		for (Cell neighbor : getMyNeighbors()) {
 			if (neighbor.getMyState() == EMPTY) {
 				emptySpace.add(getMyNeighbors().indexOf(neighbor));
