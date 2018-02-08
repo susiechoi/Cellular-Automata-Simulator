@@ -100,7 +100,7 @@ public abstract class Cell {
 	 * Sets an ArrayList of cells containing all the neighboring cells
 	 * @param neighbors
 	 */
-	public void setNeighbors(ArrayList<Cell> neighbors) {
+	public void setNeighbors(List<Cell> neighbors) {
 		setMyNeighbors(neighbors);
 	}
 
@@ -114,8 +114,8 @@ public abstract class Cell {
 	}
 
 
-	public void setMyNeighbors(ArrayList<Cell> myNeighbors) {
-		this.myNeighbors = myNeighbors;
+	public void setMyNeighbors(List<Cell> neighbors) {
+		this.myNeighbors = neighbors;
 	}
 
 
