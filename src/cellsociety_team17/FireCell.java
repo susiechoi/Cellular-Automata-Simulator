@@ -11,7 +11,7 @@ public class FireCell extends Cell {
 	public static final int TREE = 1;
 	public static final int EMPTY = 0;
 	public static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
-	public static final double DEFAULT_PROBABILITY = 0.5;
+	protected static final double DEFAULT_PROBABILITY = 0.5;
 	
 	private double myProbability;
 
