@@ -32,7 +32,7 @@ public class SegregationCell extends Cell {
 		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
-	public void setNeighbors(ArrayList<Cell> neighbors) {
+	public void setNeighbors(List<Cell> neighbors) {
 		setMyNeighbors(neighbors); 
 	}
 
@@ -40,7 +40,7 @@ public class SegregationCell extends Cell {
 		return getMyNeighbors();
 	}
 	
-	public ArrayList<Cell> update() {
+	public List<Cell> update() {
 		Cell newACell = null;
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
 			newACell = this.moveToEmptySpace();
