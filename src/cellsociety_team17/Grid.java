@@ -11,7 +11,7 @@ import javafx.scene.shape.Shape;
 
 public class Grid {
 
-	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "Z";
+	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
 	public static final boolean DEFAULT_TOROIDALITY = true; 
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
@@ -75,7 +75,7 @@ public class Grid {
 
 		// step 3: method invocation
 		try {
-			method.invoke(new NeighborhoodMakerZ(), cell);
+			method.invoke(new NeighborhoodMakerC(), cell);
 		} 
 		catch (IllegalAccessException e) {
 			System.out.println("Class "+this.getClass().getName()+" does not have access to "+subclassName);
@@ -189,30 +189,30 @@ public class Grid {
 			if (inBounds(x[idx], y[idx])) {
 				neighbors.add(myCells[x[idx]][y[idx]]);
 			}
-			idx++; 
-			if (inBounds(x[idx], y[idx])) {
-				neighbors.add(myCells[x[idx]][y[idx]]);
+			else if (inToroidalBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][0]);
 			}
 			idx++; 
 			if (inBounds(x[idx], y[idx])) {
 				neighbors.add(myCells[x[idx]][y[idx]]);
 			}
+			else if (inToroidalBounds(x[idx],y[idx])) {
+				neighbors.add(myCells[x[idx]][0]);
+			}
 			idx++; 
 			if (inBounds(x[idx], y[idx])) {
 				neighbors.add(myCells[x[idx]][y[idx]]);
 			}
-			
-			//		if (toroidal) {
-			//			if (cell.getMyColumn() == 0) {
-			//				neighbors.add(myCells[cell.getMyRow()-1][myWidth-1]);
-			//				neighbors.add(myCells[cell.getMyRow()+1][myWidth-1]);
-			//			}
-			//			else if (cell.getMyColumn() == myWidth-1) {
-			//				neighbors.add(myCells[cell.getMyRow()-1][0]);
-			//				neighbors.add(myCells[cell.getMyRow()+1][0]);
-			//			}
-			//		}
-			
+			else if (inToroidalBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][0]);
+			}
+			idx++; 
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			} 
+			else if (inToroidalBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][0]);
+			}
 			cell.setNeighbors(neighbors); 
 		}
 	}
@@ -246,14 +246,6 @@ public class Grid {
 				neighbors.add(myCells[x[idx]][y[idx]]);
 			}
 			idx++; 
-			//		if (toroidal) {
-			//			if (cell.getMyColumn() == 0) {
-			//				neighbors.add(myCells[cell.getMyRow()-1][myWidth-1]);
-			//			} 
-			//			else if (cell.getMyColumn() == myWidth-1) {
-			//				neighbors.add(myCells[cell.getMyRow()+1][0]);
-			//			}
-			//		}
 			cell.setNeighbors(neighbors); 
 		}
 	}
