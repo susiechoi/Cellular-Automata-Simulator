@@ -12,7 +12,7 @@ public class WatorCell extends Cell {
 	public static final int EMPTY = 0;
 	public static final int FISH = 1;
 	public static final int SHARK = 2;
-	public static final Color[] STATE_COLORS = { Color.WHITE, Color.PALEGREEN, Color.CYAN };
+	protected static final Color[] STATE_COLORS = { Color.WHITE, Color.PALEGREEN, Color.CYAN };
 
 	private int fishCyclesReproduce;
 	private int sharkCyclesReproduce;
@@ -46,7 +46,7 @@ public class WatorCell extends Cell {
 
 	@Override
 	List<Cell> update() {
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		if (this.getMyState() == FISH) {
 			newACells = (ArrayList<Cell>) this.fishUpdate();
 		}
@@ -69,7 +69,7 @@ public class WatorCell extends Cell {
 	private List<Cell> fishUpdate() {
 		System.out.println("Fish update");
 		this.myFishCycles++;
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
 		for (Cell neighbor : getMyNeighbors()) {
 			if (neighbor.getMyState() == EMPTY) {
@@ -98,11 +98,11 @@ public class WatorCell extends Cell {
 
 	private List<Cell> sharkUpdate() {
 		System.out.println("Shark update");
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		this.mySharkEnergy--;
 		this.mySharkCycles++;
-		ArrayList<Integer> fishSpace = new ArrayList<Integer>();
-		ArrayList<Integer> emptySpace = new ArrayList<Integer>();
+		ArrayList<Integer> fishSpace = new ArrayList<>();
+		ArrayList<Integer> emptySpace = new ArrayList<>();
 		for (Cell neighbor : getMyNeighbors()) {
 			if (neighbor.getMyState() == FISH) {
 				fishSpace.add(getMyNeighbors().indexOf(neighbor));
@@ -124,7 +124,7 @@ public class WatorCell extends Cell {
 	}
 
 	private List<Cell> sharkToFish(List<Integer> fishSpace){
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		int indexOfMove = (int) Math.random() * fishSpace.size();
 		Cell cellToMoveTo = getMyNeighbors().get(indexOfMove);
 		cellToMoveTo.setMyState(SHARK);
@@ -145,7 +145,7 @@ public class WatorCell extends Cell {
 	}
 	
 	private List<Cell> sharktoEmpty(List<Integer> emptySpace){
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		int indexOfMove = (int) Math.random() * emptySpace.size();
 		Cell cellToMoveTo = getMyNeighbors().get(indexOfMove);
 		cellToMoveTo.setMyState(SHARK);
@@ -164,7 +164,7 @@ public class WatorCell extends Cell {
 	}
 	
 	private List<Cell> sharkDeath(int sharkEnergy) {
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		if (sharkEnergy == 0) {
 			this.setMyState(EMPTY);
 			newACells.add(this);

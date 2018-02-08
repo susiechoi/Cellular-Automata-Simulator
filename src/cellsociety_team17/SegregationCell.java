@@ -42,7 +42,7 @@ public class SegregationCell extends Cell {
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
 			newACell = this.moveToEmptySpace();
 		}
-		ArrayList<Cell> newACellList = new ArrayList<Cell>();
+		ArrayList<Cell> newACellList = new ArrayList<>();
 		newACellList.add(newACell);
 		return newACellList;
 	}

@@ -29,7 +29,7 @@ public class FireCell extends Cell {
 
 	@Override
 	List<Cell> update() {
-		ArrayList<Cell> newACells = new ArrayList<Cell>();
+		ArrayList<Cell> newACells = new ArrayList<>();
 		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : getMyNeighbors()) {
 			if (cell.getMyState() == TREE && this.getMyState() == BURNING) {
