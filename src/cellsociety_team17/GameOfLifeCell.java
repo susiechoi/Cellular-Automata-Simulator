@@ -12,6 +12,7 @@ public class GameOfLifeCell extends Cell {
 	public static final int ALIVE=1;
 	public static final int MIN_ALIVE=2;
 	public static final int MAX_ALIVE=3;
+	public static final int DEAD_TO_ALIVE=3;
 	
 	protected static final Color[] STATE_COLORS = { Color.RED, Color.GREEN};
 
@@ -44,7 +45,7 @@ public class GameOfLifeCell extends Cell {
 	
 	private List<Cell> deadUpdate(List<Cell> alive){
 		ArrayList<Cell> newACells= new ArrayList<>();
-		if(alive.size()==3) {
+		if(alive.size()==DEAD_TO_ALIVE) {
 			this.setMyState(ALIVE);
 			this.updateColor();
 			newACells.add(this);
