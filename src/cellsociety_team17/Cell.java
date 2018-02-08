@@ -24,6 +24,11 @@ public abstract class Cell {
 		myShape.setTranslateY(myRow * CELLSIZE);
 	}
 	
+	public Cell(int row, int column, int state, Shape shape) {
+		this(row, column, state);
+		myShape = shape;
+	}
+	
 	
 	/**
 	 * Returns the int value of current state

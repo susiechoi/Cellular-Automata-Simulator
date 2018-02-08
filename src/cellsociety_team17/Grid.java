@@ -25,6 +25,8 @@ public class Grid {
 			myGroup.getChildren().add(cell.getMyShape());
 		}
 	}
+	
+	
 
 	private void setCellNeighbors(Cell cell) {
 		ArrayList<Cell> inBoundsNeighbors = findInBoundsNeighbors(cell);
