@@ -57,7 +57,7 @@ public class FireCell extends Cell {
 	void setMyProbability(double p) {
 		myProbability = p;
 	}
-
+	 @Override
 	void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}

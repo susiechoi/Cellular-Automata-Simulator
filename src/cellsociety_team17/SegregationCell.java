@@ -29,14 +29,17 @@ public class SegregationCell extends Cell {
 		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
+	@Override
 	public void setNeighbors(List<Cell> neighbors) {
 		setMyNeighbors(neighbors);
 	}
 
-	public List<Cell> getNeighbors() {
+	@Override
+	public List<Cell> getNeighbors(){
 		return getMyNeighbors();
 	}
 
+	@Override
 	public List<Cell> update() {
 		Cell newACell = null;
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) {
