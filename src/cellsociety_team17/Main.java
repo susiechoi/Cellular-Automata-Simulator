@@ -6,10 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -30,20 +27,18 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
 	private Scene myScene;
-	private Group myRoot;
 	private Grid myGrid;
 	private int mySimulationType;
 	private String mySimulationTitle;
 	private List<Cell> activeCells = new ArrayList<Cell>();
 	private List<Cell> myCells = new ArrayList<Cell>();
+	@SuppressWarnings("rawtypes")
 	private HashMap myAttributes = new HashMap();
 	private File myXmlFile;
-	private Timeline myTimeLine;
 	private static String DEFAULT_FILEPATH = "data/";
 	private final int FRAMES_PER_SECOND = 10;
 	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -163,6 +158,7 @@ public class Main extends Application {
 				} catch (Exception e) {
 					System.out.println("Error stepping through project");
 					e.printStackTrace();
+					throw e;
 				}				
 			}
 			
@@ -335,6 +331,7 @@ public class Main extends Application {
 			mySimulationTitle = myAttributes.get("title").toString(); 
 			} catch(Exception e) {
 				System.out.println("Invalid or missing Title");
+				e.printStackTrace();
 			}
 	}
 
@@ -343,6 +340,7 @@ public class Main extends Application {
 		mySimulationType = setSimulationType(myAttributes.get("simulationType").toString()); 
 		} catch(Exception e) {
 			System.out.println("Invalid or missing Simulation Type");
+			e.printStackTrace();
 		}
 	}
 
