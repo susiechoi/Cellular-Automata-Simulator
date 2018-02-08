@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 
 public class SegregationCell extends Cell {
 
-	public static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
+	protected static final Color[] STATE_COLORS = {Color.WHITE, Color.BLUE, Color.RED}; 
 	public static final double DEFAULT_THRESHOLD = 0.5; 
 	
 	// threshold t represents satisfaction with segregation 
@@ -45,7 +45,7 @@ public class SegregationCell extends Cell {
 		if (this.needToMove() && !myNonEmptyNeighbors.isEmpty()) { 
 			newACell = this.moveToEmptySpace();
 		}
-		ArrayList<Cell> newACellList = new ArrayList<Cell>();
+		ArrayList<Cell> newACellList = new ArrayList<>();
 		newACellList.add(newACell);
 		return newACellList;
 	}

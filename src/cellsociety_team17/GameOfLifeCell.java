@@ -25,8 +25,8 @@ public class GameOfLifeCell extends Cell {
 	@Override
 	 List<Cell> update() {
 		System.out.println("update");
-		ArrayList<Cell> aliveNeighbors = new ArrayList<Cell>();
-		ArrayList<Cell> newACells =new ArrayList<Cell>();;
+		ArrayList<Cell> aliveNeighbors = new ArrayList<>();
+		ArrayList<Cell> newACells =new ArrayList<>();;
 		for(Cell neighbor:this.getMyNeighbors()) {
 			if(neighbor.getMyState()==ALIVE) {
 				aliveNeighbors.add(neighbor);
@@ -43,7 +43,7 @@ public class GameOfLifeCell extends Cell {
 	}
 	
 	private List<Cell> deadUpdate(List<Cell> alive){
-		ArrayList<Cell> newACells= new ArrayList<Cell>();
+		ArrayList<Cell> newACells= new ArrayList<>();
 		if(alive.size()==3) {
 			this.setMyState(ALIVE);
 			this.updateColor();
@@ -54,7 +54,7 @@ public class GameOfLifeCell extends Cell {
 	}
 
 	private List<Cell> aliveUpdate(List<Cell> alive) {
-		ArrayList<Cell> newACells= new ArrayList<Cell>();
+		ArrayList<Cell> newACells= new ArrayList<>();
 		if(alive.size()<MIN_ALIVE || alive.size()>MAX_ALIVE) {
 			this.setMyState(DEAD);
 			this.updateColor();
