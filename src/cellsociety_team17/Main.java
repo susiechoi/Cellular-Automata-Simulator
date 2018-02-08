@@ -130,6 +130,69 @@ public class Main extends Application {
 	}
 
 	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline) {
+		setUpPlayingChangeListener(mySimulationView, myTimeline);
+		setUpSpeedChangeListener(mySimulationView, myTimeline);
+		setUpRestartChangeListener(mySimulationView, myTimeline);
+		setUpStepChangeListener(mySimulationView, myTimeline);
+		setUpHomeListener(mySimulationView, myTimeline);
+	}
+
+	private void setUpHomeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.pause();
+					showSplashScreen();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpStepChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.step().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+					myTimeline.setRate(.1);
+					myTimeline.play();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.stop();
+					startSimulation(readInput(myXmlFile));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}				
+			}
+			
+		});
+	}
+
+	private void setUpSpeedChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
+			@Override
+			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+				myTimeline.setRate(mySimulationView.getMySpeed().get());			
+			}
+		});
+	}
+
+	private void setUpPlayingChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
 		mySimulationView.getPlaying().addListener(new ChangeListener<Boolean>(){
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -144,49 +207,6 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
 			}});
-		mySimulationView.getMySpeed().addListener(new ChangeListener<Object>() {
-			@Override
-			public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				myTimeline.setRate(mySimulationView.getMySpeed().get());			
-			}
-		});
-		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					myTimeline.stop();
-					startSimulation(readInput(myXmlFile));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
-		mySimulationView.step().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
-					myTimeline.setRate(.1);
-					myTimeline.play();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
-		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-				try {
-					myTimeline.pause();
-					showSplashScreen();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}				
-			}
-			
-		});
 	}
 	
 	private void setFile(String s) {
