@@ -66,6 +66,7 @@ public class Grid {
 		} 
 		catch (IllegalArgumentException e) {
 			System.out.println("Specified method found, but specified arguments are illegal.");
+			throw e;
 			//			e.printStackTrace();
 		}
 		catch (IllegalAccessException e) {

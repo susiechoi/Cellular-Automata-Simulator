@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sun.rmi.runtime.Log;
 
 public class Main extends Application {
 	private Stage myPrimaryStage;
@@ -239,6 +240,7 @@ public class Main extends Application {
 			myHeight = (int) ((double) myAttributes.get("height"));
 			} catch(Exception e) {
 				System.out.println("Invalid or missing dimensions");
+				throw e;
 		}
 		
 		createCells(myDocument);
@@ -332,6 +334,7 @@ public class Main extends Application {
 			} catch(Exception e) {
 				System.out.println("Invalid or missing Title");
 				e.printStackTrace();
+				throw e;
 			}
 	}
 
