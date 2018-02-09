@@ -41,11 +41,14 @@ public class Main extends Application {
 	@SuppressWarnings("rawtypes")
 	private HashMap myAttributes = new HashMap();
 	private File myXmlFile;
-	private static String DEFAULT_FILEPATH = "data/";
-	private final int FRAMES_PER_SECOND = 10;
-	private final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
+	public static final String DEFAULT_FILEPATH = "data/";
+	public static final int FRAMES_PER_SECOND = 10;
+	public static final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	public static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
+	
+	public static final String WILDCARD_INDICATOR = "WildCard";
+	private boolean mySimulationWild; 
 
 	/**
 	 * 
@@ -57,7 +60,6 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		myPrimaryStage = primaryStage;
 		myPrimaryStage.setResizable(false);
 		primaryStage.setTitle("Team 17 -- Cell Society");
@@ -73,15 +75,25 @@ public class Main extends Application {
 			myScene = mySplash.getScene();
 			myPrimaryStage.setScene(myScene);
 			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
-
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					setFile(DEFAULT_FILEPATH + mySplash.getUserSelection() + ".xml");
-					try {
-						startSimulation(readInput(myXmlFile));
-					} catch (Exception e) {
-						System.out.println("error starting the simulation");
-						LOGGER.log(Level.FINE, e.getMessage());
+					String userSelection = mySplash.getUserSelection();
+					if (simulationIsWild(userSelection)) {
+						mySimulationWild = true; 
+						String simulationCellToAccess = userSelection.substring(WILDCARD_INDICATOR.length()); 
+						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
+						startWildSimulation(userSelection, wildCardSimulation);
+					}
+					else {
+						mySimulationWild = false; 
+						setFile(DEFAULT_FILEPATH + mySplash.getUserSelection() + ".xml");
+						try {
+							startSimulation(readInput(myXmlFile));
+						} 
+						catch (Exception e) {
+							System.out.println("error starting the simulation");
+							LOGGER.log(Level.FINE, e.getMessage());
+						}
 					}
 				}
 			});
@@ -90,7 +102,17 @@ public class Main extends Application {
 			LOGGER.log(Level.FINE, e1.getMessage());
 			e1.printStackTrace();
 		}
-
+	}
+	
+	private boolean simulationIsWild(String selectedSimulationName) {
+		return (selectedSimulationName.length() >  WILDCARD_INDICATOR.length() && selectedSimulationName.substring(0, WILDCARD_INDICATOR.length()).equals(WILDCARD_INDICATOR));
+	}
+	
+	private void startWildSimulation(String wildSimulationTitle, RandomizedInitConfig wildCardSimulation) {
+		mySimulationTitle = wildSimulationTitle;
+		myGrid = wildCardSimulation.getGrid();
+		startSimulation(myGrid);
+		activeCells = wildCardSimulation.getActiveCells();
 	}
 
 	/**
@@ -102,7 +124,6 @@ public class Main extends Application {
 		activeCells = myGrid.updateCells(activeCells);
 
 	}
-
 
 	private void startSimulation(Grid G) {
 		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
@@ -167,14 +188,21 @@ public class Main extends Application {
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				try {
 					myTimeline.stop();
-					startSimulation(readInput(myXmlFile));
+					if (mySimulationWild) {
+						String simulationCellToAccess = mySimulationTitle.substring(WILDCARD_INDICATOR.length()); 
+						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
+						startWildSimulation(mySimulationTitle, wildCardSimulation);
+					}
+					else {
+						startSimulation(readInput(myXmlFile));
+					}
 				} catch (Exception e) {
 					System.out.print("Error Starting Simulation");
 					LOGGER.log(Level.FINE, e.getMessage());
 				}				
 			}
 
-		});
+		}); 
 	}
 
 	private void setUpSpeedChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
@@ -280,7 +308,7 @@ public class Main extends Application {
 						createSegregationCell(myDocument, cRow, cColumn, cState);
 						break;
 
-					// System.out.println(tempSCell.myRectangle.toString());
+						// System.out.println(tempSCell.myRectangle.toString());
 					}
 				}
 			}
@@ -374,4 +402,6 @@ public class Main extends Application {
 		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();
 		return Double.parseDouble(nodeString);
 	}
+
+
 }

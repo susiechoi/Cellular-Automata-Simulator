@@ -20,6 +20,7 @@ public class SplashScreen {
 
 	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
 	public static final String DEFAULT_PATH = "data/";
+	public static final String WILDCARD_INDICATOR = "WildCard";
 	public static final int DEFAULT_SCREEN_SIZE = 400;
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
 	// private Stage myStage;
@@ -48,15 +49,25 @@ public class SplashScreen {
 		}
 		int rowIndex = 0;
 		int colIndex = 0;
+		String simulationName = ""; 
 		while (readSimulationsFile.hasNextLine()) {
-			Button simulationButton = new Button(readSimulationsFile.nextLine());
+			simulationName = readSimulationsFile.nextLine();
+			Button simulationButton = new Button(simulationName);
+			Button wildCardSimulationButton = new Button(WILDCARD_INDICATOR+simulationName);
 			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent click) {
 					handleUserSelection(simulationButton);
 				}
 			});
+			wildCardSimulationButton.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent click) {
+					handleUserSelection(wildCardSimulationButton);
+				}
+			});
 			myGridPane.add(simulationButton, colIndex, rowIndex);
+			myGridPane.add(wildCardSimulationButton, colIndex+1, rowIndex);
 			rowIndex++;
 		}
 		myPane.getChildren().add(myGridPane);
@@ -78,6 +89,7 @@ public class SplashScreen {
 	}
 
 	public String getUserSelection() {
+//		System.out.println(myUserSelection);
 		return myUserSelection;
 	}
 
