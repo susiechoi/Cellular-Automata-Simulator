@@ -10,9 +10,9 @@ import java.util.Random;
 public class RandomizedInitConfig {
 
 	public static final int DEFAULT_GRID_SIZE = 10;
-	public static final String DEFAULT_SIMULATION = "SegregationCell";
-	public static final ArrayList<String> TWO_STATE_CELLS = new ArrayList<String>(Arrays.asList("GameOfLifeCell")); 
-	public static final ArrayList<String> THREE_STATE_CELLS = new ArrayList<String>(Arrays.asList("FireCell", "SegregationCell", "WatorCell")); 
+	public static final String DEFAULT_SIMULATION = "cellsociety_team17.SegregationCell";
+	public static final ArrayList<String> TWO_STATE_CELLS = new ArrayList<String>(Arrays.asList("cellsociety_team17.GameOfLifeCell")); 
+	public static final ArrayList<String> THREE_STATE_CELLS = new ArrayList<String>(Arrays.asList("cellsociety_team17.FireCell", "cellsociety_team17.SegregationCell", "cellsociety_team17.WatorCell")); 
 
 	private int myGridSize; 
 	private String mySimulationType;
@@ -24,9 +24,9 @@ public class RandomizedInitConfig {
 		this(DEFAULT_GRID_SIZE, DEFAULT_SIMULATION);
 	}
 
-	public RandomizedInitConfig(int myGridSize, String mySimulationType) {		
-		myGridSize = myGridSize;
-		mySimulationType = mySimulationType; 
+	public RandomizedInitConfig(int gridSize, String simulationType) {		
+		myGridSize = gridSize;
+		mySimulationType = simulationType; 
 		myCells = new ArrayList<Cell>();
 		myActiveCells = new ArrayList<Cell>();
 		generateCells();
@@ -65,7 +65,8 @@ public class RandomizedInitConfig {
 				
 				try {
 					simulationCellObj = simulationCellConstructor.newInstance(row, col, randomState);
-				} catch (InstantiationException e) {
+				} 
+				catch (InstantiationException e) {
 					System.out.println("Cannot instantiate Cell obj of simulation "+mySimulationType);
 				} catch (IllegalAccessException e) {
 					System.out.println("Cannot access constructor for Cell obj of simulation "+mySimulationType);
@@ -85,6 +86,10 @@ public class RandomizedInitConfig {
 	
 	public Grid getGrid() {
 		return myGrid;
+	}
+	
+	public List<Cell> getCells() {
+		return myCells;
 	}
 	
 	public List<Cell> getActiveCells() {
