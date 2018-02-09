@@ -10,9 +10,10 @@ import java.util.Random;
 public class RandomizedInitConfig {
 
 	public static final int DEFAULT_GRID_SIZE = 10;
-	public static final String DEFAULT_SIMULATION = "cellsociety_team17.SegregationCell";
-	public static final ArrayList<String> TWO_STATE_CELLS = new ArrayList<String>(Arrays.asList("cellsociety_team17.GameOfLifeCell")); 
-	public static final ArrayList<String> THREE_STATE_CELLS = new ArrayList<String>(Arrays.asList("cellsociety_team17.FireCell", "cellsociety_team17.SegregationCell", "cellsociety_team17.WatorCell")); 
+	public static final String DEFAULT_SIMULATION_PATH = "cellsociety_team17.";
+	public static final String DEFAULT_SIMULATION = "SegregationCell";
+	public static final ArrayList<String> TWO_STATE_CELLS = new ArrayList<String>(Arrays.asList("GameOfLifeCell")); 
+	public static final ArrayList<String> THREE_STATE_CELLS = new ArrayList<String>(Arrays.asList("FireCell", "SegregationCell", "WatorCell")); 
 
 	private int myGridSize; 
 	private String mySimulationType;
@@ -20,8 +21,12 @@ public class RandomizedInitConfig {
 	private ArrayList<Cell> myCells; 
 	private ArrayList<Cell> myActiveCells; 
 
-	public RandomizedInitConfig(String mySimulationType) {
+	public RandomizedInitConfig() {
 		this(DEFAULT_GRID_SIZE, DEFAULT_SIMULATION);
+	}
+	
+	public RandomizedInitConfig(String mySimulationType) {
+		this(DEFAULT_GRID_SIZE, mySimulationType);
 	}
 
 	public RandomizedInitConfig(int gridSize, String simulationType) {		
@@ -37,7 +42,7 @@ public class RandomizedInitConfig {
 		Class<?> simulationClass = null;
 
 		try {
-			simulationClass = Class.forName(mySimulationType);
+			simulationClass = Class.forName(DEFAULT_SIMULATION_PATH+mySimulationType);
 		} catch (ClassNotFoundException e) {
 			System.out.println("Simulation type named "+mySimulationType+" cannot be found.");
 		}
@@ -74,6 +79,7 @@ public class RandomizedInitConfig {
 					System.out.println("Invalid argument to .newInstance of Cell obj of simulation "+mySimulationType);
 				} catch (InvocationTargetException e) {
 					System.out.println("Constructor for Cell obj of simulation "+mySimulationType+" found, and arguments passed, but threw exception.");
+					e.printStackTrace();
 				}
 				
 				myCells.add((Cell) simulationCellObj);
