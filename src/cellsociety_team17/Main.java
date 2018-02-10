@@ -355,6 +355,7 @@ public class Main extends Application {
 			double d = Double.parseDouble(str);
 		}
 		catch(NumberFormatException nfe) {
+			LOGGER.log(Level.FINE, nfe.getMessage());
 			return false;
 		}
 		return true;
