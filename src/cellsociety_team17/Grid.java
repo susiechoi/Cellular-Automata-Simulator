@@ -12,7 +12,7 @@ import javafx.scene.shape.Shape;
 public class Grid {
 
 	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
-	public static final boolean DEFAULT_TOROIDALITY = true;
+	public static final boolean DEFAULT_TOROIDALITY = false;
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
 
