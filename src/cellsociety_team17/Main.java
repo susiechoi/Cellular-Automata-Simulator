@@ -333,6 +333,15 @@ public class Main extends Application {
 
 	private void createWatorCell(int cRow, int cColumn, int cState) {
 		Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+		if(myAttributes.containsKey("sharkClock")) {
+			((WatorCell) tempWCell).setMySharkCycles((int)myAttributes.get("sharkClock"));
+		}
+		if(myAttributes.containsKey("sharkEnergy")) {
+			((WatorCell) tempWCell).setInitialSharkEnergy((int)myAttributes.get("sharkEnergy"));
+		}
+		if(myAttributes.containsKey("fishClock")) {
+			((WatorCell) tempWCell).setMyfishCycles((int)myAttributes.get("fishClock"));
+		}
 		myCells.add(tempWCell);
 		if (cState != 0) {
 			activeCells.add(tempWCell);

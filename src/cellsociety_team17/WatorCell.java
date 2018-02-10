@@ -183,5 +183,18 @@ public class WatorCell extends Cell {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void setMySharkCycles(int mSharkCycles) {
+		sharkCyclesReproduce = mSharkCycles;
+		
+	}
+	public void setInitialSharkEnergy(int mSharkEnergy) {
+		sharkCyclesReproduce = mSharkEnergy;
+		
+	}
+	public void setMyfishCycles(int mSharkCycles) {
+		fishCyclesReproduce = mSharkCycles;
+		
+	}
 
 }
