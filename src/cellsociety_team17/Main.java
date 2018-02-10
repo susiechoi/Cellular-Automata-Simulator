@@ -378,8 +378,9 @@ public class Main extends Application {
 	private boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
-		} catch (NumberFormatException nfe) {
-			return false;
+		}
+		catch(NumberFormatException nfe) {
+			LOGGER.log(Level.FINE, nfe.getMessage());
 		}
 		return true;
 	}
