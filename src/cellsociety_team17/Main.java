@@ -91,8 +91,9 @@ public class Main extends Application {
 							startSimulation(readInput(myXmlFile));
 						} 
 						catch (Exception e) {
-							System.out.println("error starting the simulation");
+							//System.out.println("error starting the simulation");
 							LOGGER.log(Level.FINE, e.getMessage());
+							e.printStackTrace();
 						}
 					}
 				}
@@ -122,6 +123,7 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		activeCells = myGrid.updateCells(activeCells);
+		System.out.println(activeCells.size());
 
 	}
 
@@ -244,7 +246,7 @@ public class Main extends Application {
 		NodeList attrList = myDocument.getElementsByTagName("meta").item(0).getChildNodes();
 		for (int i = 0; i < attrList.getLength(); i++) {
 			if (!attrList.item(i).getNodeName().equals("#text")) {
-				if (isNumeric(attrList.item(i).getTextContent())) {
+				if (isNumeric(attrList.item(i).getTextContent().toString())) {		
 					myAttributes.put(attrList.item(i).getNodeName(),
 							getDoubleFromXML(myDocument, attrList.item(i).getNodeName()));
 				} else {
@@ -298,10 +300,10 @@ public class Main extends Application {
 					case 0:
 						makeFireCell(myDocument, cRow, cColumn, cState);
 						break;
-					case 1: // Modified by Judi at 6:28PM 2/5/2018
+					case 1:
 						createGameOfLifeCell(cRow, cColumn, cState);
 						break;
-					case 2: // Modified by Judi at 6:52PM 2/5/2018
+					case 2:
 						createWatorCell(cRow, cColumn, cState);
 						break;
 					case 3:
@@ -317,8 +319,12 @@ public class Main extends Application {
 	}
 
 	private void createSegregationCell(Document myDocument, int cRow, int cColumn, int cState) {
-		double mThreshold = getDoubleFromXML(myDocument, "probability");
-		Cell tempSCell = new SegregationCell(cRow, cColumn, cState, (float) mThreshold);
+		Cell tempSCell; 
+		if(myAttributes.containsKey("threshold")) {
+			tempSCell = new SegregationCell(cRow, cColumn, cState, (double) myAttributes.get("threshold"));
+		} else {
+			tempSCell = new SegregationCell(cRow, cColumn, cState);
+		}
 		myCells.add(tempSCell);
 		if (cState != 0) {
 			activeCells.add(tempSCell);
@@ -327,6 +333,15 @@ public class Main extends Application {
 
 	private void createWatorCell(int cRow, int cColumn, int cState) {
 		Cell tempWCell = new WatorCell(cRow, cColumn, cState);
+		if(myAttributes.containsKey("sharkClock")) {
+			((WatorCell) tempWCell).setMySharkCycles((int)myAttributes.get("sharkClock"));
+		}
+		if(myAttributes.containsKey("sharkEnergy")) {
+			((WatorCell) tempWCell).setInitialSharkEnergy((int)myAttributes.get("sharkEnergy"));
+		}
+		if(myAttributes.containsKey("fishClock")) {
+			((WatorCell) tempWCell).setMyfishCycles((int)myAttributes.get("fishClock"));
+		}
 		myCells.add(tempWCell);
 		if (cState != 0) {
 			activeCells.add(tempWCell);
@@ -343,7 +358,10 @@ public class Main extends Application {
 
 	private void makeFireCell(Document myDocument, int cRow, int cColumn, int cState) {
 		Cell tempCell = new FireCell(cRow, cColumn, cState);
-		((FireCell) tempCell).setMyProbability(getDoubleFromXML(myDocument, "probability"));
+		if(myAttributes.containsKey("probability")) {
+			((FireCell) tempCell).setMyProbability((double) myAttributes.get("probability"));
+		}
+		
 		myCells.add(tempCell);
 		if (cState == 2) {
 			activeCells.add(tempCell);
@@ -380,7 +398,7 @@ public class Main extends Application {
 			double d = Double.parseDouble(str);
 		}
 		catch(NumberFormatException nfe) {
-			LOGGER.log(Level.FINE, nfe.getMessage());
+			return false;
 		}
 		return true;
 	}

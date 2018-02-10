@@ -12,7 +12,7 @@ public class SegregationCell extends Cell {
 	public static final double DEFAULT_THRESHOLD = 0.5;
 
 	// threshold t represents satisfaction with segregation
-	private float myThreshold;
+	private double myThreshold;
 	private List<Cell> myNonEmptyNeighbors;
 
 	public SegregationCell(int row, int col, int startState) {
@@ -22,7 +22,7 @@ public class SegregationCell extends Cell {
 		myNonEmptyNeighbors = new ArrayList<Cell>();
 	}
 
-	public SegregationCell(int row, int col, int startState, float threshold) {
+	public SegregationCell(int row, int col, int startState, double threshold) {
 		super(row, col, startState);
 		myThreshold = threshold;
 		this.updateColor();
@@ -109,6 +109,11 @@ public class SegregationCell extends Cell {
 	@Override
 	void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
+	}
+
+	public void setProbability(Float mThreshold) {
+		myThreshold = mThreshold;
+		
 	}
 
 }
