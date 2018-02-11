@@ -1,7 +1,6 @@
 package cellsociety_team17;
 
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -15,8 +14,7 @@ import javafx.scene.paint.Paint;
 
 public class OptionsScreen {
 	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
-	public static final String DEFAULT_IMG_FILEPATH = "src/properties/";
-	public static final String DEFAULT_LANGUAGE = "Options";
+	public static final String DEFAULT_OPTIONS_FILENAME = "Options";
 	public static final String[] DEFAULT_NEIGHBOR_OPTIONS = {"NeighborOption1","NeighborOption2","NeighborOption3"};
 	public static final String[] DEFAULT_TOROIDAL_OPTIONS = {"ToroidalOn","ToroidalOff"};
 	public static final String TOROIDALITY_ON_INDICATOR = "Yes";
@@ -33,7 +31,7 @@ public class OptionsScreen {
 	private BooleanProperty toroidalSelectionReceived = new SimpleBooleanProperty();
 
 	public OptionsScreen() {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME);
 
 		myPane = new Pane();
 		myGridPane = new GridPane();
@@ -42,7 +40,6 @@ public class OptionsScreen {
 		int colIndex = 0;
 
 		for (String neighborOption : DEFAULT_NEIGHBOR_OPTIONS) {
-			final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)",String.join("|", ImageIO.getReaderFileSuffixes()));
 			String optionLabel = myResources.getString(neighborOption);
 			Button optionButton = new Button(optionLabel);
 			optionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -57,7 +54,6 @@ public class OptionsScreen {
 		rowIndex = 0;
 		colIndex++;
 		for (String toroidalOption : DEFAULT_TOROIDAL_OPTIONS) {
-			final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)",String.join("|", ImageIO.getReaderFileSuffixes()));
 			String optionLabel = myResources.getString(toroidalOption);
 			Button optionButton = new Button(optionLabel);
 			optionButton.setOnAction(new EventHandler<ActionEvent>() {
