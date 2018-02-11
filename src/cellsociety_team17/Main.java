@@ -50,6 +50,7 @@ public class Main extends Application {
 	private int windowCount;
 	private String[] mArgs;
 	private Timeline myTimeline;
+	private Graphing myGraph;
 
 	/**
 	 * 
@@ -66,6 +67,12 @@ public class Main extends Application {
 		primaryStage.setTitle("Team 17 -- Cell Society");
 		primaryStage.show();
 		showSplashScreen(myPrimaryStage);
+		
+		Stage graph= new Stage();
+		myGraph= new Graphing();
+		graph.setScene(myGraph.getScene());
+		graph.show();
+	
 	}
 
 	private void showSplashScreen(Stage relevantStage) {
@@ -149,7 +156,7 @@ public class Main extends Application {
 		if(activeCells.size() == 0) {
 			myTimeline.stop();
 		}
-
+		myGraph.graphCells(myCells);
 	}
 
 	private void startSimulation(Grid G, Stage relevantStage) {
@@ -165,6 +172,7 @@ public class Main extends Application {
 		myTimeline.getKeyFrames().add(frame);
 		myTimeline.pause();
 		setUpChangeListeners(mySimulationView, myTimeline, relevantStage);
+		
 	}
 
 	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {

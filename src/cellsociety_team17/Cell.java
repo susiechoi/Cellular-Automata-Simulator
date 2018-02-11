@@ -137,5 +137,6 @@ public abstract class Cell {
 	public void setMyNeighbors(List<Cell> neighbors) {
 		this.myNeighbors = neighbors;
 	}
+	
 
 }
