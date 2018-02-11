@@ -1,8 +1,14 @@
+/**
+ * 
+ * 
+ * @author Collin Brown
+ * @author Susie Choi
+ */
+
 package cellsociety_team17;
 
 import cellsociety_team17.Cell;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,22 +76,16 @@ public class Main extends Application {
 
 	private void showSplashScreen(Stage relevantStage) {
 		SplashScreen mySplash;
-		try {
-			mySplash = new SplashScreen();
-			myScene = mySplash.getScene();
-			relevantStage.setScene(myScene);
-			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
-				@Override
-				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
-					String userSelection = mySplash.getUserSelection();
-					showOptionsScreen(userSelection, relevantStage);
-				}
-			});
-		} catch (FileNotFoundException e1) {
-			System.out.print("File not found!!!");
-			LOGGER.log(Level.FINE, e1.getMessage());
-			e1.printStackTrace();
-		}
+		mySplash = new SplashScreen();
+		myScene = mySplash.getScene();
+		relevantStage.setScene(myScene);
+		mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				String userSelection = mySplash.getUserSelection();
+				showOptionsScreen(userSelection, relevantStage);
+			}
+		});
 	}
 
 	private void showOptionsScreen(String simulationSelection, Stage relevantStage) {
@@ -107,7 +107,7 @@ public class Main extends Application {
 			}
 		});
 	}
-	
+
 	private void showSimView(String simulationSelection, String neighborSelection, boolean toroidalSelection, Stage relevantStage) {
 		if (simulationIsWild(simulationSelection)) {
 			mySimulationWild = true; 
@@ -423,7 +423,7 @@ public class Main extends Application {
 		if(myAttributes.containsKey("probability")) {
 			((FireCell) tempCell).setMyProbability((double) myAttributes.get("probability"));
 		}
-		
+
 		myCells.add(tempCell);
 		if (cState == 2) {
 			activeCells.add(tempCell);
