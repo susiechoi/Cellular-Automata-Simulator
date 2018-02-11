@@ -56,6 +56,7 @@ public class SimulationView {
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 	private BooleanProperty home = new SimpleBooleanProperty();
 	private BooleanProperty step = new SimpleBooleanProperty();
+	private BooleanProperty save = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
@@ -129,6 +130,19 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(setUpRestartButton());
 		myControlsContainer.getChildren().add(setUpStepButton());
 		myControlsContainer.getChildren().add(setUpReturnHomeButton());
+		myControlsContainer.getChildren().add(setUpSaveButton());
+	}
+
+	private squareButton setUpSaveButton() {
+		squareButton mySaveButton = new squareButton(DEFAULT_BUTTON_SIZE, "Save");
+		mySaveButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				save.set(!save.get());
+			}
+		});
+		mySaveButton.setTranslateX(DEFAULT_BUTTON_SIZE * 6);
+		return mySaveButton;
 	}
 
 	private squareButton setUpReturnHomeButton() {
@@ -284,6 +298,10 @@ public class SimulationView {
 	public BooleanProperty step() {
 		return step;
 
+	}
+	
+	public BooleanProperty getSave() {
+		return save;
 	}
 
 }
