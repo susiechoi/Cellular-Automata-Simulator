@@ -15,7 +15,7 @@ public abstract class Cell {
 	private int myColumn;
 	private Shape myShape;
 	private List<Cell> myNeighbors;
-	public static final int CELLSIZE = 40;
+ 	public static final int CELLSIZE = 40;
 
 	public Cell(int row, int column, int state) {
 		myState = state;
