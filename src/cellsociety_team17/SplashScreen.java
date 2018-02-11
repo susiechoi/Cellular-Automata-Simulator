@@ -96,21 +96,9 @@ public class SplashScreen {
 	public Scene getScene() {
 		return myScene;
 	}
-	// public Stage getStage() {
-	// return myStage;
-	// }
 
 	public BooleanProperty userSelectionReceivedProperty() {
 		return userSelectionRecieved;
 	}
-
-	// @Override
-	// public void start(Stage primaryStage) throws Exception {
-	// myStage.show();
-	// }
-	//
-	// public static void main(String[] args) throws FileNotFoundException {
-	// launch(args);
-	// }
 
 }

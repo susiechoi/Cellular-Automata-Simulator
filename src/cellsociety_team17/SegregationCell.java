@@ -67,7 +67,6 @@ public class SegregationCell extends Cell {
 	}
 
 	private Cell moveToEmptySpace() {
-
 		CopyOnWriteArrayList<Cell> possEmptySpots = new CopyOnWriteArrayList<Cell>();
 		possEmptySpots.addAll(getMyNeighbors());
 		Random randomGen = new Random();
@@ -86,13 +85,12 @@ public class SegregationCell extends Cell {
 	}
 
 	@Override
-	void updateColor() {
+	protected void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 
 	public void setProbability(Float mThreshold) {
 		myThreshold = mThreshold;
-		
 	}
 
 }

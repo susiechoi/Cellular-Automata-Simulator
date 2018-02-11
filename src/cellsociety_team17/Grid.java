@@ -20,8 +20,9 @@ public class Grid {
 	private int myHeight;
 	private Cell[][] myCells;
 	private Group myGroup;
+	private String myNeighborType; 
 	private boolean myToroidality;
-
+	
 	private Shape myShapeType;
 
 	public Grid(int width, int height, List<Cell> activeCells) {
@@ -43,50 +44,60 @@ public class Grid {
 		}
 	}
 
-	// TODO IMPROVE CATCH BLOCKS
 	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
-
-		Class<?> classInstance = null;
-		Method method = null;
-		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
-		String methodName = SET_NEIGHBORS_METHOD_NAME;
-
-		// step 1: class
-		try {
-			classInstance = Class.forName(subclassName);
-		} catch (ClassNotFoundException e) {
-			System.out.println("Class: " + subclassName + " not found.");
+//		Class<?> classInstance = null;
+//		Method method = null;
+//		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
+//		String methodName = SET_NEIGHBORS_METHOD_NAME;
+//
+//		// step 1: class
+//		try {
+//			classInstance = Class.forName(subclassName);
+//		} catch (ClassNotFoundException e) {
+//			System.out.println("Class: " + subclassName + " not found.");
+//		}
+//
+//		// step 2: method
+//		try {
+//			method = classInstance.getDeclaredMethod(methodName, Cell.class);
+//		} catch (NoSuchMethodException e) {
+//			System.out.println("Neighborhood-setting method for that specific neighborhood grouping not found."
+//					+ "Use again with default neighborhood-setting method.");
+//		} catch (SecurityException e) {
+//			System.out.println("Permission issue relating to" + classInstance.getName());
+//		}
+//
+//		// step 3: method invocation
+//		try {
+//			method.invoke(new NeighborhoodMakerC(), cell);
+//		} catch (IllegalAccessException e) {
+//			System.out.println("Class " + this.getClass().getName() + " does not have access to " + subclassName);
+//		} catch (IllegalArgumentException e) {
+//			System.out.println("Illegal arguments in invoke method.");
+//		} catch (InvocationTargetException e) {
+//			System.out.println("Error came from: " + methodName);
+//		}
+		if (neighborhoodShape.equals("D")) {
+			NeighborhoodMakerD dNeighbors = new NeighborhoodMakerD();
+			dNeighbors.setNeighbors(cell);
 		}
-
-		// step 2: method
-		try {
-			method = classInstance.getDeclaredMethod(methodName, Cell.class);
-		} catch (NoSuchMethodException e) {
-			System.out.println("Neighborhood-setting method for that specific neighborhood grouping not found."
-					+ "Use again with default neighborhood-setting method.");
-		} catch (SecurityException e) {
-			System.out.println("Permission issue relating to" + classInstance.getName());
+		else if (neighborhoodShape.equals("C")) {
+			NeighborhoodMakerC cNeighbors = new NeighborhoodMakerC();
+			cNeighbors.setNeighbors(cell);
 		}
-
-		// step 3: method invocation
-		try {
-			method.invoke(new NeighborhoodMakerC(), cell);
-		} catch (IllegalAccessException e) {
-			System.out.println("Class " + this.getClass().getName() + " does not have access to " + subclassName);
-		} catch (IllegalArgumentException e) {
-			System.out.println("Illegal arguments in invoke method.");
-		} catch (InvocationTargetException e) {
-			System.out.println("Error came from: " + methodName);
+		else if (neighborhoodShape.equals("Z")) {
+			NeighborhoodMakerZ zNeighbors = new NeighborhoodMakerZ();
+			zNeighbors.setNeighbors(cell);
 		}
 	}
 	
 	public List<Cell> updateCells(List<Cell> activeCells) {
-		// System.out.println(activeCells);
 		List<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
 			if (cell != null)
 				newACells.addAll(cell.update());
 		}
+		System.out.println(newACells.size());
 		return newACells;
 	}
 
@@ -108,6 +119,14 @@ public class Grid {
 
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
+	}
+	
+	public String getNeighborType() {
+		return myNeighborType;
+	}
+	
+	public boolean getToroidal() {
+		return myToroidality;
 	}
 
 	private abstract class NeighborhoodMaker {

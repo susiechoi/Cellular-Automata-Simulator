@@ -244,6 +244,10 @@ public class SimulationView {
 	public DoubleProperty getMySpeed() {
 		return mySpeed;
 	}
+	
+	public Grid getGrid() {
+		return myGrid;
+	}
 
 	private void setUpGridContainer() {
 		myGridContainer = new Group();
