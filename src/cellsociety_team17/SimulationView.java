@@ -57,11 +57,9 @@ public class SimulationView {
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 	private BooleanProperty home = new SimpleBooleanProperty();
 	private BooleanProperty step = new SimpleBooleanProperty();
-<<<<<<< src/cellsociety_team17/SimulationView.java
 	private BooleanProperty save = new SimpleBooleanProperty();
-=======
 	private BooleanProperty newWindow = new SimpleBooleanProperty();
->>>>>>> src/cellsociety_team17/SimulationView.java
+
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
@@ -137,6 +135,7 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(setUpStepButton());
 		myControlsContainer.getChildren().add(setUpReturnHomeButton());
 		myControlsContainer.getChildren().add(setUpSaveButton());
+		myControlsContainer.getChildren().add(setUpNewWindowButton());
 	}
 
 	private squareButton setUpSaveButton() {
@@ -150,7 +149,6 @@ public class SimulationView {
 		mySaveButton.setTranslateX(DEFAULT_BUTTON_SIZE * 6);
 		return mySaveButton;
 
-		myControlsContainer.getChildren().add(setUpNewWindowButton());
 	}
 
 	private squareButton setUpNewWindowButton() {
@@ -161,7 +159,7 @@ public class SimulationView {
 				newWindow.set(!newWindow.get());
 			}
 		});
-		myNewWindowButton.setTranslateX(DEFAULT_BUTTON_SIZE * 6);
+		myNewWindowButton.setTranslateX(DEFAULT_BUTTON_SIZE * 7);
 		return myNewWindowButton;
 	}
 	

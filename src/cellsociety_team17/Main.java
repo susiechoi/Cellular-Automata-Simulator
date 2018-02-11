@@ -47,6 +47,8 @@ public class Main extends Application {
 	public static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
 	public static final String WILDCARD_INDICATOR = "WildCard";
 	private boolean mySimulationWild; 
+	private int windowCount;
+	private String[] mArgs;
 
 	/**
 	 * 
@@ -169,10 +171,11 @@ public class Main extends Application {
 		setUpStepChangeListener(mySimulationView, myTimeline);
 		setUpHomeListener(mySimulationView, myTimeline);
 		setUpSaveListener(mySimulationView, myTimeline);
+		setUpWindowListener(mySimulationView, myTimeline);
 	}
 
 	private void setUpSaveListener(SimulationView mySimulationView, Timeline myTimeline) {
-		mySimulationView.getSave().addListener(new ChangeListener<Boolean>() {
+		mySimulationView.getSave().addListener(new ChangeListener<Boolean>(){
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				try {
@@ -181,24 +184,20 @@ public class Main extends Application {
 					myXMLSaver.save();
 				} catch (Exception e) {
 					System.out.println("Error returning to Home Screen");
-
-		setUpWindowListener(mySimulationView, myTimeline);
-	}
+				}
+			}});
+			}
 
 	private void setUpWindowListener(SimulationView mySimulationView, Timeline myTimeline) {
 		mySimulationView.getWindow().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				try {
-					myTimeline.pause();     
-					Stage newStage = new Stage();
-					myScene = new SplashScreen().getScene();
-					newStage.setScene(myScene);
-					newStage.show();
-					showSplashScreen(newStage);
+					String[] temp = {};
+					new Main().start(new Stage());;
 				} catch (Exception e) {
 					System.out.println("Error opening new window");
-
+					e.printStackTrace();
 					LOGGER.log(Level.FINE, e.getMessage());
 				}				
 			}
@@ -480,5 +479,5 @@ public class Main extends Application {
 		return Double.parseDouble(nodeString);
 	}
 
-
 }
+		
