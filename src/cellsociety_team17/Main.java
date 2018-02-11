@@ -25,7 +25,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -46,7 +45,6 @@ public class Main extends Application {
 	public static final long MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	public static final Logger LOGGER = Logger.getLogger( Main.class.getName() );
-	
 	public static final String WILDCARD_INDICATOR = "WildCard";
 	private boolean mySimulationWild; 
 
@@ -64,7 +62,6 @@ public class Main extends Application {
 		myPrimaryStage.setResizable(false);
 		primaryStage.setTitle("Team 17 -- Cell Society");
 		primaryStage.show();
-		// startSimulation(myGrid);
 		showSplashScreen(myPrimaryStage);
 	}
 
@@ -78,23 +75,7 @@ public class Main extends Application {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 					String userSelection = mySplash.getUserSelection();
-					if (simulationIsWild(userSelection)) {
-						mySimulationWild = true; 
-						String simulationCellToAccess = userSelection.substring(WILDCARD_INDICATOR.length()); 
-						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
-						startWildSimulation(userSelection, wildCardSimulation, relevantStage);
-					}
-					else {
-						mySimulationWild = false; 
-						setFile(DEFAULT_FILEPATH + mySplash.getUserSelection() + ".xml");
-						try {
-							startSimulation(readInput(myXmlFile), relevantStage);
-						} 
-						catch (Exception e) {
-							System.out.println("error starting the simulation");
-							LOGGER.log(Level.FINE, e.getMessage());
-						}
-					}
+					showOptionsScreen(userSelection, relevantStage);
 				}
 			});
 		} catch (FileNotFoundException e1) {
@@ -103,11 +84,51 @@ public class Main extends Application {
 			e1.printStackTrace();
 		}
 	}
+
+	private void showOptionsScreen(String simulationSelection, Stage relevantStage) {
+		OptionsScreen myOptions; 
+		myOptions = new OptionsScreen();
+		myScene = myOptions.getScene();
+		relevantStage.setScene(myScene);
+		myOptions.neighborSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				String neighborSelection = myOptions.getNeighborSelection();
+				myOptions.toroidalSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
+					@Override
+					public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+						boolean toroidalSelection = myOptions.getToroidalSelection();
+						showSimView(simulationSelection, neighborSelection, toroidalSelection, relevantStage);
+					}
+				});
+			}
+		});
+	}
 	
+	private void showSimView(String simulationSelection, String neighborSelection, boolean toroidalSelection, Stage relevantStage) {
+		if (simulationIsWild(simulationSelection)) {
+			mySimulationWild = true; 
+			String simulationCellToAccess = simulationSelection.substring(WILDCARD_INDICATOR.length()); 
+			RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess, neighborSelection, toroidalSelection);
+			startWildSimulation(simulationSelection, wildCardSimulation, relevantStage);
+		}
+		else {
+			mySimulationWild = false; 
+			setFile(DEFAULT_FILEPATH + simulationSelection + ".xml");
+			try {
+				startSimulation(readInput(myXmlFile, neighborSelection, toroidalSelection), relevantStage);
+			} 
+			catch (Exception e) {
+				System.out.println("error starting the simulation");
+				LOGGER.log(Level.FINE, e.getMessage());
+			}
+		}
+	}
+
 	private boolean simulationIsWild(String selectedSimulationName) {
 		return (selectedSimulationName.length() >  WILDCARD_INDICATOR.length() && selectedSimulationName.substring(0, WILDCARD_INDICATOR.length()).equals(WILDCARD_INDICATOR));
 	}
-	
+
 	private void startWildSimulation(String wildSimulationTitle, RandomizedInitConfig wildCardSimulation, Stage relevantStage) {
 		mySimulationTitle = wildSimulationTitle;
 		myGrid = wildCardSimulation.getGrid();
@@ -168,7 +189,7 @@ public class Main extends Application {
 
 		});
 	}
-	
+
 	private void setUpHomeListener(SimulationView mySimulationView, Timeline myTimeline) {
 		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
 			@Override
@@ -204,6 +225,8 @@ public class Main extends Application {
 	}
 
 	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {
+		String currNeighborType = mySimulationView.getGrid().getNeighborType(); 
+		boolean currToroidality = mySimulationView.getGrid().getToroidal();
 		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -211,11 +234,11 @@ public class Main extends Application {
 					myTimeline.stop();
 					if (mySimulationWild) {
 						String simulationCellToAccess = mySimulationTitle.substring(WILDCARD_INDICATOR.length()); 
-						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
+						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess, currNeighborType, currToroidality);
 						startWildSimulation(mySimulationTitle, wildCardSimulation, relevantStage);
 					}
 					else {
-						startSimulation(readInput(myXmlFile), relevantStage);
+						startSimulation(readInput(myXmlFile, currNeighborType, currToroidality), relevantStage);
 					}
 				} catch (Exception e) {
 					System.out.print("Error Starting Simulation");
@@ -257,7 +280,7 @@ public class Main extends Application {
 		myXmlFile = new File(s);
 	}
 
-	private Grid readInput(File f) throws Exception {
+	private Grid readInput(File f, String neighborSelection, boolean toroidalSelection) throws Exception {
 		myCells = new ArrayList<Cell>();
 		activeCells = new ArrayList<Cell>();
 
@@ -266,8 +289,7 @@ public class Main extends Application {
 		for (int i = 0; i < attrList.getLength(); i++) {
 			if (!attrList.item(i).getNodeName().equals("#text")) {
 				if (isNumeric(attrList.item(i).getTextContent())) {
-					myAttributes.put(attrList.item(i).getNodeName(),
-							getDoubleFromXML(myDocument, attrList.item(i).getNodeName()));
+					myAttributes.put(attrList.item(i).getNodeName(), getDoubleFromXML(myDocument, attrList.item(i).getNodeName()));
 				} else {
 					myAttributes.put(attrList.item(i).getNodeName(), attrList.item(i).getTextContent());
 				}
@@ -289,7 +311,7 @@ public class Main extends Application {
 
 		createCells(myDocument);
 
-		myGrid = new Grid(myHeight, myWidth, myCells);
+		myGrid = new Grid(myHeight, myWidth, myCells, neighborSelection, toroidalSelection);
 		if (myAttributes.containsKey("shape")) {
 			switch (myAttributes.get("shape").toString()) {
 			case "triangle":
