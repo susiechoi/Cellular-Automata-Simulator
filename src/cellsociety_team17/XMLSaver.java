@@ -2,6 +2,9 @@ package cellsociety_team17;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -70,7 +73,10 @@ public class XMLSaver {
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(dom);
 		//StreamResult result = new StreamResult(System.out);
-		StreamResult result = new StreamResult(new File("saved_simulation.xml"));
+		
+		DateFormat df = new SimpleDateFormat("dd_MM_yy_HH_mm_ss");
+		Date dateobj = new Date();
+		StreamResult result = new StreamResult(new File("saved_simulation_" + df.format(dateobj) + ".xml"));
 		
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.transform(source, result);
