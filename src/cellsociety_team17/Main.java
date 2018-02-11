@@ -242,6 +242,7 @@ public class Main extends Application {
 	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {
 		String currNeighborType = mySimulationView.getGrid().getNeighborType(); 
 		boolean currToroidality = mySimulationView.getGrid().getToroidal();
+		System.out.println(mySimulationView.getGrid().getNeighborType());
 		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -251,6 +252,7 @@ public class Main extends Application {
 						String simulationCellToAccess = mySimulationTitle.substring(WILDCARD_INDICATOR.length()); 
 						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess, currNeighborType, currToroidality);
 						startWildSimulation(mySimulationTitle, wildCardSimulation, relevantStage);
+			
 					}
 					else {
 						startSimulation(readInput(myXmlFile, currNeighborType, currToroidality), relevantStage);

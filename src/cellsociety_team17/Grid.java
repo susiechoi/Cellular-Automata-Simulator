@@ -36,6 +36,7 @@ public class Grid {
 		myCells = new Cell[myHeight][myWidth];
 		myGroup = new Group();
 		myToroidality = toroidal;
+		myNeighborType = neighborhoodShape;
 		for (Cell cell : activeCells) {
 			myCells[cell.getMyRow()][cell.getMyColumn()] = cell;
 		}
