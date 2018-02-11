@@ -12,6 +12,8 @@ public class RandomizedInitConfig {
 	public static final int DEFAULT_GRID_SIZE = 10;
 	public static final String DEFAULT_SIMULATION_PATH = "cellsociety_team17.";
 	public static final String DEFAULT_SIMULATION = "SegregationCell";
+	public static final String DEFAULT_NEIGHBOR = "D";
+	public static final boolean DEFAULT_TOROIDAL = false; 
 	public static final ArrayList<String> TWO_STATE_CELLS = new ArrayList<String>(Arrays.asList("GameOfLifeCell")); 
 	public static final ArrayList<String> THREE_STATE_CELLS = new ArrayList<String>(Arrays.asList("FireCell", "SegregationCell", "WatorCell")); 
 
@@ -22,20 +24,20 @@ public class RandomizedInitConfig {
 	private ArrayList<Cell> myActiveCells; 
 
 	public RandomizedInitConfig() {
-		this(DEFAULT_GRID_SIZE, DEFAULT_SIMULATION);
+		this(DEFAULT_SIMULATION, DEFAULT_NEIGHBOR, DEFAULT_TOROIDAL);
 	}
 	
 	public RandomizedInitConfig(String mySimulationType) {
-		this(DEFAULT_GRID_SIZE, mySimulationType);
+		this(mySimulationType, DEFAULT_NEIGHBOR, DEFAULT_TOROIDAL);
 	}
 
-	public RandomizedInitConfig(int gridSize, String simulationType) {		
-		myGridSize = gridSize;
+	public RandomizedInitConfig(String simulationType, String neighborSelection, boolean toroidalSelection) {		
+		myGridSize = DEFAULT_GRID_SIZE;
 		mySimulationType = simulationType; 
 		myCells = new ArrayList<Cell>();
 		myActiveCells = new ArrayList<Cell>();
 		generateCells();
-		myGrid = new Grid(DEFAULT_GRID_SIZE, DEFAULT_GRID_SIZE, myCells);
+		myGrid = new Grid(myGridSize, myGridSize, myCells, neighborSelection, toroidalSelection);
 	}
 
 	private void generateCells() {

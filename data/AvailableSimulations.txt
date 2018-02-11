@@ -1,4 +1,4 @@
 GameOfLife
 Segregation
-WaTor
+Wator
 Fire
