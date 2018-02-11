@@ -1,6 +1,11 @@
 /**
  * Creates Grid of randomized initial configuration, rather than parsed from XML. 
+ * 
  * Depends on Grid class. 
+ * 
+ * Use by initializing with user simulation selection
+ * 		after receiving from another simulation selection class (in this case, SplashScreen).  
+ * 
  * @author Susie Choi
  */
 
@@ -29,14 +34,29 @@ public class RandomizedInitConfig {
 	private ArrayList<Cell> myCells; 
 	private ArrayList<Cell> myActiveCells; 
 
+	/**
+	 * No arg constructor calls full-arg constructor 
+	 * using default values for simulation, neighborhood type/shape, and toroidality
+	 */
 	public RandomizedInitConfig() {
 		this(DEFAULT_SIMULATION, DEFAULT_NEIGHBOR, DEFAULT_TOROIDAL);
 	}
 	
+	/**
+	 * 1 arg constructor receives simulationType to call full-arg constructor 
+	 * using default values for neighborhood type/shape, and toroidality
+	 */
 	public RandomizedInitConfig(String mySimulationType) {
 		this(mySimulationType, DEFAULT_NEIGHBOR, DEFAULT_TOROIDAL);
 	}
 
+	/**
+	 * Creates RandomizedInitConfig object with a Grid of the specified simulation type, 
+	 * ensuring that Grid is set with specified neighborhood type and toroidality. 
+	 * @param simulationType: Which simulation user has opted to view.
+	 * @param neighborSelection: Which neighborhood type/shape user has selected for Cells of simulation.
+	 * @param toroidalSelection: Whether or not Grid is toroidal. 
+	 */
 	public RandomizedInitConfig(String simulationType, String neighborSelection, boolean toroidalSelection) {		
 		myGridSize = DEFAULT_GRID_SIZE;
 		mySimulationType = simulationType; 
@@ -98,14 +118,20 @@ public class RandomizedInitConfig {
 		}
 	}
 	
+	/**
+	 * Returns Grid for placing in view where user can watch and control simulation 
+	 * 		(in this project, SimulationView)
+	 * @return Grid with randomized initial configuration
+	 */
 	public Grid getGrid() {
 		return myGrid;
 	}
 	
-	public List<Cell> getCells() {
-		return myCells;
-	}
-	
+	/**
+	 * Returns List of Cells that are active, i.e. need to be checked for updates. 
+	 * Useful for determining which Cells to check in each step of simulation.
+	 * @return List of Cells held in randomized Grid
+	 */
 	public List<Cell> getActiveCells() {
 		return myActiveCells;
 	}
