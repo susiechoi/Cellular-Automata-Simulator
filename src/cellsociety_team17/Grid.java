@@ -99,7 +99,7 @@ public class Grid {
 			if (cell != null)
 				newACells.addAll(cell.update());
 		}
-		System.out.println(newACells.size());
+		//System.out.println(newACells.size());
 		return newACells;
 	}
 
