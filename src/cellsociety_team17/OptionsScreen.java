@@ -1,7 +1,6 @@
 package cellsociety_team17;
 
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -55,7 +54,6 @@ public class OptionsScreen {
 		rowIndex = 0;
 		colIndex++;
 		for (String toroidalOption : DEFAULT_TOROIDAL_OPTIONS) {
-			final String IMAGEFILE_SUFFIXES = String.format(".*\\.(%s)",String.join("|", ImageIO.getReaderFileSuffixes()));
 			String optionLabel = myResources.getString(toroidalOption);
 			Button optionButton = new Button(optionLabel);
 			optionButton.setOnAction(new EventHandler<ActionEvent>() {

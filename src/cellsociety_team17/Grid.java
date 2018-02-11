@@ -1,10 +1,7 @@
 package cellsociety_team17;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import cellsociety_team17.Cell;
 import javafx.scene.Group;
 import javafx.scene.shape.Shape;
