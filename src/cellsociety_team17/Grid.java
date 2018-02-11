@@ -22,7 +22,7 @@ public class Grid {
 	private Group myGroup;
 	private String myNeighborType; 
 	private boolean myToroidality;
-
+	
 	private Shape myShapeType;
 
 	public Grid(int width, int height, List<Cell> activeCells) {
@@ -44,9 +44,7 @@ public class Grid {
 		}
 	}
 
-	// TODO IMPROVE CATCH BLOCKS
 	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
-
 //		Class<?> classInstance = null;
 //		Method method = null;
 //		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
@@ -79,7 +77,6 @@ public class Grid {
 //		} catch (InvocationTargetException e) {
 //			System.out.println("Error came from: " + methodName);
 //		}
-		System.out.println(neighborhoodShape);
 		if (neighborhoodShape.equals("D")) {
 			NeighborhoodMakerD dNeighbors = new NeighborhoodMakerD();
 			dNeighbors.setNeighbors(cell);
@@ -95,7 +92,6 @@ public class Grid {
 	}
 	
 	public List<Cell> updateCells(List<Cell> activeCells) {
-		// System.out.println(activeCells);
 		List<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
 			if (cell != null)

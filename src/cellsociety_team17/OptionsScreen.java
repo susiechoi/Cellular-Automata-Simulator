@@ -20,9 +20,9 @@ public class OptionsScreen {
 	public static final String[] DEFAULT_NEIGHBOR_OPTIONS = {"NeighborOption1","NeighborOption2","NeighborOption3"};
 	public static final String[] DEFAULT_TOROIDAL_OPTIONS = {"ToroidalOn","ToroidalOff"};
 	public static final String TOROIDALITY_ON_INDICATOR = "Yes";
-
 	public static final int DEFAULT_SCREEN_SIZE = 400;
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
+	
 	private ResourceBundle myResources;
 	private Scene myScene;
 	private GridPane myGridPane;
