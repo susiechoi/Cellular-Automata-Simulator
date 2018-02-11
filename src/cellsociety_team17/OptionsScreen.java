@@ -1,3 +1,19 @@
+/**
+ * Displays user options for/receives user selection for neighborhood shape/type and toroidality for Simulation.
+ *
+ * Use by initializing and accepting default options filepath (no-arg constructor), 
+ * 		or specifying in 1-arg constructor.
+ * Set up listener to the BooleanProperty that indicates 
+ * 		that the user selected a neighborhood shape/type (neighborhoodSelectionReceivedProperty)
+ * 		and toroidality (toroidalSelectionReceivedProperty).
+ * 
+ * Assumes that an outside class is listening to when user selection is received, 
+ * 		and coordinating transitions between screens appropriately 
+ * 		so that user can view simulation with selected settings. 
+ * 
+ * @author Susie Choi 
+ */
+
 package cellsociety_team17;
 
 import java.util.ResourceBundle;
@@ -30,8 +46,22 @@ public class OptionsScreen {
 	private BooleanProperty neighborSelectionReceived = new SimpleBooleanProperty();
 	private BooleanProperty toroidalSelectionReceived = new SimpleBooleanProperty();
 
+	/**
+	 * No-arg constructor calls multi-arg OptionsScreen constructor 
+	 * 		using default filepath for options Properties. 
+	 */
 	public OptionsScreen() {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME);
+		this(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME);
+	}
+	
+	/**
+	 * Creates OptionsScreen containing buttons for each neighborhood type and one toroidality setting (on/off).
+	 * @param String optionsFileName: the name of the Properties file with text to be contained in buttons:
+	 * 		assumes that all button types are listed in public static final vars, 
+	 * 		so that they may be matched with in-file Properties.
+	 */
+	public OptionsScreen(String optionsFileName) {
+		myResources = ResourceBundle.getBundle(optionsFileName);
 
 		myPane = new Pane();
 		myGridPane = new GridPane();
@@ -84,7 +114,7 @@ public class OptionsScreen {
 		toroidalSelectionReceived();
 	}
 
-	public boolean neighborSelectionReceived() {
+	private boolean neighborSelectionReceived() {
 		neighborSelectionReceived.set(myNeighborSelection.length() > 0);
 		return (myNeighborSelection.length() > 0);
 	}
@@ -94,22 +124,49 @@ public class OptionsScreen {
 		return (myToroidalSelection.length() > 0);
 	}
 
+	/**
+	 * Returns user selection for neighborhood type/shapes for Cells.
+	 * Useful for receiving user selection information after Listener indicates that selection was received. 
+	 * @return String, name of selected neighborhood type/shape.
+	 */
 	public String getNeighborSelection() {
 		return myNeighborSelection;
 	}
 
+	/**
+	 * Returns user selection for toroidality.
+	 * Useful for receiving user selection information after Listener indicates that selection was received. 
+	 * @return boolean, toroidality setting of Grid.
+	 */
 	public boolean getToroidalSelection() {
 		return (myToroidalSelection.equals(TOROIDALITY_ON_INDICATOR));
 	}
 
+	/**
+	 * Returns scene including buttons for OptionsScreen obj.
+	 * Useful for setting scene of Stage to display SplashScreen obj.
+	 * @return Scene containing GridPane with buttons for OptionsScreen .
+	 */
 	public Scene getScene() {
 		return myScene;
 	}
 
+	/**
+	 * Returns BooleanProperty to indicate whether user selected neighborhood type/shape for Cells.
+	 * Useful for calling class' listener to identify when user selection was received and, thus, 
+	 * 		scene transition is necessary. 
+	 * @return BooleanProperty, indicating whether user selected neighborhood type/shape for Cells.
+	 */
 	public BooleanProperty neighborSelectionReceivedProperty() {
 		return neighborSelectionReceived;
 	}
 
+	/**
+	 * Returns BooleanProperty to indicate whether user selected toroidality setting for Grid.
+	 * Useful for calling class' listener to identify when user selection was received and, thus, 
+	 * 		scene transition is necessary. 
+	 * @return BooleanProperty, indicating whether user selected toroidality setting.
+	 */
 	public BooleanProperty toroidalSelectionReceivedProperty() {
 		return toroidalSelectionReceived;
 	}

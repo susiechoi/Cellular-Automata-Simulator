@@ -1,3 +1,11 @@
+/**
+ * Grid to manage simulation-specific Cell objects. 
+ * Depends on Cell class. 
+ * Use by constructing Grid (which initializes structure to hold Cells), 
+ * 		and updating Grid to update Cells in simulation.
+ * @author Susie Choi
+ */
+
 package cellsociety_team17;
 
 import java.util.ArrayList;
@@ -26,10 +34,25 @@ public class Grid {
 	
 	private Shape myShapeType;
 
+	/**
+	 * Fewer-arg constructor calls greater-arg Grid constructor 
+	 * 		using default neighborhood shape and default toroidality (for setting cell neighbors).
+	 */
 	public Grid(int width, int height, List<Cell> activeCells) {
 		this(width, height, activeCells, DEFAULT_NEIGHBORHOOD_SHAPE, DEFAULT_TOROIDALITY);
 	}
 
+	/**
+	 * Constructs Grid with Cells whose neighbors are set according to a 
+	 * 		specified neighborhood shape and toroidality.
+	 * @param int width: width of Grid.
+	 * @param int height: height of Grid.
+	 * @param List<Cell> activeCells: Cells to add to Grid.
+	 * @param String neighborhoodShape: shape of neighborhood to set for each Cell 
+	 * 		(e.g. direct neighbors vs. corner neighbors).
+	 * @param boolean toroidal: whether to connect Cells on ends (which normally have smaller neighborhoods)
+	 * 		to neighbors on other side of Grid.
+	 */ 
 	public Grid(int width, int height, List<Cell> activeCells, String neighborhoodShape, boolean toroidal) {
 		myWidth = width;
 		myHeight = height;
@@ -46,6 +69,7 @@ public class Grid {
 	}
 
 	private void setCellNeighbors(Cell cell, String neighborhoodShape) {
+// DO NOT DELETE COMMENTED CODE
 //		Class<?> classInstance = null;
 //		Method method = null;
 //		String subclassName = NEIGHBORHOOD_MAKER_CLASS_NAME + neighborhoodShape;
@@ -92,6 +116,11 @@ public class Grid {
 		}
 	}
 	
+	/**
+	 * Updates all Cells in Grid, returning new List of Cells that need to be checked in next step. 
+	 * @param List<Cell> activeCells: List of Cells that are active (i.e. non-empty or alive) to check updates for.
+	 * @return List<Cell> new List of Cells that are active after having updated the Cells in List argument. 
+	 */
 	public List<Cell> updateCells(List<Cell> activeCells) {
 		List<Cell> newACells = new ArrayList<Cell>();
 		for (Cell cell : activeCells) {
@@ -102,34 +131,84 @@ public class Grid {
 		return newACells;
 	}
 
+	/**
+	 * Returns Group whose children are Cells.
+	 * Useful for creating screen for viewing and controlling simulation 
+	 * 		(in this project, SimulationView).
+	 * @return Group containing Cell objects as children.
+	 */
 	public Group getGroup() {
 		return myGroup;
 	}
 
+	/**
+	 * Returns int width (in number of columns) of Grid object.
+	 * Useful for creating screen for viewing and controlling simulation 
+	 * 		(in this project, SimulationView). 
+	 * @return int width of Grid object in rows.
+	 */
 	public int getWidth() {
 		return myWidth;
 	}
 
+	/**
+	 * Returns int width in pixels of Grid object.
+	 * Useful for creating screen for viewing and controlling simulation 
+	 * 		(in this project, SimulationView). 
+	 * @return int width of Grid object in pixels. 
+	 */
 	public double getWidthInPixels() {
 		return myWidth * Cell.CELLSIZE;
 	}
 
+	/**
+	 * Returns int height (in number of rows) of Grid object.
+	 * Useful for creating screen for viewing and controlling simulation 
+	 * 		(in this project, SimulationView). 
+	 * @return int height of Grid object in rows.
+	 */
 	public int getHeight() {
 		return myHeight;
 	}
 
+	/**
+	 * Returns int height in pixels of Grid object.
+	 * Useful for creating screen for viewing and controlling simulation 
+	 * 		(in this project, SimulationView).
+	 * @return int height of Grid object in pixels. 
+	 */
 	public double getHeightInPixels() {
 		return myHeight * Cell.CELLSIZE;
 	}
 	
+	/**
+	 * Returns String indicating type/shape of neighborhoods surrounding each Cell. 
+	 * Useful for restarting simulation with same neighborhood shape argument.
+	 * @return String indicating neighborhood type/shape.
+	 */
 	public String getNeighborType() {
 		return myNeighborType;
 	}
 	
+	/**
+	 * Returns boolean indicating whether Grid is toroidal. 
+	 * Useful for restarting simulation with same toroidality seting.
+	 * @return boolean indicating whether Grid is toroidal. 
+	 */
 	public boolean getToroidal() {
 		return myToroidality;
 	}
 
+	/**
+	 * Abstract class to encapsulate setting neighbors in different orientations. 
+	 * Useful for specifying neighborhood orientations (e.g. direction neighbors, corner neighbors, Z-shape neighbors). 
+	 * Depends on Grid and Cell classes.
+	 * To extend, specify in the "setNeighbors" method which neighbors to add, 
+	 * 		in both cases of a toroidal and non-toroidal/regular Grid;
+	 * Must also add option for newly-created neighborhood-maker to OptionsScreen.java in form of button that user can select;
+	 * Finally, must add additional "if" statement to setCellNeighbors method in Grid.java to ensure that the neighborhood-maker is called. 
+	 * @author Susie Choi
+	 */
 	private abstract class NeighborhoodMaker {
 
 		private NeighborhoodMaker() {
@@ -262,10 +341,14 @@ public class Grid {
 		}
 	}
 
-	public Shape getShapeType() {
-		return myShapeType;
-	}
+//	public Shape getShapeType() {
+//		return myShapeType;
+//	}
 
+	/**
+	 * Sets Grid units (i.e. manifestation of Cell objects) to specified Shape 
+	 * @param Shape s: Shape for Grid units to take on 
+	 */
 	public void setMyShape(Shape s) {
 		myShapeType = s;
 	}

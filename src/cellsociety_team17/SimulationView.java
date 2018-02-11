@@ -1,8 +1,14 @@
+/**
+ * 
+ * 
+ * @author Collin Brown
+ * @author Susie Choi
+ */
+
 package cellsociety_team17;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;

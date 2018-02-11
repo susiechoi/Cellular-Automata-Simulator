@@ -1,3 +1,9 @@
+/**
+ * Creates Grid of randomized initial configuration, rather than parsed from XML. 
+ * Depends on Grid class. 
+ * @author Susie Choi
+ */
+
 package cellsociety_team17;
 
 import java.lang.reflect.Constructor;
