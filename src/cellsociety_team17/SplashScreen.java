@@ -1,6 +1,22 @@
+/**
+ * Screen to receive user input for desired simulation to view,
+ * and whether to load initial configurations from file or randomly.
+ * 
+ * Use by initializing and accepting default filepath (no-arg constructor), 
+ * 		or specifying in 1-arg constructor.
+ * Set up listener to the BooleanProperty that indicates 
+ * 		that the user selected a simulation (userSelectionReceivedProperty).
+ * 
+ * Assumes that an outside class is listening to when user selection is received, 
+ * 		and coordinating transitions between screens appropriately 
+ * 		so that user can view simulation that is selected.
+ * 
+ * @author Susie Choi
+ * @author Collin Brown
+ */
+
 package cellsociety_team17;
 
-import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,8 +31,6 @@ import javafx.scene.paint.Paint;
 
 public class SplashScreen {
 
-	//	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
-	//	public static final String DEFAULT_PATH = "data/";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
 	public static final String DEFAULT_OPTIONS_FILENAME = "Simulations";
 	public static final String DEFAULT_SIMULATION_PREFIX = "Simulation";
@@ -29,14 +43,29 @@ public class SplashScreen {
 	private Scene myScene;
 	private GridPane myGridPane;
 	private Pane myPane;
+	private int myNumSimulations; 
 	private String myUserSelection;
 	private BooleanProperty userSelectionRecieved = new SimpleBooleanProperty();
 
-	public SplashScreen() throws FileNotFoundException {
-		this(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME);
+	/**
+	 * No-arg constructor calls multi-arg SplashScreen constructor 
+	 * 		using default filepath for simulation name Properties
+	 * 		and default number of simulations
+	 */
+	public SplashScreen() {
+		this(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME, DEFAULT_NUM_SIMULATIONS);
 	}
 
-	public SplashScreen(String availableSimulationsFile) throws FileNotFoundException {
+	/**
+	 * Creates SplashScreen containing buttons for the number of specified simulations,
+	 * 		with names listed in the corresponding Properties file.
+	 * @param String availableSimulationsFile: the name of the properties file.
+	 * @param int numSimulations: the number of simulations in the file-
+	 * 		  assumes that Properties are labeled as "Simulation1", "Simulation2", "Simulation3", etc.
+	 */
+	public SplashScreen(String availableSimulationsFile, int numSimulations) {
+		myNumSimulations = numSimulations;
+		
 		myResources = ResourceBundle.getBundle(availableSimulationsFile);
 		myPane = new Pane();
 		myGridPane = new GridPane();
@@ -45,7 +74,7 @@ public class SplashScreen {
 		int rowIndex = 0;
 		int colIndex = 0;
 
-		for (int i=0; i<DEFAULT_NUM_SIMULATIONS; i++) {
+		for (int i=0; i<myNumSimulations; i++) {
 			String simulationName = myResources.getString(DEFAULT_SIMULATION_PREFIX+i);
 			Button simulationButton = new Button(simulationName);
 			Button wildCardSimulationButton = new Button(WILDCARD_INDICATOR+simulationName);
@@ -69,28 +98,42 @@ public class SplashScreen {
 		myUserSelection = "";
 	}
 
-	public void handleUserSelection(Button selectedButton) {
+	private void handleUserSelection(Button selectedButton) {
 		String selectedSimulation = selectedButton.getText() + "Cell";
-		// System.out.println(selectedSimulation);
 		myUserSelection = selectedSimulation;
-		// System.out.println(myUserSelection);
 		userSelectionReceived();
 	}
 
-	public boolean userSelectionReceived() {
+	
+	private boolean userSelectionReceived() {
 		userSelectionRecieved.set(myUserSelection.length() > 0);
 		return (myUserSelection.length() > 0);
 	}
 
+	/**
+	 * Returns user selection for simulation to view. 
+	 * Useful for receiving user selection information after Listener indicates that selection was received. 
+	 * @return String, name of selected simuation (e.g. "Segregation").
+	 */
 	public String getUserSelection() {
-		//		System.out.println(myUserSelection);
 		return myUserSelection;
 	}
 
+	/**
+	 * Returns scene including buttons for SplashScreen obj.
+	 * Useful for setting scene of Stage to display SplashScreen obj.
+	 * @return Scene containing GridPane with buttons for SplashScreen .
+	 */
 	public Scene getScene() {
 		return myScene;
 	}
 
+	/**
+	 * Returns BooleanProperty to indicate whether user selected simulation to view.
+	 * Useful for calling class' listener to identify when user selection was received and, thus, 
+	 * 		scene transition is necessary. 
+	 * @return BooleanProperty, indicating whether user selected simulation to view. 
+	 */
 	public BooleanProperty userSelectionReceivedProperty() {
 		return userSelectionRecieved;
 	}
