@@ -16,4 +16,4 @@
 * Graph simulated populations over time - Judi
 * User manipulation of starting parameters - Judi
 * Real-time user manipulation of Cells - Judi
-* Multiple simulations at same time - Susie 
+* Multiple simulations at same time - Collin, Susie 
