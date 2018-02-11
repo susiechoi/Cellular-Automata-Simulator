@@ -25,8 +25,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -65,15 +65,15 @@ public class Main extends Application {
 		primaryStage.setTitle("Team 17 -- Cell Society");
 		primaryStage.show();
 		// startSimulation(myGrid);
-		showSplashScreen();
+		showSplashScreen(myPrimaryStage);
 	}
 
-	private void showSplashScreen() {
+	private void showSplashScreen(Stage relevantStage) {
 		SplashScreen mySplash;
 		try {
 			mySplash = new SplashScreen();
 			myScene = mySplash.getScene();
-			myPrimaryStage.setScene(myScene);
+			relevantStage.setScene(myScene);
 			mySplash.userSelectionReceivedProperty().addListener(new ChangeListener<Boolean>() {
 				@Override
 				public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -82,13 +82,13 @@ public class Main extends Application {
 						mySimulationWild = true; 
 						String simulationCellToAccess = userSelection.substring(WILDCARD_INDICATOR.length()); 
 						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
-						startWildSimulation(userSelection, wildCardSimulation);
+						startWildSimulation(userSelection, wildCardSimulation, relevantStage);
 					}
 					else {
 						mySimulationWild = false; 
 						setFile(DEFAULT_FILEPATH + mySplash.getUserSelection() + ".xml");
 						try {
-							startSimulation(readInput(myXmlFile));
+							startSimulation(readInput(myXmlFile), relevantStage);
 						} 
 						catch (Exception e) {
 							//System.out.println("error starting the simulation");
@@ -109,10 +109,10 @@ public class Main extends Application {
 		return (selectedSimulationName.length() >  WILDCARD_INDICATOR.length() && selectedSimulationName.substring(0, WILDCARD_INDICATOR.length()).equals(WILDCARD_INDICATOR));
 	}
 	
-	private void startWildSimulation(String wildSimulationTitle, RandomizedInitConfig wildCardSimulation) {
+	private void startWildSimulation(String wildSimulationTitle, RandomizedInitConfig wildCardSimulation, Stage relevantStage) {
 		mySimulationTitle = wildSimulationTitle;
 		myGrid = wildCardSimulation.getGrid();
-		startSimulation(myGrid);
+		startSimulation(myGrid, relevantStage);
 		activeCells = wildCardSimulation.getActiveCells();
 	}
 
@@ -127,11 +127,11 @@ public class Main extends Application {
 
 	}
 
-	private void startSimulation(Grid G) {
+	private void startSimulation(Grid G, Stage relevantStage) {
 		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
 		myScene = mySimulationView.getScene();
 		// System.out.println(myScene.getWidth());
-		myPrimaryStage.setScene(myScene);
+		relevantStage.setScene(myScene);
 
 		// Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> Step(SECOND_DELAY));
@@ -139,24 +139,45 @@ public class Main extends Application {
 		myTimeline.setCycleCount(Animation.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 		myTimeline.pause();
-		setUpChangeListeners(mySimulationView, myTimeline);
+		setUpChangeListeners(mySimulationView, myTimeline, relevantStage);
 	}
 
-	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline) {
+	private void setUpChangeListeners(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {
 		setUpPlayingChangeListener(mySimulationView, myTimeline);
 		setUpSpeedChangeListener(mySimulationView, myTimeline);
-		setUpRestartChangeListener(mySimulationView, myTimeline);
+		setUpRestartChangeListener(mySimulationView, myTimeline, relevantStage);
 		setUpStepChangeListener(mySimulationView, myTimeline);
 		setUpHomeListener(mySimulationView, myTimeline);
+		setUpWindowListener(mySimulationView, myTimeline);
 	}
 
+	private void setUpWindowListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getWindow().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.pause();     
+					Stage newStage = new Stage();
+					myScene = new SplashScreen().getScene();
+					newStage.setScene(myScene);
+					newStage.show();
+					showSplashScreen(newStage);
+				} catch (Exception e) {
+					System.out.println("Error opening new window");
+					LOGGER.log(Level.FINE, e.getMessage());
+				}				
+			}
+
+		});
+	}
+	
 	private void setUpHomeListener(SimulationView mySimulationView, Timeline myTimeline) {
 		mySimulationView.goHome().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				try {
-					myTimeline.pause();
-					showSplashScreen();
+					myTimeline.pause();    
+					showSplashScreen(myPrimaryStage);
 				} catch (Exception e) {
 					System.out.println("Error returning to Home Screen");
 					LOGGER.log(Level.FINE, e.getMessage());
@@ -184,7 +205,7 @@ public class Main extends Application {
 		});
 	}
 
-	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline) {
+	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {
 		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -193,10 +214,10 @@ public class Main extends Application {
 					if (mySimulationWild) {
 						String simulationCellToAccess = mySimulationTitle.substring(WILDCARD_INDICATOR.length()); 
 						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess);
-						startWildSimulation(mySimulationTitle, wildCardSimulation);
+						startWildSimulation(mySimulationTitle, wildCardSimulation, relevantStage);
 					}
 					else {
-						startSimulation(readInput(myXmlFile));
+						startSimulation(readInput(myXmlFile), relevantStage);
 					}
 				} catch (Exception e) {
 					System.out.print("Error Starting Simulation");

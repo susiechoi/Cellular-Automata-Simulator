@@ -2,6 +2,7 @@ package cellsociety_team17;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
@@ -56,6 +57,7 @@ public class SimulationView {
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
 	private BooleanProperty home = new SimpleBooleanProperty();
 	private BooleanProperty step = new SimpleBooleanProperty();
+	private BooleanProperty newWindow = new SimpleBooleanProperty();
 
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
@@ -71,6 +73,7 @@ public class SimulationView {
 		} else {
 			myWidth = MIN_WIDTH;
 		}
+		
 		myRoot = new Group();
 		setUpHeader();
 		setUpGridContainer();
@@ -79,7 +82,7 @@ public class SimulationView {
 		home.set(false);
 		step.set(false);
 	}
-
+	
 	public Scene getScene() {
 		return myScene;
 	}
@@ -93,7 +96,7 @@ public class SimulationView {
 	}
 
 	public void establishScene() {
-		myScene = new Scene(myRoot, myWidth, myHeight);
+	  	myScene = new Scene(myRoot, myWidth, myHeight);
 		myRoot.getChildren().addAll(myHeader);
 		myRoot.getChildren().addAll(myGridContainer);
 		myRoot.getChildren().addAll(myControlsContainer);
@@ -129,8 +132,21 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(setUpRestartButton());
 		myControlsContainer.getChildren().add(setUpStepButton());
 		myControlsContainer.getChildren().add(setUpReturnHomeButton());
+		myControlsContainer.getChildren().add(setUpNewWindowButton());
 	}
 
+	private squareButton setUpNewWindowButton() {
+		squareButton myNewWindowButton = new squareButton(DEFAULT_BUTTON_SIZE, "NewWindow");
+		myNewWindowButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				newWindow.set(!newWindow.get());
+			}
+		});
+		myNewWindowButton.setTranslateX(DEFAULT_BUTTON_SIZE * 6);
+		return myNewWindowButton;
+	}
+	
 	private squareButton setUpReturnHomeButton() {
 		squareButton myReturnHomeButton = new squareButton(DEFAULT_BUTTON_SIZE, "ReturnHome");
 		myReturnHomeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -221,6 +237,9 @@ public class SimulationView {
 	protected void changeSpeed(double d) {
 		mySpeed.set(mySpeed.get() + d);
 	}
+	
+	public void doubleWidth() {
+	}
 
 	public DoubleProperty getMySpeed() {
 		return mySpeed;
@@ -235,6 +254,20 @@ public class SimulationView {
 			myGridContainer.getChildren().add(temp);
 		}
 	}
+	
+//	public void sideBySideView() {
+//		Group gridcontainer2 = new Group();
+//		int n = 0;
+//		while (n < myGrid.getGroup().getChildren().size()) {
+//			System.out.println("Side by side view executed");
+//			Node temp = myGrid.getGroup().getChildren().get(n);
+//			temp.setTranslateY(temp.getTranslateY() + myHeaderHeight);
+//			temp.setTranslateX(temp.getTranslateX() + myGrid.getWidth());
+//			myGridContainer.getChildren().add(temp);
+//			n++;
+//		}
+//		myRoot.getChildren().addAll(gridcontainer2);
+//	}
 
 	private class squareButton extends ImageView {
 		squareButton(int size, String type) {
@@ -283,7 +316,10 @@ public class SimulationView {
 
 	public BooleanProperty step() {
 		return step;
-
+	}
+	
+	public BooleanProperty getWindow() {
+		return newWindow;
 	}
 
 }
