@@ -11,7 +11,11 @@ import javafx.scene.shape.Shape;
 
 public class Grid {
 
-	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "C";
+	public static final String DEFAULT_NEIGHBORHOOD_SHAPE = "D";
+	public static final String DIRECT_NEIGHBORHOOD_INDICATOR = "D";
+	public static final String CORNER_NEIGHBORHOOD_INDICATOR = "C";
+	public static final String Z_NEIGHBORHOOD_INDICATOR = "Z";
+	
 	public static final boolean DEFAULT_TOROIDALITY = false;
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
@@ -77,16 +81,16 @@ public class Grid {
 //		} catch (InvocationTargetException e) {
 //			System.out.println("Error came from: " + methodName);
 //		}
-		if (neighborhoodShape.equals("D")) {
-			NeighborhoodMakerD dNeighbors = new NeighborhoodMakerD();
+		if (neighborhoodShape.equals(DIRECT_NEIGHBORHOOD_INDICATOR)) {
+			NeighborhoodMakerDirect dNeighbors = new NeighborhoodMakerDirect();
 			dNeighbors.setNeighbors(cell);
 		}
-		else if (neighborhoodShape.equals("C")) {
-			NeighborhoodMakerC cNeighbors = new NeighborhoodMakerC();
+		else if (neighborhoodShape.equals(CORNER_NEIGHBORHOOD_INDICATOR)) {
+			NeighborhoodMakerCorner cNeighbors = new NeighborhoodMakerCorner();
 			cNeighbors.setNeighbors(cell);
 		}
-		else if (neighborhoodShape.equals("Z")) {
-			NeighborhoodMakerZ zNeighbors = new NeighborhoodMakerZ();
+		else if (neighborhoodShape.equals(Z_NEIGHBORHOOD_INDICATOR)) {
+			NeighborhoodMakerZShape zNeighbors = new NeighborhoodMakerZShape();
 			zNeighbors.setNeighbors(cell);
 		}
 	}
@@ -146,9 +150,9 @@ public class Grid {
 
 	}
 
-	private class NeighborhoodMakerD extends NeighborhoodMaker {
+	private class NeighborhoodMakerDirect extends NeighborhoodMaker {
 		
-		private NeighborhoodMakerD() {
+		private NeighborhoodMakerDirect() {
 		}
 
 		@Override
@@ -184,9 +188,9 @@ public class Grid {
 		}
 	}
 
-	private class NeighborhoodMakerC extends NeighborhoodMaker {
+	private class NeighborhoodMakerCorner extends NeighborhoodMaker {
 
-		private NeighborhoodMakerC() {
+		private NeighborhoodMakerCorner() {
 		}
 
 		@Override
@@ -228,9 +232,9 @@ public class Grid {
 		}
 	}
 
-	private class NeighborhoodMakerZ extends NeighborhoodMaker {
+	private class NeighborhoodMakerZShape extends NeighborhoodMaker {
 
-		private NeighborhoodMakerZ() {
+		private NeighborhoodMakerZShape() {
 		}
 
 		@Override

@@ -3,7 +3,10 @@ package cellsociety_team17;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ResourceBundle;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,12 +21,17 @@ import javafx.scene.paint.Paint;
 
 public class SplashScreen {
 
-	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
-	public static final String DEFAULT_PATH = "data/";
+	//	public static final String DEFAULT_SIMULATION_OPTIONS_FILE = "data/AvailableSimulations.txt";
+	//	public static final String DEFAULT_PATH = "data/";
+	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
+	public static final String DEFAULT_OPTIONS_FILENAME = "Simulations";
+	public static final String DEFAULT_SIMULATION_PREFIX = "Simulation";
+	public static final int DEFAULT_NUM_SIMULATIONS = 4; 
 	public static final String WILDCARD_INDICATOR = "WildCard";
 	public static final int DEFAULT_SCREEN_SIZE = 400;
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
 	// private Stage myStage;
+	private ResourceBundle myResources; 
 	private Scene myScene;
 	private GridPane myGridPane;
 	private Pane myPane;
@@ -31,27 +39,20 @@ public class SplashScreen {
 	private BooleanProperty userSelectionRecieved = new SimpleBooleanProperty();
 
 	public SplashScreen() throws FileNotFoundException {
-		this(DEFAULT_SIMULATION_OPTIONS_FILE);
+		this(DEFAULT_RESOURCE_PACKAGE + DEFAULT_OPTIONS_FILENAME);
 	}
 
 	public SplashScreen(String availableSimulationsFile) throws FileNotFoundException {
-		// myStage = new Stage();
+		myResources = ResourceBundle.getBundle(availableSimulationsFile);
 		myPane = new Pane();
 		myGridPane = new GridPane();
 		myScene = new Scene(myPane, DEFAULT_SCREEN_SIZE, DEFAULT_SCREEN_SIZE, BACKGROUND_COLOR);
-		Scanner readSimulationsFile = null;
-		try {
-			readSimulationsFile = new Scanner(new File(availableSimulationsFile));
-		} catch (IOException e) {
-			readSimulationsFile = new Scanner(new File(DEFAULT_SIMULATION_OPTIONS_FILE));
-			System.out.println("Could not find file named " + availableSimulationsFile
-					+ ". Using default simulation options file.");
-		}
+
 		int rowIndex = 0;
 		int colIndex = 0;
-		String simulationName = ""; 
-		while (readSimulationsFile.hasNextLine()) {
-			simulationName = readSimulationsFile.nextLine();
+
+		for (int i=0; i<DEFAULT_NUM_SIMULATIONS; i++) {
+			String simulationName = myResources.getString(DEFAULT_SIMULATION_PREFIX+i);
 			Button simulationButton = new Button(simulationName);
 			Button wildCardSimulationButton = new Button(WILDCARD_INDICATOR+simulationName);
 			simulationButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -71,7 +72,6 @@ public class SplashScreen {
 			rowIndex++;
 		}
 		myPane.getChildren().add(myGridPane);
-		// myStage.setScene(myScene);
 		myUserSelection = "";
 	}
 
@@ -89,7 +89,7 @@ public class SplashScreen {
 	}
 
 	public String getUserSelection() {
-//		System.out.println(myUserSelection);
+		//		System.out.println(myUserSelection);
 		return myUserSelection;
 	}
 
