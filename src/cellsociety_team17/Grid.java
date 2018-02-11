@@ -36,6 +36,7 @@ public class Grid {
 		myCells = new Cell[myHeight][myWidth];
 		myGroup = new Group();
 		myToroidality = toroidal;
+		myNeighborType = neighborhoodShape;
 		for (Cell cell : activeCells) {
 			myCells[cell.getMyRow()][cell.getMyColumn()] = cell;
 		}
@@ -98,7 +99,7 @@ public class Grid {
 			if (cell != null)
 				newACells.addAll(cell.update());
 		}
-		System.out.println(newACells.size());
+		//System.out.println(newACells.size());
 		return newACells;
 	}
 

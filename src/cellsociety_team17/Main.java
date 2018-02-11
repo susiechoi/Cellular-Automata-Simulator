@@ -49,6 +49,7 @@ public class Main extends Application {
 	private boolean mySimulationWild; 
 	private int windowCount;
 	private String[] mArgs;
+	private Timeline myTimeline;
 
 	/**
 	 * 
@@ -145,7 +146,9 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		activeCells = myGrid.updateCells(activeCells);
-		System.out.println(activeCells.size());
+		if(activeCells.size() == 0) {
+			myTimeline.stop();
+		}
 
 	}
 
@@ -157,7 +160,7 @@ public class Main extends Application {
 
 		// Timeline
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> Step(SECOND_DELAY));
-		Timeline myTimeline = new Timeline();
+		myTimeline = new Timeline();
 		myTimeline.setCycleCount(Animation.INDEFINITE);
 		myTimeline.getKeyFrames().add(frame);
 		myTimeline.pause();
@@ -226,7 +229,7 @@ public class Main extends Application {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				try {
-					System.out.print(myTimeline.getKeyFrames().get(0).getTime());
+					//System.out.print(myTimeline.getKeyFrames().get(0).getTime());
 					myTimeline.setRate(.1);
 					myTimeline.play();
 				} catch (Exception e) {
@@ -242,6 +245,7 @@ public class Main extends Application {
 	private void setUpRestartChangeListener(SimulationView mySimulationView, Timeline myTimeline, Stage relevantStage) {
 		String currNeighborType = mySimulationView.getGrid().getNeighborType(); 
 		boolean currToroidality = mySimulationView.getGrid().getToroidal();
+		System.out.println(mySimulationView.getGrid().getNeighborType());
 		mySimulationView.getRestart().addListener(new ChangeListener<Boolean>() {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
@@ -251,6 +255,7 @@ public class Main extends Application {
 						String simulationCellToAccess = mySimulationTitle.substring(WILDCARD_INDICATOR.length()); 
 						RandomizedInitConfig wildCardSimulation = new RandomizedInitConfig(simulationCellToAccess, currNeighborType, currToroidality);
 						startWildSimulation(mySimulationTitle, wildCardSimulation, relevantStage);
+			
 					}
 					else {
 						startSimulation(readInput(myXmlFile, currNeighborType, currToroidality), relevantStage);
