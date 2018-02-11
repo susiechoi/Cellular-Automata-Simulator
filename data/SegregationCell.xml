@@ -6,7 +6,7 @@
 		<author>Susie Choi</author>
 		<height>10</height>
 		<width>10</width>
-		<probability>.5</probability>
+		<threshold>.8</threshold>
 	</meta>
 	<grid>
 		<row>

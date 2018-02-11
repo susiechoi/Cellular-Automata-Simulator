@@ -10,7 +10,7 @@
 * Save current state as XML - Collin
 * XML format checking - Collin
 * Diff ways to set initial configuration - Susie 
-* Diff simulation styling - Judi
+* Diff simulation styling - Susie
 
 # Visualization
 * Graph simulated populations over time - Judi
