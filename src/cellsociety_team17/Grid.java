@@ -269,5 +269,9 @@ public class Grid {
 	public void setMyShape(Shape s) {
 		myShapeType = s;
 	}
+	
+	public Cell[][] getMyCells(){
+		return myCells == null ? null : myCells.clone();
+	}
 
 }

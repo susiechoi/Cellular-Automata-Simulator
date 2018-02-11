@@ -168,6 +168,20 @@ public class Main extends Application {
 		setUpRestartChangeListener(mySimulationView, myTimeline, relevantStage);
 		setUpStepChangeListener(mySimulationView, myTimeline);
 		setUpHomeListener(mySimulationView, myTimeline);
+		setUpSaveListener(mySimulationView, myTimeline);
+	}
+
+	private void setUpSaveListener(SimulationView mySimulationView, Timeline myTimeline) {
+		mySimulationView.getSave().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				try {
+					myTimeline.pause();
+					XMLSaver myXMLSaver = new XMLSaver(myGrid, myAttributes);
+					myXMLSaver.save();
+				} catch (Exception e) {
+					System.out.println("Error returning to Home Screen");
+
 		setUpWindowListener(mySimulationView, myTimeline);
 	}
 
@@ -184,6 +198,7 @@ public class Main extends Application {
 					showSplashScreen(newStage);
 				} catch (Exception e) {
 					System.out.println("Error opening new window");
+
 					LOGGER.log(Level.FINE, e.getMessage());
 				}				
 			}
