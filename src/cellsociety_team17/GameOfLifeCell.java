@@ -5,6 +5,10 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * @author judithsanchez24
+ *
+ */
 public class GameOfLifeCell extends Cell {
 
 	// myState: 0 is dead, 1 is alive
@@ -24,7 +28,14 @@ public class GameOfLifeCell extends Cell {
 
 	}
 
+	
+	
 	@Override
+	/** 
+	 * GameOfLifeCell creates a list of neighbors around it that are in alive state
+	 * It determines the next state of the cell based on the number of alive neighbors
+	 * If the cell itself is dead, it determines whether or not it will revive
+	 */
 	List<Cell> update() {
 		System.out.println("update");
 		ArrayList<Cell> aliveNeighbors = new ArrayList<>();
