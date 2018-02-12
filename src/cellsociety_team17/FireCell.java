@@ -3,7 +3,10 @@ package cellsociety_team17;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 public class FireCell extends Cell {
 	// myState: 2 is BURNING, 1 is TREE, 0 is EMPTY
@@ -12,13 +15,16 @@ public class FireCell extends Cell {
 	public static final int EMPTY = 0;
 	protected static final Color[] STATE_COLORS = { Color.YELLOW, Color.GREEN, Color.RED };
 	protected static final double DEFAULT_PROBABILITY = 0.5;
-
+	private Shape myShape;
 	private double myProbability;
 
 	public FireCell(int row, int column, int state) {
 		super(row, column, state);
 		myProbability = DEFAULT_PROBABILITY;
+		myShape=this.getMyShape();
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
+		this.getMyShape().addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+
 	}
 
 	public FireCell(int row, int column, int state, double prob) {
@@ -26,6 +32,16 @@ public class FireCell extends Cell {
 		myProbability = prob;
 
 	}
+
+	EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+		@Override
+		public void handle(MouseEvent event) {
+			int randomState = (int) (Math.random() * 3);
+			setMyState(randomState);
+			myShape.setFill(STATE_COLORS[randomState]);
+			
+		}
+	};
 
 	@Override
 	List<Cell> update() {
@@ -57,7 +73,8 @@ public class FireCell extends Cell {
 	void setMyProbability(double p) {
 		myProbability = p;
 	}
-	 @Override
+
+	@Override
 	void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
