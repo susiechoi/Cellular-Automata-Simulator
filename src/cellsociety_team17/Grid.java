@@ -280,10 +280,40 @@ private class NeighborhoodMakerTShape extends NeighborhoodMaker {
 
 		@Override
 		protected void setNeighbors(Cell cell) {
-			int column = cell.getMyColumn();
-			int row = cell.getMyRow();
+			int[] x;
+			int[] y;
+			if(cell.getMyColumn() % 2 == 1) {
+				int[] xE = {cell.getMyRow()-1, cell.getMyRow(), cell.getMyRow()}; 
+				int[] yE = {cell.getMyColumn()-1, cell.getMyColumn()-1, cell.getMyColumn()+1};
+				x = xE;
+				y = yE;
+			} else {
+				int[] xO = { cell.getMyRow()+1, cell.getMyRow(), cell.getMyRow()}; 
+				int[] yO = { cell.getMyColumn()+1, cell.getMyColumn()-1, cell.getMyColumn()+1};
+				x = xO;
+				y = yO;
+			}
+			ArrayList<Cell> neighbors = new ArrayList<Cell>();
+			
+			int idx = 0; 
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			} 
+			idx++; 
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			}
+			idx++;
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			}
+			else if (inToroidalBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][myWidth-1]);
+			}
+			cell.setNeighbors(neighbors);
+			}
 		}
-	}
+	
 
 	private class NeighborhoodMakerCorner extends NeighborhoodMaker {
 
