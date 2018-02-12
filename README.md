@@ -13,7 +13,7 @@ Collin Brown, Susie Choi, Judith Sanchez Soriano
 
 **Primary Responsibilities in Second Sprint**
 
-*See Sprint2Roles.md under doc directory*
+See [Sprint2_Roles.md] (doc/Sprint2_Roles.md)
 
 ### Resources
 * [Week 3-5 Readings] (https://www2.cs.duke.edu/courses/compsci308/spring18/classwork/) 
