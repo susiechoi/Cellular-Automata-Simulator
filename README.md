@@ -60,8 +60,10 @@ See [Sprint2_Roles.md] (doc/Sprint2_Roles.md)
 
 ### Decisions, assumptions, simplifications 
 
+
 ### Known bugs, crashes, problems 
 * In the options screen, users must click on their neighborhood type/shape selection first, followed by their desired toroidality setting, in order for the simulation to begin. The buttons have been organized to encourage this order of clicking, but if this order is violated, the simulation may not begin successfully. 
 
 ### Impressions 
 It may have been useful to talk about nested classes and invoking methods with Java reflection in lecture during this project. 
+Additionally, it would have been useful to have a discussion about designing classes that can be implemented simultaneously. For example, we have a grid class that is important for creating the graphics regarding the cells which meant that it had to be modified in order to achieve several different goals in sprint two. However, this also meant that overlapping work was being done and the way we thought about our code was not ideal. 
