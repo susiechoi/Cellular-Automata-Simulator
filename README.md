@@ -25,6 +25,7 @@
 
 ### Data & Resource Files
 * XML files for each simulation, format as follows:
+`
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 	<meta>
@@ -50,6 +51,7 @@
 		</row>
 	</grid>
 </data>
+`
 * Properties files for buttons on SplashScreen (indicating simulation options), OptionsScreen (indicating neighborhood shape/type and toroidality options), and SimulationView buttons (indicating png/valid image files) 
 
 ### Decisions, assumptions, simplifications 
