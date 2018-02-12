@@ -12,6 +12,7 @@ Collin Brown, Susie Choi, Judith Sanchez Soriano
 * Judi: Fire, Game-Of-Life, Wator simulations
 
 **Primary Responsibilities in Second Sprint**
+
 *See Sprint2Roles.md under doc directory*
 
 ### Resources
