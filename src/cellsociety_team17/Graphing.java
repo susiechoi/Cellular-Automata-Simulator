@@ -22,6 +22,8 @@ public class Graphing {
 	private int count;
 	
 	public Graphing() {
+		yaxis.setAutoRanging(true);
+		xaxis.setAutoRanging(true);
 		myChart = new LineChart<Number, Number>(xaxis, yaxis);
 		myChart.getData().add(typeOne);
 		myChart.getData().add(typeTwo);
@@ -44,7 +46,7 @@ public class Graphing {
 		return numCells;
 	}
 
-	public void graphCells(List<Cell> allCells) {
+	public void graphCells(List<Cell> allCells, int simulationType) {
 		int[] numCells = countCells(allCells);
 		XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(count, numCells[0]);
 		typeOne.getData().add(data1);
@@ -52,6 +54,33 @@ public class Graphing {
 		typeTwo.getData().add(data2);
 		XYChart.Data<Number, Number> data3 = new XYChart.Data<Number, Number>(count, numCells[2]);
 		typeThree.getData().add(data3);
+		
+		if(simulationType==0) {
+			typeOne.setName("EMPTY");
+			typeTwo.setName("TREE");
+			typeThree.setName("BURNING");
+		}
+		
+
+		if(simulationType==1) {
+			typeOne.setName("DEAD");
+			typeTwo.setName("ALIVE");
+			myChart.getData().remove(typeThree);
+		}
+		
+
+		if(simulationType==2) {
+			typeOne.setName("EMPTY");
+			typeTwo.setName("FISH");
+			typeThree.setName("SHARK");
+		}
+		
+
+		if(simulationType==3) {
+			typeOne.setName("EMPTY");
+			typeTwo.setName("BLUE");
+			typeThree.setName("RED");
+		}
 		
 		
 		count++;

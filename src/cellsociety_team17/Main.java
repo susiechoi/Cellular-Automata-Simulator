@@ -156,7 +156,7 @@ public class Main extends Application {
 		if(activeCells.size() == 0) {
 			myTimeline.stop();
 		}
-		myGraph.graphCells(myCells);
+		myGraph.graphCells(myCells, mySimulationType);
 	}
 
 	private void startSimulation(Grid G, Stage relevantStage) {
