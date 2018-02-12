@@ -25,6 +25,7 @@ public class Grid {
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
 
+
 	private int myWidth;
 	private int myHeight;
 	private Cell[][] myCells;
@@ -60,12 +61,14 @@ public class Grid {
 		myGroup = new Group();
 		myToroidality = toroidal;
 		myNeighborType = neighborhoodShape;
+
 		for (Cell cell : activeCells) {
 			myCells[cell.getMyRow()][cell.getMyColumn()] = cell;
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape);
 			myGroup.getChildren().add(cell.getMyShape());
+			System.out.println(cell.getMyShape().toString());
 		}
 	}
 

@@ -32,6 +32,8 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -133,6 +135,7 @@ public class Main extends Application {
 			} 
 			catch (Exception e) {
 				System.out.println("error starting the simulation");
+				e.printStackTrace();
 				LOGGER.log(Level.FINE, e.getMessage());
 			}
 		}
@@ -340,21 +343,25 @@ public class Main extends Application {
 			System.out.println("Invalid or missing dimensions");
 			LOGGER.log(Level.FINE, e.getMessage());
 		}
-
-		createCells(myDocument);
-
-		myGrid = new Grid(myHeight, myWidth, myCells, neighborSelection, toroidalSelection);
-		if (myAttributes.containsKey("shape")) {
-			switch (myAttributes.get("shape").toString()) {
-			case "triangle":
-				myGrid.setMyShape(new Triangle());
+		Shape myShape = new Rectangle();
+		if(myAttributes.containsKey("shape")) {
+			if(myAttributes.get("shape").toString().toLowerCase().equals("triangle")) {
+			myShape = new Triangle();
+			System.out.println("yeet");
+			} else if (myAttributes.get("shape").toString().toLowerCase().equals("rectangle")) {
+			myShape = new Rectangle();	
+			} else {
+				throw new Exception("Invalid Shape input");
 			}
 		}
+		createCells(myDocument,myShape );
+
+		myGrid = new Grid(myHeight, myWidth, myCells, neighborSelection, toroidalSelection);
 		return myGrid;
 
 	}
 
-	private void createCells(Document myDocument) {
+	private void createCells(Document myDocument, Shape myShape) {
 		for (int i = 0; i < myDocument.getElementsByTagName("row").getLength(); i++) {
 			Node currentNode = myDocument.getElementsByTagName("row").item(i);
 			int cRow = i;
@@ -371,16 +378,16 @@ public class Main extends Application {
 					// TODO:make sure to check all possible parameters for each simulation
 					switch (mySimulationType) {
 					case 0:
-						makeFireCell(myDocument, cRow, cColumn, cState);
+						makeFireCell(myDocument, cRow, cColumn, cState, myShape);
 						break;
 					case 1:
-						createGameOfLifeCell(cRow, cColumn, cState);
+						createGameOfLifeCell(cRow, cColumn, cState, myShape);
 						break;
 					case 2:
-						createWatorCell(cRow, cColumn, cState);
+						createWatorCell(cRow, cColumn, cState, myShape);
 						break;
 					case 3:
-						createSegregationCell(myDocument, cRow, cColumn, cState);
+						createSegregationCell(myDocument, cRow, cColumn, cState, myShape);
 						break;
 
 						// System.out.println(tempSCell.myRectangle.toString());
@@ -391,20 +398,23 @@ public class Main extends Application {
 		}
 	}
 
-	private void createSegregationCell(Document myDocument, int cRow, int cColumn, int cState) {
+	private void createSegregationCell(Document myDocument, int cRow, int cColumn, int cState, Shape myShape) {
 		Cell tempSCell; 
 		if(myAttributes.containsKey("threshold")) {
 			tempSCell = new SegregationCell(cRow, cColumn, cState, (double) myAttributes.get("threshold"));
 		} else {
 			tempSCell = new SegregationCell(cRow, cColumn, cState);
 		}
+		if(myShape.getClass().getSimpleName().equals("Triangle")) {
+			tempSCell.setMyShape(((Triangle) myShape).copy());
+			}
 		myCells.add(tempSCell);
 		if (cState != 0) {
 			activeCells.add(tempSCell);
 		}
 	}
 
-	private void createWatorCell(int cRow, int cColumn, int cState) {
+	private void createWatorCell(int cRow, int cColumn, int cState, Shape myShape) {
 		Cell tempWCell = new WatorCell(cRow, cColumn, cState);
 		if(myAttributes.containsKey("sharkClock")) {
 			((WatorCell) tempWCell).setMySharkCycles((int)myAttributes.get("sharkClock"));
@@ -415,26 +425,37 @@ public class Main extends Application {
 		if(myAttributes.containsKey("fishClock")) {
 			((WatorCell) tempWCell).setMyfishCycles((int)myAttributes.get("fishClock"));
 		}
+		if(myShape.getClass().getSimpleName().equals("Triangle")) {
+			tempWCell.setMyShape(((Triangle) myShape).copy());
+			}
 		myCells.add(tempWCell);
 		if (cState != 0) {
 			activeCells.add(tempWCell);
 		}
 	}
 
-	private void createGameOfLifeCell(int cRow, int cColumn, int cState) {
+	private void createGameOfLifeCell(int cRow, int cColumn, int cState, Shape myShape) {
 		Cell tempGCell = new GameOfLifeCell(cRow, cColumn, cState);
+		if(myShape.getClass().getSimpleName().equals("Triangle")) {
+		tempGCell.setMyShape(((Triangle) myShape).copy());
+		}
 		myCells.add(tempGCell);
 		if (cState == 1) {
 			activeCells.add(tempGCell);
 		}
 	}
 
-	private void makeFireCell(Document myDocument, int cRow, int cColumn, int cState) {
+	private void makeFireCell(Document myDocument, int cRow, int cColumn, int cState, Shape myShape) {
 		Cell tempCell = new FireCell(cRow, cColumn, cState);
 		if(myAttributes.containsKey("probability")) {
 			((FireCell) tempCell).setMyProbability((double) myAttributes.get("probability"));
+
 		}
 
+		if(myShape.getClass().getSimpleName().equals("Triangle")) {
+			tempCell.setMyShape(((Triangle) myShape).copy());
+			System.out.print("yeehaw");
+			}
 		myCells.add(tempCell);
 		if (cState == 2) {
 			activeCells.add(tempCell);
