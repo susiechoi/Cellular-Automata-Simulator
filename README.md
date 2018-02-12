@@ -13,7 +13,7 @@
 
 ### Resources
 * [Week 3-5 Readings] (https://www2.cs.duke.edu/courses/compsci308/spring18/classwork/) 
-* StackOverflow posts [like this one] (https://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string)
+* StackOverflow and [this post in particular] (https://stackoverflow.com/questions/160970/how-do-i-invoke-a-java-method-when-given-the-method-name-as-a-string)
 
 ### Starting the Project & Notes
 * Run Main.java (src/cellsociety_team17/Main.java)
@@ -25,7 +25,6 @@
 
 ### Data & Resource Files
 * XML files for each simulation, format as follows:
-```
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
 	<meta>
@@ -51,7 +50,6 @@
 		</row>
 	</grid>
 </data>
-```
 * Properties files for buttons on SplashScreen (indicating simulation options), OptionsScreen (indicating neighborhood shape/type and toroidality options), and SimulationView buttons (indicating png/valid image files) 
 
 ### Decisions, assumptions, simplifications 
