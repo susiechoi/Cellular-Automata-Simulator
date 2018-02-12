@@ -1,5 +1,5 @@
 # Cell Society Team 17
-## Collin Brown, Susie Choi, Judith Sanchez Soriano
+Collin Brown, Susie Choi, Judith Sanchez Soriano
 
 ### Timeline
 * Began January 23, finished February 11
@@ -10,6 +10,8 @@
 * Collin: Main (i.e. communication between classes), XML Parsing, SimulationView (i.e. simulation-displaying GUI)
 * Susie: Grid, SplashScreen, Segregation simulation
 * Judi: Fire, Game-Of-Life, Wator simulations
+**Primary Responsibilities in Second Sprint**
+*See Sprint2Roles.md under doc directory*
 
 ### Resources
 * [Week 3-5 Readings] (https://www2.cs.duke.edu/courses/compsci308/spring18/classwork/) 
