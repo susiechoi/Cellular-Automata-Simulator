@@ -34,7 +34,7 @@ public class SplashScreen {
 	public static final String DEFAULT_RESOURCE_PACKAGE = "properties/";
 	public static final String DEFAULT_OPTIONS_FILENAME = "Simulations";
 	public static final String DEFAULT_SIMULATION_PREFIX = "Simulation";
-	public static final int DEFAULT_NUM_SIMULATIONS = 5; 
+	public static final int DEFAULT_NUM_SIMULATIONS = 6; 
 	public static final String WILDCARD_INDICATOR = "WildCard";
 	public static final int DEFAULT_SCREEN_SIZE = 400;
 	public static final Paint BACKGROUND_COLOR = Color.WHITE;
