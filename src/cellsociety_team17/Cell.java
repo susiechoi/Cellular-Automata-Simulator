@@ -3,6 +3,8 @@ package cellsociety_team17;
 import java.util.List;
 
 import javafx.scene.shape.Shape;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -24,7 +26,17 @@ public abstract class Cell {
 		myShape = new Rectangle(CELLSIZE, CELLSIZE);
 		myShape.setTranslateX(myColumn * CELLSIZE);
 		myShape.setTranslateY(myRow * CELLSIZE);
+		//this.getMyShape().addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
 	}
+	
+	 /*EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { 
+         @Override 
+         public void handle(MouseEvent event) { 
+        	 	int randomState = (int) Math.random() * 2;
+        	 	setMyState(randomState) ;
+        	 	myShape.setFill(STATE_COLORS[randomState]);
+         } 
+      };  */
 
 	public Cell(int row, int column, int state, Shape shape) {
 		this(row, column, state);
@@ -137,6 +149,5 @@ public abstract class Cell {
 	public void setMyNeighbors(List<Cell> neighbors) {
 		this.myNeighbors = neighbors;
 	}
-	
 
 }

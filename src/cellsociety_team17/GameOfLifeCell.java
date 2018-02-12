@@ -20,6 +20,7 @@ public class GameOfLifeCell extends Cell {
 		super(row, column, state);
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 		System.out.println("new cell");
+		
 
 	}
 

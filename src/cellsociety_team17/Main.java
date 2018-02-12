@@ -32,6 +32,7 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -153,10 +154,10 @@ public class Main extends Application {
 	 */
 	private void Step(Double timeElapsed) {
 		activeCells = myGrid.updateCells(activeCells);
+		myGraph.graphCells(myCells, mySimulationType);
 		if(activeCells.size() == 0) {
 			myTimeline.stop();
 		}
-		myGraph.graphCells(myCells, mySimulationType);
 	}
 
 	private void startSimulation(Grid G, Stage relevantStage) {
@@ -379,6 +380,9 @@ public class Main extends Application {
 					case 3:
 						createSegregationCell(myDocument, cRow, cColumn, cState);
 						break;
+					case 4:
+						createRPSCell(cRow, cColumn, cState);
+						break;
 
 						// System.out.println(tempSCell.myRectangle.toString());
 					}
@@ -386,6 +390,13 @@ public class Main extends Application {
 			}
 
 		}
+	}
+	
+	private void createRPSCell(int cRow, int cColumn, int cState) {
+		Cell tempRCell; 
+		tempRCell = new RPS(cRow, cColumn, cState);
+		myCells.add(tempRCell);
+		activeCells.add(tempRCell);
 	}
 
 	private void createSegregationCell(Document myDocument, int cRow, int cColumn, int cState) {
@@ -483,6 +494,8 @@ public class Main extends Application {
 			return 2;
 		case "segregation":
 			return 3;
+		case "rps":
+			return 4;
 		}
 		throw new Exception("No Simulation Type Defined");
 	}
