@@ -6,6 +6,7 @@
 		<author>Collin Brown</author>
 		<height>10</height>
 		<width>10</width>
+		<shape>triangle</shape>
 		<probability>.5</probability>
 	</meta>
 	<grid>

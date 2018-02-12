@@ -118,6 +118,16 @@ public abstract class Cell {
 	 */
 	public void setMyShape(Shape s) {
 		myShape = s;
+		this.updateColor();
+		if(myShape.getClass().getSimpleName().equals("Triangle")) {
+			myShape.setTranslateY(myRow * myShape.getBoundsInLocal().getHeight());
+			if(myColumn % 2 == 0) {
+			myShape.setRotate(180);
+			myShape.setTranslateX(((myColumn) * myShape.getBoundsInLocal().getWidth())-((myColumn/2)* myShape.getBoundsInLocal().getWidth()));
+			} else {
+				myShape.setTranslateX(((myColumn-1) * myShape.getBoundsInLocal().getWidth())-((myColumn/2)* myShape.getBoundsInLocal().getWidth()));
+			}
+		}
 	}
 
 	/**

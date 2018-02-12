@@ -21,10 +21,13 @@ public class Grid {
 	public static final String DIRECT_NEIGHBORHOOD_INDICATOR = "D";
 	public static final String CORNER_NEIGHBORHOOD_INDICATOR = "C";
 	public static final String Z_NEIGHBORHOOD_INDICATOR = "Z";
+	private static final Object T_NEIGHBORHOOD_INDICATOR = "T";
 	
 	public static final boolean DEFAULT_TOROIDALITY = false;
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
+
+
 
 	private int myWidth;
 	private int myHeight;
@@ -61,12 +64,14 @@ public class Grid {
 		myGroup = new Group();
 		myToroidality = toroidal;
 		myNeighborType = neighborhoodShape;
+
 		for (Cell cell : activeCells) {
 			myCells[cell.getMyRow()][cell.getMyColumn()] = cell;
 		}
 		for (Cell cell : activeCells) {
 			setCellNeighbors(cell, neighborhoodShape);
 			myGroup.getChildren().add(cell.getMyShape());
+			System.out.println(cell.getMyShape().toString());
 		}
 	}
 
@@ -115,6 +120,9 @@ public class Grid {
 		else if (neighborhoodShape.equals(Z_NEIGHBORHOOD_INDICATOR)) {
 			NeighborhoodMakerZShape zNeighbors = new NeighborhoodMakerZShape();
 			zNeighbors.setNeighbors(cell);
+		} else if (neighborhoodShape.equals(T_NEIGHBORHOOD_INDICATOR)) {
+			NeighborhoodMakerTShape tNeighbors = new NeighborhoodMakerTShape();
+			tNeighbors.setNeighbors(cell);
 		}
 	}
 	
@@ -265,6 +273,48 @@ public class Grid {
 			cell.setNeighbors(neighbors);
 		}
 	}
+	
+private class NeighborhoodMakerTShape extends NeighborhoodMaker {
+		
+		private NeighborhoodMakerTShape() {
+		}
+
+		@Override
+		protected void setNeighbors(Cell cell) {
+			int[] x;
+			int[] y;
+			if(cell.getMyColumn() % 2 == 1) {
+				int[] xE = {cell.getMyRow()-1, cell.getMyRow(), cell.getMyRow()}; 
+				int[] yE = {cell.getMyColumn()-1, cell.getMyColumn()-1, cell.getMyColumn()+1};
+				x = xE;
+				y = yE;
+			} else {
+				int[] xO = { cell.getMyRow()+1, cell.getMyRow(), cell.getMyRow()}; 
+				int[] yO = { cell.getMyColumn()+1, cell.getMyColumn()-1, cell.getMyColumn()+1};
+				x = xO;
+				y = yO;
+			}
+			ArrayList<Cell> neighbors = new ArrayList<Cell>();
+			
+			int idx = 0; 
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			} 
+			idx++; 
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			}
+			idx++;
+			if (inBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][y[idx]]);
+			}
+			else if (inToroidalBounds(x[idx], y[idx])) {
+				neighbors.add(myCells[x[idx]][myWidth-1]);
+			}
+			cell.setNeighbors(neighbors);
+			}
+		}
+	
 
 	private class NeighborhoodMakerCorner extends NeighborhoodMaker {
 
