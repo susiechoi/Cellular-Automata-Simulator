@@ -20,10 +20,12 @@ public class Grid {
 	public static final String DIRECT_NEIGHBORHOOD_INDICATOR = "D";
 	public static final String CORNER_NEIGHBORHOOD_INDICATOR = "C";
 	public static final String Z_NEIGHBORHOOD_INDICATOR = "Z";
+	private static final Object T_NEIGHBORHOOD_INDICATOR = "T";
 	
 	public static final boolean DEFAULT_TOROIDALITY = false;
 	public static final String NEIGHBORHOOD_MAKER_CLASS_NAME = "cellsociety_team17.Grid$NeighborhoodMaker";
 	public static final String SET_NEIGHBORS_METHOD_NAME = "setNeighbors";
+
 
 
 	private int myWidth;
@@ -117,6 +119,9 @@ public class Grid {
 		else if (neighborhoodShape.equals(Z_NEIGHBORHOOD_INDICATOR)) {
 			NeighborhoodMakerZShape zNeighbors = new NeighborhoodMakerZShape();
 			zNeighbors.setNeighbors(cell);
+		} else if (neighborhoodShape.equals(T_NEIGHBORHOOD_INDICATOR)) {
+			NeighborhoodMakerTShape tNeighbors = new NeighborhoodMakerTShape();
+			tNeighbors.setNeighbors(cell);
 		}
 	}
 	
@@ -265,6 +270,18 @@ public class Grid {
 				neighbors.add(myCells[x[idx]][0]);
 			}
 			cell.setNeighbors(neighbors);
+		}
+	}
+	
+private class NeighborhoodMakerTShape extends NeighborhoodMaker {
+		
+		private NeighborhoodMakerTShape() {
+		}
+
+		@Override
+		protected void setNeighbors(Cell cell) {
+			int column = cell.getMyColumn();
+			int row = cell.getMyRow();
 		}
 	}
 

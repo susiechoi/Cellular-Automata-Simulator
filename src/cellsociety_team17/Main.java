@@ -95,7 +95,15 @@ public class Main extends Application {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 				String userSelection = mySplash.getUserSelection();
+				if(simulationIsWild(userSelection)) {
+				String simulationSelection = mySplash.getUserSelection();
+				setFile(DEFAULT_FILEPATH + simulationSelection + ".xml");
+				
+				if(getShapeFromXML(myXmlFile).equals("rectangle")) {
 				showOptionsScreen(userSelection, relevantStage);
+				}} else {
+					showSimView(userSelection, "T", false, relevantStage);
+				}
 			}
 		});
 	}
@@ -514,6 +522,28 @@ public class Main extends Application {
 	private double getDoubleFromXML(Document d, String s) {
 		String nodeString = d.getElementsByTagName(s).item(0).getTextContent();
 		return Double.parseDouble(nodeString);
+	}
+	
+	private String getShapeFromXML(File f) {
+		Document d;
+		try {
+			d = buildDocument(f);
+			if(d.getElementsByTagName("Shape") != null) {
+				return d.getElementsByTagName("Shape").item(0).getTextContent().toLowerCase();
+			} else {
+				return "rectangle";
+			}
+			} catch (ParserConfigurationException e) {
+			System.out.println("Could not parse shape type");
+			e.printStackTrace();
+		} catch (SAXException e) {
+			System.out.println("Could not parse shape type");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Could not parse shape type");
+			e.printStackTrace();
+		};
+		return null;
 	}
 
 }
