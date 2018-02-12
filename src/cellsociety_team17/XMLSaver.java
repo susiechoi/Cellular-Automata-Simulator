@@ -24,6 +24,11 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 
 public class XMLSaver {
 	Document dom;
+	/**
+	 * The class that handles saving a previously run simulation
+	 * @param g the grid of the simulation to be saved
+	 * @param myAttributes the attributes of the simulation to be saved
+	 */
 	public XMLSaver(Grid g, HashMap<String, Object> myAttributes){
 		Element elem = null;
 		
@@ -66,7 +71,9 @@ public class XMLSaver {
 			System.out.println("Error trying to create XML document");
 		}
 	}
-
+	/**
+	 * Handles all the operations to save a simulation and output the file to the root of this programs directory
+	 */
 	public void save() {
 		try {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

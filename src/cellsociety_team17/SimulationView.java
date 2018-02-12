@@ -66,7 +66,11 @@ public class SimulationView {
 	private BooleanProperty save = new SimpleBooleanProperty();
 	private BooleanProperty newWindow = new SimpleBooleanProperty();
 
-
+	/**
+	 * 
+	 * @param Grid g: The active grid to be used in the simulation
+	 * @param String simulationTitle: The title of the simulation being run
+	 */
 	public SimulationView(Grid g, String simulationTitle) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
 		mySimulationTitle = simulationTitle;
@@ -90,19 +94,30 @@ public class SimulationView {
 		home.set(false);
 		step.set(false);
 	}
-	
+	/**
+	 * Returns the scene being used by the SimulationView
+	 * @return Scene myScene: The current scene being used
+	 */
 	public Scene getScene() {
 		return myScene;
 	}
-
+	/**
+	 * Returns the root group of the scene being used by the SimulationView
+	 * @return Group myRoot: The root group of the SimulationView
+	 */
 	public Group getRoot() {
 		return myRoot;
 	}
-
+	/**
+	 * Returns the group containing all the elements pertaining to the grid
+	 * @return Group myGridContainer: The group containing all the grid elements
+	 */
 	public Group getMyGridContainer() {
 		return myGridContainer;
 	}
-
+	/**
+	 * Combines all the elements of the header, grid, and controls container into myScene
+	 */
 	public void establishScene() {
 	  	myScene = new Scene(myRoot, myWidth, myHeight);
 		myRoot.getChildren().addAll(myHeader);
@@ -256,17 +271,20 @@ public class SimulationView {
 		return myControlsBanner;
 	}
 
-	protected void changeSpeed(double d) {
+	private void changeSpeed(double d) {
 		mySpeed.set(mySpeed.get() + d);
 	}
-	
-	public void doubleWidth() {
-	}
-
+	/**
+	 * Returns the DoubleProperty that is changed pertaining to the speed of the simulation
+	 * @return DoubleProperty mySpeed: the doubleProperty pertaining to the speed othe the simulation
+	 */
 	public DoubleProperty getMySpeed() {
 		return mySpeed;
 	}
-	
+	/**
+	 * Returns the grid being used in this simulation
+	 * @return Grid myGrid: The grid being used in this simulation
+	 */
 	public Grid getGrid() {
 		return myGrid;
 	}
@@ -323,11 +341,17 @@ public class SimulationView {
 
 		}
 	}
-
+	/**
+	 * Returns the BooleanProperty pertaining to whether or not the simulation is being played.
+	 * @return BooleanProperty playing: The booleanProperty of whether or not the simulation is playing
+	 */
 	public BooleanProperty getPlaying() {
 		return playing;
 	}
-
+	/**
+	 * Returns the BooleanProperty pertaining to whether or not the simulation needs to be restarted
+	 * @return BooleanProperty restart: The boolean property pertaining to the need to restart
+	 */
 	public BooleanProperty getRestart() {
 		return restart;
 	}
@@ -335,19 +359,31 @@ public class SimulationView {
 	private void broadcastRestart() {
 		restart.set(!restart.get());
 	}
-
+	/**
+	 * Returns the BooleanProperty pertaining to wether or not the simulation needs to go home
+	 * @return BooleanProperty goHome: The booleanProperty that determines whether or not to return to the home screen.
+	 */
 	public BooleanProperty goHome() {
 		return home;
 	}
-
+	/**
+	 * Returns the BooleanProperty pertaining to whether or not the simulation needs to go at a stepping speed;
+	 * @return BooleanProperty step: The booleanProperty that determines whether or not to move at stepping speed
+	 */
 	public BooleanProperty step() {
 		return step;
 	}
-	
+	/**
+	 * Returns the BooleanProperty that determines whether or not to open a new window
+	 * @return BooleanProperty newWindow: The boolean property that determines opening a new window
+	 */
 	public BooleanProperty getWindow() {
 		return newWindow;
 	}
-	
+	/**
+	 * Returns the BooleanProperty that determines whether or not to save the simulation
+	 * @return BooleanProperty save: The booleanProperty that dictates when to save
+	 */
 	public BooleanProperty getSave() {
 		return save;
 	}
