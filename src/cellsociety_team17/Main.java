@@ -65,7 +65,10 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	/**
+	 * Launches the splash screen
+	 * @param primaryStage 
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		myPrimaryStage = primaryStage;
