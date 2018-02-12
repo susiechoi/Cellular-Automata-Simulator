@@ -21,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -51,13 +52,16 @@ public class SimulationView {
 	private double myHeaderWidth;
 	private double myControlsContainerHeight;
 	private double myControlsContainerWidth;
+	private double mySliderContainerHeight;
 	private Grid myGrid;
 	private Group myRoot;
 	private Group myHeader;
 	private Group myGridContainer;
 	private Group myControlsContainer;
+	private Group mySlideContainer;
 	private Scene myScene;
 	private String mySimulationTitle;
+	private Slider mySlider;
 	private BooleanProperty playing = new SimpleBooleanProperty();
 	private BooleanProperty restart = new SimpleBooleanProperty();
 	private DoubleProperty mySpeed = new SimpleDoubleProperty();
@@ -71,13 +75,15 @@ public class SimulationView {
 	 * @param Grid g: The active grid to be used in the simulation
 	 * @param String simulationTitle: The title of the simulation being run
 	 */
-	public SimulationView(Grid g, String simulationTitle) {
+	public SimulationView(Grid g, String simulationTitle, Slider slider) {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + DEFAULT_LANGUAGE);
 		mySimulationTitle = simulationTitle;
+		mySlider=slider;
 		myGrid = g;
 		myHeaderHeight = 25;
 		myControlsContainerHeight = 50;
-		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight;
+		mySliderContainerHeight=50;
+		myHeight = myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight + mySliderContainerHeight;
 		mySpeed.set(DEFAULT_SPEED);
 
 		if (myGrid.getWidthInPixels() > MIN_WIDTH) {
@@ -90,6 +96,7 @@ public class SimulationView {
 		setUpHeader();
 		setUpGridContainer();
 		setUpControls();
+		setUpSlider();
 		establishScene();
 		home.set(false);
 		step.set(false);
@@ -123,7 +130,9 @@ public class SimulationView {
 		myRoot.getChildren().addAll(myHeader);
 		myRoot.getChildren().addAll(myGridContainer);
 		myRoot.getChildren().addAll(myControlsContainer);
+		myRoot.getChildren().addAll(mySlideContainer);
 	}
+	
 
 	private void setUpHeader() {
 		myHeader = new Group();
@@ -157,6 +166,17 @@ public class SimulationView {
 		myControlsContainer.getChildren().add(setUpReturnHomeButton());
 		myControlsContainer.getChildren().add(setUpSaveButton());
 		myControlsContainer.getChildren().add(setUpNewWindowButton());
+	}
+	
+	
+	private void setUpSlider() {
+		mySlideContainer= new Group();
+		Rectangle sliderRect = new Rectangle(myWidth, mySliderContainerHeight);
+		sliderRect.setFill(Color.BLACK);
+		sliderRect.setY(myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight);
+		mySlideContainer.getChildren().add(sliderRect);
+		mySlider.setLayoutY(myHeaderHeight + myGrid.getHeightInPixels() + myControlsContainerHeight);
+		mySlideContainer.getChildren().add(mySlider);
 	}
 
 	private squareButton setUpSaveButton() {

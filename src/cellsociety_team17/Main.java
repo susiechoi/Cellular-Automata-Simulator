@@ -31,7 +31,9 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
@@ -59,6 +61,7 @@ public class Main extends Application {
 	private String[] mArgs;
 	private Timeline myTimeline;
 	private Graphing myGraph;
+	private Sliders mySlide;
 
 	/**
 	 * 
@@ -85,6 +88,7 @@ public class Main extends Application {
 		graph.show();
 	
 	}
+	
 
 	private void showSplashScreen(Stage relevantStage) {
 		SplashScreen mySplash;
@@ -166,6 +170,7 @@ public class Main extends Application {
 	 * @return
 	 */
 	private void Step(Double timeElapsed) {
+		updateFire();
 		activeCells = myGrid.updateCells(activeCells);
 		myGraph.graphCells(myCells, mySimulationType);
 		if(activeCells.size() == 0) {
@@ -174,7 +179,8 @@ public class Main extends Application {
 	}
 
 	private void startSimulation(Grid G, Stage relevantStage) {
-		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle);
+		mySlide= new Sliders();
+		SimulationView mySimulationView = new SimulationView(myGrid, mySimulationTitle, mySlide.getSlider());
 		myScene = mySimulationView.getScene();
 		// System.out.println(myScene.getWidth());
 		relevantStage.setScene(myScene);
@@ -411,7 +417,7 @@ public class Main extends Application {
 	
 	private void createRPSCell(int cRow, int cColumn, int cState) {
 		Cell tempRCell; 
-		tempRCell = new RPS(cRow, cColumn, cState);
+		tempRCell = new RockPaperScissorsCell(cRow, cColumn, cState);
 		myCells.add(tempRCell);
 		activeCells.add(tempRCell);
 	}
@@ -477,6 +483,20 @@ public class Main extends Application {
 		myCells.add(tempCell);
 		if (cState == 2) {
 			activeCells.add(tempCell);
+		}
+		
+	}
+	
+	public Sliders getSliderScene() {
+		return mySlide;
+	}
+	
+	private void updateFire() {
+		if(mySimulationType!=0) {
+			return;
+		}
+		for(Cell cells: myCells) {
+			((FireCell) cells).setMyProbability(mySlide.getSlider().getValue());
 		}
 	}
 

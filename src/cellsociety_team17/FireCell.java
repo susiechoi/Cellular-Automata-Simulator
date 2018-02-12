@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 
 public class FireCell extends Cell {
 	// myState: 2 is BURNING, 1 is TREE, 0 is EMPTY
