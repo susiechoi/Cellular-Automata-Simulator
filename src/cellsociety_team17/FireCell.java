@@ -19,6 +19,12 @@ public class FireCell extends Cell {
 	private Shape myShape;
 	private double myProbability;
 
+	/** 
+	 * Creates FireCell with specified row, column, and initial state. Uses DEFAULT_PROBABILITY for myProbability
+	 * @param row - Cell's row position in grid
+	 * @param column - Cell's column position in grid
+	 * @param state- Cell's initial state (dead or alive) as indicated by XML document of random assignment 
+	 */
 	public FireCell(int row, int column, int state) {
 		super(row, column, state);
 		myProbability = DEFAULT_PROBABILITY;
@@ -28,6 +34,13 @@ public class FireCell extends Cell {
 
 	}
 
+	/**
+	 *  Creates FireCell using 
+	 * @param row - Cell's row position in grid
+	 * @param column - Cell's column position in grid
+	 * @param state- Cell's initial state (dead or alive) as indicated by XML document of random assignment 
+	 * @param prob- FireCell's probability of catching fire if it's neighbor is on fire
+	 */
 	public FireCell(int row, int column, int state, double prob) {
 		super(row, column, state);
 		myProbability = prob;
@@ -45,9 +58,14 @@ public class FireCell extends Cell {
 	};
 
 	@Override
+	/** 
+	 * 
+	 * FireCell determines whether the neighbors will start burning based on their probability of burning and FireCell's myState
+	 * If myState is equal to 2 or BURNING, then the cell becomes EMPTY 
+	 * @return Returns a list of cells to add to the active cells in the grid class 
+	 */
 	List<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<>();
-		/* Loops to see if any of the neighbors are burning */
 		for (Cell cell : getMyNeighbors()) {
 			if (cell.getMyState() == TREE && this.getMyState() == BURNING) {
 				double decimal = Math.random();
@@ -58,7 +76,6 @@ public class FireCell extends Cell {
 				}
 			}
 		}
-		// If the tree was burning in the last step, it is empty in this step
 		if (this.getMyState() == BURNING) {
 			this.setMyState(EMPTY);
 		}
@@ -66,17 +83,18 @@ public class FireCell extends Cell {
 		return newACells;
 	}
 
-	/*
-	 * First go through and set myNextState for all the Cells. Then, go through all
-	 * of them again to actually update them simultaneously.
+	
+	
+	/**
+	 * Changes the myProbability value of FireCell
+	 * @param p- probabilty to which the method sets myProbability 
 	 */
-
-	void setMyProbability(double p) {
+	public void setMyProbability(double p) {
 		myProbability = p;
 	}
 
 	@Override
-	void updateColor() {
+	protected void updateColor() {
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
 	}
 
