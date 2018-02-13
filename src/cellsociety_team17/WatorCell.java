@@ -22,6 +22,13 @@ public class WatorCell extends Cell {
 	private int mySharkCycles;
 	private int mySharkEnergy;
 
+	/**
+	 * Creates WatorCell with specified row, column, and initial state.
+	 * Uses DEFAULT values for fishCyclesReproduce, sharkCyclesReproduce, and intitialSharkEnergy
+	 * @param row - Cell's row position in grid
+	 * @param column - Cell's column position in grid
+	 * @param state- Cell's initial state (fish, shark, or empty) as indicated by XML document of random assignment 
+	 */
 	public WatorCell(int row, int column, int state) {
 		super(row, column, state);
 		this.getMyShape().setFill(STATE_COLORS[this.getMyState()]);
@@ -32,6 +39,16 @@ public class WatorCell extends Cell {
 		mySharkCycles = 0;
 		mySharkEnergy = initialSharkEnergy;
 	}
+	
+	/**
+	 * Creates WatorCell with specified row, column, and initial state.
+	 * @param row - Cell's row position in grid
+	 * @param column - Cell's column position in grid
+	 * @param state- Cell's initial state (fish, shark, or empty) as indicated by XML document of random assignment 
+	 * @param fishCycles - How many Cycles it takes for a fish to reproduce
+	 * @param sharkCycles - How many Cycles it takes for a shark to reproduce
+	 * @param sharkEnergy - Initial energy value for a new shark 
+	 */
 
 	public WatorCell(int row, int column, int state, int fishCycles, int sharkCycles, int sharkEnergy) {
 		super(row, column, state);
@@ -45,6 +62,12 @@ public class WatorCell extends Cell {
 	}
 
 	@Override
+	/**
+	 * Determines the next state of a cell based on movement rules
+	 * Fish move to empty cells. Sharks move to fish cells first, and then empty cells
+	 * Shark cells turn to EMPTY if they run out of energy
+	 * @return Returns a list of cells to add to the active cells in the grid class 
+	 */
 	List<Cell> update() {
 		ArrayList<Cell> newACells = new ArrayList<>();
 		if (this.getMyState() == FISH) {
@@ -179,19 +202,34 @@ public class WatorCell extends Cell {
 	}
 
 	@Override
-	void updateColor() {
+	protected void updateColor() {
 		// TODO Auto-generated method stub
 
 	}
 	
+	/**
+	 * Sets the value of sharkCyclesReproduce
+	 * @param mSharkCycles- value to which it sets to
+	 */
 	public void setMySharkCycles(int mSharkCycles) {
 		sharkCyclesReproduce = mSharkCycles;
 		
 	}
+	
+	/**
+	 * Sets the value of sharkCyclesEnergy
+	 * @param mSharkEnergy- value to which it sets to
+	 */
+	
 	public void setInitialSharkEnergy(int mSharkEnergy) {
 		sharkCyclesReproduce = mSharkEnergy;
 		
 	}
+	
+	/**
+	 * Sets the value of fishCyclesReproduce
+	 * @param mSharkCycles- value to which it sets to
+	 */
 	public void setMyfishCycles(int mSharkCycles) {
 		fishCyclesReproduce = mSharkCycles;
 		

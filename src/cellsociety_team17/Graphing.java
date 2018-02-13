@@ -21,6 +21,11 @@ public class Graphing {
 	private Series<Number, Number> typeThree = new Series<Number, Number>();
 	private int count;
 	
+	/**
+	 * Creates an instance of the Graphing class. 
+	 * The class contains a scene that contains a LineChart
+	 * It also starts the count initializes the count variable that will be used for the x-axis of chart
+	 */
 	public Graphing() {
 		yaxis.setAutoRanging(true);
 		xaxis.setAutoRanging(true);
@@ -33,7 +38,7 @@ public class Graphing {
 		count=0;
 	}
 	
-	public void newScene() {
+	private void newScene() {
 		graphScene = new Scene(myRoot);
 		myRoot.getChildren().add(myChart);
 	}
@@ -46,6 +51,12 @@ public class Graphing {
 		return numCells;
 	}
 
+	/**
+	 * This method is called from Step in the Main method
+	 * It counts the number of Cells of each state and it graphs them in up to 3 different lines
+	 * @param allCells- a list of all the Cells in the grid from the main method
+	 * @param simulationType- the simulation type so that the LineChart can have the proper legend with the correct labels
+	 */
 	public void graphCells(List<Cell> allCells, int simulationType) {
 		int[] numCells = countCells(allCells);
 		XYChart.Data<Number, Number> data1 = new XYChart.Data<Number, Number>(count, numCells[0]);
