@@ -18,10 +18,14 @@ However, to change the look of the Cells in the Grid themselves, one would need 
 
 
 ## DESIGN CHOICES 
-*Justifies major design choices, including trade-offs (i.e., pros and cons), made in your project
+Several design choices were made in the implementation of this project including ...
+1. The decision to have an abstract Cell class with subclasses that represent each type of simulation
+2. The choice to connect the Main Class and the specific Cell class for a simulation using the Grid Class as an in-between. 
+3. The decision to only update Cells that were in the ActiveCells List. This includes Cells that were not in the default state, Cells that had been recently updated, and Cells with neighbors that had been recently updated 
+3. The decision to graph the simulations on a seperate screen (Stage)
+4. The decision to initialize the beginning states of each Cell in the Main Class
 
 ## ASSUMPTIONS 
-*States any assumptions or decisions made to simplify or resolve ambiguities in your the project's functionality
 
 One assumption that was made often to simplify the ambiguity of the project's functionality was that each simulation type was assumed to only have up to a certain number of Cell states. Usually this number of possible states was either 2 or 3. 
 
