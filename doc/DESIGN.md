@@ -19,11 +19,16 @@ However, to change the look of the Cells in the Grid themselves, one would need 
 
 ## DESIGN CHOICES 
 Several design choices were made in the implementation of this project including ...
-1. The decision to have an abstract Cell class with subclasses that represent each type of simulation
+1. The decision to have an abstract Cell class with subclasses that represent each type of simulation.
+This was chosen in lieu of an interface. We chose this option because we felt that we needed a
 2. The choice to connect the Main Class and the specific Cell class for a simulation using the Grid Class as an in-between. 
-3. The decision to only update Cells that were in the ActiveCells List. This includes Cells that were not in the default state, Cells that had been recently updated, and Cells with neighbors that had been recently updated 
-3. The decision to graph the simulations on a seperate screen (Stage)
-4. The decision to initialize the beginning states of each Cell in the Main Class
+This turned out to be great for us in terms of organization and the options for different kinds of neighborhoods. 
+3. The decision to only update Cells that were in the ActiveCells List. This includes Cells that were not in the default state, Cells that had been recently updated, and Cells with neighbors that had been recently updated .
+We thought that this would help decrease the time that it would take to iterate one- by- one through every Cell in the grid and update them. Instead, we updated in an order that prioritized recent changes and looked for new changes as a result of the recent ones. 
+4. The decision to graph the simulations on a seperate screen (Stage)
+This design decision was made because we wanted to keep the SimulationView Screen seperate from the graphing Screen. This would give the users the option of exiting out of the graphing without losing the simulation of the cells in the grid. One negative consequence of this decision was that this means that we decreased the compactness of the final product. 
+5. The decision to initialize the beginning states of each Cell in the Main Class
+We chose to do our XML parsing in the Main Class so it made sense to also initialize the Cells in that class. 
 
 ## ASSUMPTIONS 
 
