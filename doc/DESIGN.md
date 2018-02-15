@@ -8,7 +8,7 @@ As for readability, we tried to all write code that was as simple as possible fo
 ## ADDING NEW FEATURES
 There are different types of features that can be added to our project. These groups include new simulations, new types of neighborhoods, new visual effects, new user manipulations.
 
-New simulations can be added by... 
+New simulations can be added by creating a representative subclass of the abstract Cell class that follows the rules of the simulation. Then, the Main Class needs to be updated to include that simulation in that it has a method to create the Cells of the simulation for that particular type. The option to create these Cells needs to be added to createCells method in the Main Class as another case. Finally, the new simulation need to be added to the Simulations.properties file. 
 
 New neighborhood types can be added directly into the Grid Class. This Class contains an abstract Class called NeighborhoodMaker. Several subclasses extend this abstract class with their own conditional statements for which Cells to include in the neighborhood of a particular Cell. 
 
