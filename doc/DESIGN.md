@@ -1,6 +1,8 @@
 ## DESIGN GOALS
 The high level design goals of the project were to collaborate on flexible, readable, and functional code to simulate cell societies. 
+
 By flexible, we mean that we wanted the addition and manipulation of features to be as easy as possible for team members that may not have worked on the bulk of the foundation pieces for a particular component. This means that we intended for all of our classes to be able to interact with each other in such a way that variables and other crucial information were both possible and easy to access. This being said, we had to be careful not to cross the line from flexibility to vulnerability. We had to ensure that although any group member could access every element that they needed for their assigned features, we did not write code that was easy to break with unintentional errors. 
+
 As for readability, we tried to all write code that was as simple as possible for others to understand. This was especially crucial as the focus of this project was on teamwork and communication. Without each member properly understanding interactions in the project, new features would be very difficult to implement. So we were careful in our naming conventions, we tried not to use magic numbers without explanations, and we tried to have very organized structures. 
 
 ## ADDING NEW FEATURES
