@@ -22,3 +22,7 @@ However, to change the look of the Cells in the Grid themselves, one would need 
 
 ## ASSUMPTIONS 
 *States any assumptions or decisions made to simplify or resolve ambiguities in your the project's functionality
+
+One assumption that was made often to simplify the ambiguity of the project's functionality was that each simulation type was assumed to only have up to a certain number of Cell states. Usually this number of possible states was either 2 or 3. 
+
+Another assumption was that the size of the grid was final after the simulation is selected from the options bar. This means that the grid cannot currently shrink or grow mid- simulation. 
